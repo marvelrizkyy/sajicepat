@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menu Makanan - Admin SajiCepat</title>
+  <meta name="description" content="Manajemen seluruh menu makanan dan minuman mitra di sistem SajiCepat.">
+
+    <!-- Favicon / App Icon -->
+  <link rel="icon" type="image/svg+xml" href="../assets/images/favicon.svg?v=2">
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/favicon-32x32.png?v=2">
+  <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon-16x16.png?v=2">
+  <link rel="apple-touch-icon" sizes="180x180" href="../assets/images/apple-touch-icon.png?v=2">
+  <link rel="shortcut icon" href="../favicon.ico?v=2">
+  <!-- Google Fonts & Font Awesome CDN -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Main & Dashboard Stylesheet -->
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/dashboard.css">
+</head>
+<body class="dashboard-layout">
+
+  <!-- ================= SIDEBAR ================= -->
+  <aside class="dashboard-sidebar" id="dashboardSidebar">
+    <div class="sidebar-header">
+      <a href="../index.html" class="sidebar-brand">
+        <i class="fa-solid fa-bolt text-primary"></i>
+        <span>SajiCepat</span>
+        <span class="badge-role">ADMIN</span>
+      </a>
+    </div>
+
+    <div class="sidebar-menu-wrapper">
+      <span class="sidebar-heading">Menu Utama</span>
+      <a href="dashboard.html" class="sidebar-item">
+        <i class="fa-solid fa-gauge-high"></i> Dashboard
+      </a>
+      <a href="pelanggan.html" class="sidebar-item">
+        <i class="fa-solid fa-users"></i> Data Pelanggan
+      </a>
+      <a href="restoran.html" class="sidebar-item">
+        <i class="fa-solid fa-store"></i> Data Restoran
+      </a>
+      <a href="kategori.html" class="sidebar-item">
+        <i class="fa-solid fa-tags"></i> Kategori Menu
+      </a>
+      <a href="menu.html" class="sidebar-item active">
+        <i class="fa-solid fa-bowl-food"></i> Menu Makanan
+      </a>
+      <a href="pesanan.html" class="sidebar-item">
+        <i class="fa-solid fa-receipt"></i> Pesanan Masuk
+      </a>
+      <a href="laporan.html" class="sidebar-item">
+        <i class="fa-solid fa-chart-line"></i> Laporan Penjualan
+      </a>
+
+      <span class="sidebar-heading" style="margin-top: 1rem;">Navigasi Portal</span>
+      <a href="../index.html" class="sidebar-item">
+        <i class="fa-solid fa-house"></i> Lihat Beranda Pelanggan
+      </a>
+      <button class="sidebar-item" onclick="logoutUser()" style="background: none; border: none; width: 100%; text-align: left; cursor: pointer; color: #EF4444;">
+        <i class="fa-solid fa-arrow-right-from-bracket"></i> Keluar
+      </button>
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-user-card">
+        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" alt="Admin" class="sidebar-user-avatar">
+        <div class="sidebar-user-info">
+          <p class="sidebar-user-name" id="adminUserName">Administrator</p>
+          <span class="sidebar-user-role">Super Admin</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ================= MAIN CONTENT ================= -->
+  <div class="dashboard-main">
+    
+    <header class="dashboard-topbar">
+      <div class="topbar-left">
+        <button class="sidebar-toggle-btn" id="sidebarToggleBtn">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <div class="topbar-page-title">
+          <h1>Kelola Menu Makanan & Minuman</h1>
+          <p>Katalog lengkap seluruh produk kuliner yang terdaftar dari seluruh mitra.</p>
+        </div>
+      </div>
+
+      <div class="topbar-right">
+        <button class="btn btn-primary" onclick="openAddMenuModal()">
+          <i class="fa-solid fa-plus"></i> Tambah Menu Makanan
+        </button>
+      </div>
+    </header>
+
+    <main class="dashboard-content">
+      
+      <div class="table-panel">
+        <div class="table-toolbar">
+          <div class="table-search-input">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="searchMenuInput" placeholder="Cari nama makanan atau resto...">
+          </div>
+
+          <div class="table-actions-group">
+            <select id="filterMenuResto" class="form-input" style="padding: 0.55rem 0.85rem; font-size: 0.88rem;">
+              <option value="all">Semua Restoran</option>
+              <!-- Populated by JS -->
+            </select>
+
+            <select id="filterMenuCategory" class="form-input" style="padding: 0.55rem 0.85rem; font-size: 0.88rem;">
+              <option value="all">Semua Kategori</option>
+              <option value="Makanan berat">Makanan berat</option>
+              <option value="Makanan ringan">Makanan ringan</option>
+              <option value="Minuman">Minuman</option>
+              <option value="Dessert">Dessert</option>
+              <option value="Fast food">Fast food</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="custom-table">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Menu Makanan</th>
+                <th>Kategori</th>
+                <th>Harga</th>
+                <th>Stok</th>
+                <th>Status</th>
+                <th>Rating</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="menuTableBody">
+              <!-- Rendered by admin.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- ================= MODAL TAMBAH / EDIT MENU ================= -->
+  <div class="modal-backdrop" id="menuModal">
+    <div class="modal-dialog">
+      <button class="modal-close-btn" onclick="closeModal('menuModal')">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      
+      <form id="menuForm">
+        <div style="padding: 1.5rem 1.75rem 0.5rem;">
+          <h3 class="panel-title" id="menuModalTitle">Tambah Menu Makanan Baru</h3>
+        </div>
+
+        <input type="hidden" id="menuId">
+
+        <div class="modal-form-body">
+          <div class="form-group">
+            <label for="menuName" class="form-label">Nama Makanan / Minuman</label>
+            <input type="text" id="menuName" class="form-input" required placeholder="contoh: Ayam Geprek Sambal Matah">
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="menuRestoId" class="form-label">Pilih Restoran Mitra</label>
+              <select id="menuRestoId" class="form-input" required>
+                <!-- Populated by JS -->
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="menuFormCategory" class="form-label">Kategori</label>
+              <select id="menuFormCategory" class="form-input" required>
+                <option value="Makanan berat">Makanan berat</option>
+                <option value="Makanan ringan">Makanan ringan</option>
+                <option value="Minuman">Minuman</option>
+                <option value="Dessert">Dessert</option>
+                <option value="Fast food">Fast food</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="menuPrice" class="form-label">Harga Jual (Rp)</label>
+              <input type="number" id="menuPrice" class="form-input" required placeholder="25000">
+            </div>
+
+            <div class="form-group">
+              <label for="menuOriginalPrice" class="form-label">Harga Asli / Coret (Opsional)</label>
+              <input type="number" id="menuOriginalPrice" class="form-input" placeholder="28000">
+            </div>
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="menuStock" class="form-label">Stok Tersedia (Porsi)</label>
+              <input type="number" id="menuStock" class="form-input" required placeholder="30">
+            </div>
+
+            <div class="form-group">
+              <label for="menuImage" class="form-label">URL Foto Makanan</label>
+              <input type="url" id="menuImage" class="form-input" placeholder="https://...">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="menuDesc" class="form-label">Deskripsi & Komposisi</label>
+            <textarea id="menuDesc" class="form-input" rows="2" placeholder="Rasa, porsi, dan bahan utama hidangan..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; cursor: pointer;">
+              <input type="checkbox" id="menuIsAvailable" checked style="accent-color: var(--primary);">
+              <strong>Tersedia untuk dipesan pelanggan sekarang</strong>
+            </label>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('menuModal')">Batal</button>
+          <button type="submit" class="btn btn-primary">Simpan Menu</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../assets/js/data.js"></script>
+  <script src="../assets/js/app.js"></script>
+  <script src="../assets/js/admin.js"></script>
+</body>
+</html>

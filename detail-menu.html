@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detail Menu - SajiCepat</title>
+  <meta name="description" content="Informasi lengkap hidangan, porsi, harga, dan resto mitra di SajiCepat.">
+
+    <!-- Favicon / App Icon -->
+  <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg?v=2">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png?v=2">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png?v=2">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png?v=2">
+  <link rel="shortcut icon" href="favicon.ico?v=2">
+  <!-- Google Fonts & Font Awesome CDN -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <!-- ================= HEADER & NAVBAR ================= -->
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="index.html" class="brand-logo">
+        <img src="assets/images/logo.svg" alt="SajiCepat Logo">
+      </a>
+
+      <nav>
+        <ul class="nav-menu" id="navbarMenu">
+          <li><a href="index.html" class="nav-link">Beranda</a></li>
+          <li><a href="menu.html" class="nav-link active">Daftar Menu</a></li>
+          <li><a href="restoran.html" class="nav-link">Restoran</a></li>
+          <li><a href="ulasan.html" class="nav-link">Ulasan</a></li>
+          <li><a href="pesanan.html" class="nav-link">Pesanan Saya</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="keranjang.html" class="cart-nav-btn" title="Keranjang Belanja">
+          <i class="fa-solid fa-basket-shopping"></i>
+          <span class="cart-badge" style="display: none;">0</span>
+        </a>
+
+        <div id="navUserContainer"></div>
+
+        <button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Toggle Menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= MAIN CONTENT ================= -->
+  <main class="container" style="padding-top: 2.5rem; padding-bottom: 5rem;">
+    
+    <!-- Breadcrumb -->
+    <div style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 2rem;">
+      <a href="index.html" class="hover:text-primary">Beranda</a>
+      <span>/</span>
+      <a href="menu.html" class="hover:text-primary">Menu</a>
+      <span>/</span>
+      <span class="font-bold text-gray-900" id="breadcrumbMenuName">Detail Menu</span>
+    </div>
+
+    <!-- Detail Card Layout -->
+    <div class="panel-card" style="border-radius: var(--radius-xl); padding: 2rem; margin-bottom: 3.5rem; box-shadow: var(--shadow-md);">
+      <div style="display: grid; grid-template-columns: 1fr 1.2fr; gap: 3rem; align-items: flex-start;" id="detailMainGrid">
+        
+        <!-- Left: Food Media -->
+        <div>
+          <div style="position: relative; border-radius: var(--radius-xl); overflow: hidden; box-shadow: var(--shadow-md);">
+            <img src="" alt="Menu Foto" id="detailFoodImg" style="width: 100%; aspect-ratio: 4/3; object-fit: cover;">
+            <span class="badge badge-primary" id="detailBadgeCategory" style="position: absolute; top: 16px; left: 16px; font-size: 0.82rem; padding: 0.4rem 0.85rem;">-</span>
+            <span class="badge badge-success" id="detailBadgeStatus" style="position: absolute; bottom: 16px; left: 16px; font-size: 0.82rem; padding: 0.4rem 0.85rem;">Tersedia</span>
+          </div>
+
+          <!-- Restaurant Card Teaser -->
+          <div style="background: #FFF7ED; border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 1.25rem; margin-top: 1.5rem; display: flex; align-items: center; justify-content: space-between;">
+            <div style="display: flex; align-items: center; gap: 0.85rem;">
+              <div style="background: #FFFFFF; width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--primary); font-size: 1.25rem; box-shadow: var(--shadow-sm);">
+                <i class="fa-solid fa-store"></i>
+              </div>
+              <div>
+                <small class="text-xs text-muted">Dibuat Oleh Mitra Resto:</small>
+                <h5 class="font-bold text-gray-900" id="detailRestoName" style="font-size: 0.95rem;">-</h5>
+              </div>
+            </div>
+            <a href="menu.html" id="detailRestoLink" class="btn btn-outline-primary btn-sm">Lihat Resto</a>
+          </div>
+        </div>
+
+        <!-- Right: Information & Actions -->
+        <div>
+          <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem;">
+            <div style="display: flex; align-items: center; gap: 0.35rem; color: #D97706; font-weight: 700; font-size: 0.95rem;">
+              <i class="fa-solid fa-star"></i>
+              <span id="detailRating">4.8</span>
+            </div>
+            <span class="text-muted">•</span>
+            <span class="text-xs text-muted" id="detailSoldCount"><i class="fa-solid fa-bag-shopping"></i> 100+ Terjual</span>
+            <span class="text-muted">•</span>
+            <span class="text-xs text-muted" id="detailStock">Stok: 30 porsi</span>
+          </div>
+
+          <h1 class="font-bold text-gray-900" id="detailFoodTitle" style="font-size: 2.2rem; line-height: 1.2; margin-bottom: 1rem;">
+            Memuat Menu...
+          </h1>
+
+          <div style="display: flex; align-items: baseline; gap: 0.85rem; margin-bottom: 1.75rem; background: #F8FAFC; padding: 1rem 1.25rem; border-radius: var(--radius-md);">
+            <span class="font-bold text-primary" id="detailCurrentPrice" style="font-size: 2rem;">Rp 0</span>
+            <span class="text-sm text-muted" id="detailOriginalPrice" style="text-decoration: line-through; display: none;">Rp 0</span>
+            <span class="badge badge-danger" id="detailDiscountBadge" style="display: none;">HEMAT 10%</span>
+          </div>
+
+          <h4 class="font-bold text-gray-900" style="margin-bottom: 0.5rem; font-size: 1.05rem;">Deskripsi Hidangan</h4>
+          <p class="text-sm text-gray-700" id="detailDescription" style="line-height: 1.8; margin-bottom: 2rem;">
+            -
+          </p>
+
+          <!-- Order Action Controls -->
+          <div style="border-top: 1px solid var(--border-light); padding-top: 1.5rem;">
+            <div style="display: flex; align-items: center; gap: 1.5rem; margin-bottom: 1.5rem;">
+              <span class="font-bold text-gray-900" style="font-size: 0.95rem;">Jumlah Porsi:</span>
+              <div class="qty-control">
+                <button class="qty-btn" id="qtyMinusBtn">−</button>
+                <input type="text" class="qty-input" id="detailQuantity" value="1" readonly>
+                <button class="qty-btn" id="qtyPlusBtn">+</button>
+              </div>
+              <span class="text-xs text-muted" id="detailSubtotalPreview">Subtotal: Rp 0</span>
+            </div>
+
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+              <button class="btn btn-outline-primary btn-lg" id="detailAddToCartBtn" style="flex: 1;">
+                <i class="fa-solid fa-cart-plus"></i> Tambah ke Keranjang
+              </button>
+              <button class="btn btn-primary btn-lg" id="detailBuyNowBtn" style="flex: 1;">
+                <i class="fa-solid fa-bolt"></i> Beli Sekarang
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Customer Reviews Section for This Menu -->
+    <section style="margin-bottom: 3.5rem;">
+      <div class="section-header" style="align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+        <div>
+          <h2 class="section-title">Ulasan & Penilaian Pelanggan</h2>
+          <p class="section-subtitle">Pengalaman pelanggan yang telah mencicipi menu ini</p>
+        </div>
+        <button class="btn btn-outline-primary" onclick="openMenuReviewModal()">
+          <i class="fa-solid fa-star text-warning"></i> Beri Ulasan Menu Ini
+        </button>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.25rem;" id="menuReviewsContainer">
+        <!-- Rendered by JS -->
+      </div>
+    </section>
+
+    <!-- Related Menus Section -->
+    <section>
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Menu Serupa yang Mungkin Anda Suka</h2>
+          <p class="section-subtitle">Rekomendasi hidangan pilihan lainnya</p>
+        </div>
+      </div>
+      <div class="food-grid" id="relatedMenusGrid">
+        <!-- Rendered by JS -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================= MENU REVIEW MODAL ================= -->
+  <div class="modal-backdrop" id="menuReviewModal">
+    <div class="modal-dialog" style="max-width: 520px; padding: 2rem;">
+      <button class="modal-close-btn" onclick="closeModal('menuReviewModal')" aria-label="Tutup">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <form id="menuReviewForm" onsubmit="submitMenuReview(event)">
+        <div style="text-align: center; margin-bottom: 1.5rem;">
+          <div style="width: 56px; height: 56px; border-radius: 50%; background: #FEF3C7; color: #F59E0B; display: inline-flex; align-items: center; justify-content: center; font-size: 1.65rem; margin-bottom: 0.75rem;">
+            <i class="fa-solid fa-star"></i>
+          </div>
+          <h3 class="font-bold text-gray-900" style="font-size: 1.35rem;">Beri Ulasan Menu</h3>
+          <p class="text-xs text-muted" id="menuReviewSub">Bagikan review Anda untuk <strong id="menuReviewTargetName">-</strong></p>
+        </div>
+
+        <input type="hidden" id="menuRatingValue" value="5">
+
+        <div class="form-group">
+          <label for="menuReviewAuthor" class="form-label">Nama Anda</label>
+          <input type="text" id="menuReviewAuthor" class="form-input" required placeholder="Nama Anda">
+        </div>
+
+        <!-- Star Rating Picker -->
+        <div style="text-align: center; margin-bottom: 1.25rem;">
+          <label class="form-label" style="font-size: 0.85rem; font-weight: 700;">Penilaian Anda:</label>
+          <div class="star-rating-picker" id="detailStarRatingPicker">
+            <span class="star-item active" data-rating="1"><i class="fa-solid fa-star"></i></span>
+            <span class="star-item active" data-rating="2"><i class="fa-solid fa-star"></i></span>
+            <span class="star-item active" data-rating="3"><i class="fa-solid fa-star"></i></span>
+            <span class="star-item active" data-rating="4"><i class="fa-solid fa-star"></i></span>
+            <span class="star-item active" data-rating="5"><i class="fa-solid fa-star"></i></span>
+          </div>
+          <p class="text-xs text-muted" id="detailStarLabel" style="font-weight: 600; color: #D97706;">Sangat Puas & Lezat (5 Bintang)</p>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 1.5rem;">
+          <label for="menuReviewComment" class="form-label">Ulasan & Pendapat Rasa</label>
+          <textarea id="menuReviewComment" class="form-input" rows="3" required placeholder="Ceritakan rasa, tekstur, porsi, atau kesegaran hidangan ini..."></textarea>
+        </div>
+
+        <div style="display: flex; gap: 0.75rem;">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('menuReviewModal')" style="flex: 1;">
+            Batal
+          </button>
+          <button type="submit" class="btn btn-primary" style="flex: 2;">
+            <i class="fa-solid fa-paper-plane"></i> Kirim Ulasan
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom" style="border-top: none; padding-top: 0;">
+        <p>&copy; 2026 SajiCepat - Proyek Pemesanan Makanan Online Kelas XII RPL.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/cart.js"></script>
+
+  <script>
+    let currentMenu = null;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const menuId = parseInt(urlParams.get('id')) || 1;
+      loadMenuDetail(menuId);
+    });
+
+    function loadMenuDetail(id) {
+      const menus = getMenus();
+      currentMenu = menus.find(m => m.id === id) || menus[0];
+
+      if (!currentMenu) return;
+
+      document.title = `${currentMenu.name} - SajiCepat`;
+      document.getElementById('breadcrumbMenuName').textContent = currentMenu.name;
+      document.getElementById('detailFoodImg').src = currentMenu.image;
+      document.getElementById('detailFoodImg').alt = currentMenu.name;
+      document.getElementById('detailBadgeCategory').textContent = currentMenu.category;
+      
+      const badgeStatus = document.getElementById('detailBadgeStatus');
+      badgeStatus.textContent = currentMenu.isAvailable ? 'Tersedia' : 'Habis';
+      badgeStatus.className = `badge ${currentMenu.isAvailable ? 'badge-success' : 'badge-danger'}`;
+
+      document.getElementById('detailRestoName').textContent = currentMenu.restoName;
+      document.getElementById('detailRestoLink').href = `menu.html?resto=${currentMenu.restoId}`;
+      document.getElementById('detailRating').textContent = currentMenu.rating;
+      document.getElementById('detailSoldCount').innerHTML = `<i class="fa-solid fa-bag-shopping"></i> ${currentMenu.soldCount || 120} Terjual`;
+      document.getElementById('detailStock').textContent = `Stok: ${currentMenu.stock} porsi`;
+      document.getElementById('detailFoodTitle').textContent = currentMenu.name;
+      document.getElementById('detailCurrentPrice').textContent = formatRupiah(currentMenu.price);
+
+      if (currentMenu.originalPrice && currentMenu.originalPrice > currentMenu.price) {
+        const origEl = document.getElementById('detailOriginalPrice');
+        origEl.textContent = formatRupiah(currentMenu.originalPrice);
+        origEl.style.display = 'inline';
+        const discBadge = document.getElementById('detailDiscountBadge');
+        const pct = Math.round(((currentMenu.originalPrice - currentMenu.price) / currentMenu.originalPrice) * 100);
+        discBadge.textContent = `HEMAT ${pct}%`;
+        discBadge.style.display = 'inline-flex';
+      }
+
+      document.getElementById('detailDescription').textContent = currentMenu.description;
+      updateSubtotalPreview();
+
+      // Setup Quantity Buttons
+      const qtyInput = document.getElementById('detailQuantity');
+      document.getElementById('qtyMinusBtn').onclick = () => {
+        let val = parseInt(qtyInput.value) || 1;
+        if (val > 1) {
+          qtyInput.value = val - 1;
+          updateSubtotalPreview();
+        }
+      };
+
+      document.getElementById('qtyPlusBtn').onclick = () => {
+        let val = parseInt(qtyInput.value) || 1;
+        if (val < (currentMenu.stock || 50)) {
+          qtyInput.value = val + 1;
+          updateSubtotalPreview();
+        }
+      };
+
+      // Role Restriction: Admin and Restaurant cannot order
+      const currentUser = typeof getCurrentUser === 'function' ? getCurrentUser() : null;
+      const isRestrictedRole = currentUser && (currentUser.role === 'admin' || currentUser.role === 'restoran');
+      const roleLabel = isRestrictedRole ? (currentUser.role === 'admin' ? 'Administrator' : 'Mitra Restoran') : '';
+
+      if (isRestrictedRole) {
+        const existingNotice = document.getElementById('detailRoleNotice');
+        if (!existingNotice) {
+          const notice = document.createElement('div');
+          notice.id = 'detailRoleNotice';
+          notice.style.cssText = 'background: #FEF2F2; border: 1.5px solid #FECACA; border-radius: var(--radius-md); padding: 0.85rem 1rem; margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.75rem; color: #991B1B; font-size: 0.85rem;';
+          notice.innerHTML = `
+            <i class="fa-solid fa-shield-halved" style="color: #DC2626; font-size: 1.2rem; flex-shrink: 0;"></i>
+            <div style="flex: 1; line-height: 1.4;">
+              <strong>Mode Pratinjau (${roleLabel}):</strong> Akun pengelola tidak diizinkan memesan makanan. Silakan beralih ke akun <strong>Pelanggan</strong> untuk memesan.
+            </div>
+            <a href="login.html" class="btn btn-sm" style="background: #DC2626; color: #FFF; font-size: 0.75rem; padding: 0.4rem 0.8rem; border-radius: var(--radius-sm); text-decoration: none; white-space: nowrap; font-weight: 600;">
+              Ganti Akun
+            </a>
+          `;
+          const actionsRow = document.getElementById('detailAddToCartBtn')?.parentElement;
+          if (actionsRow) {
+            actionsRow.parentNode.insertBefore(notice, actionsRow);
+          }
+        }
+      }
+
+      // Add to Cart
+      document.getElementById('detailAddToCartBtn').onclick = () => {
+        if (isRestrictedRole) {
+          showToast(`Akun ${roleLabel} tidak dapat memesan makanan. Silakan gunakan akun Pelanggan!`, 'warning', 4500);
+          return;
+        }
+        const qty = parseInt(qtyInput.value) || 1;
+        addToCart(currentMenu.id, qty);
+      };
+
+      // Buy Now (Add to cart & redirect to checkout)
+      document.getElementById('detailBuyNowBtn').onclick = () => {
+        if (isRestrictedRole) {
+          showToast(`Akun ${roleLabel} tidak dapat memesan makanan. Silakan gunakan akun Pelanggan!`, 'warning', 4500);
+          return;
+        }
+        const qty = parseInt(qtyInput.value) || 1;
+        const success = addToCart(currentMenu.id, qty);
+        if (success) {
+          setTimeout(() => {
+            window.location.href = 'checkout.html';
+          }, 400);
+        }
+      };
+
+      renderRelatedMenus(currentMenu);
+      renderMenuReviews(currentMenu);
+    }
+
+    function updateSubtotalPreview() {
+      const qty = parseInt(document.getElementById('detailQuantity').value) || 1;
+      const subtotal = currentMenu.price * qty;
+      document.getElementById('detailSubtotalPreview').textContent = `Subtotal: ${formatRupiah(subtotal)}`;
+    }
+
+    function renderMenuReviews(menu) {
+      const container = document.getElementById('menuReviewsContainer');
+      if (!container) return;
+
+      const allReviews = getReviews();
+      const menuReviews = allReviews.filter(r => 
+        (r.item && r.item.toLowerCase().includes(menu.name.toLowerCase())) ||
+        (r.restoId && r.restoId === menu.restoId)
+      );
+
+      if (menuReviews.length === 0) {
+        container.innerHTML = `
+          <div style="grid-column: 1 / -1; background: #FFFFFF; border: 1px dashed var(--border-color); border-radius: var(--radius-lg); padding: 2.5rem 1.5rem; text-align: center;">
+            <div style="font-size: 2rem; color: #F59E0B; margin-bottom: 0.5rem;"><i class="fa-regular fa-star"></i></div>
+            <h4 class="font-bold text-gray-900" style="font-size: 1.1rem; margin-bottom: 0.25rem;">Belum ada ulasan untuk menu ini</h4>
+            <p class="text-xs text-muted" style="margin-bottom: 1rem;">Jadilah orang pertama yang memberikan ulasan dan rating rasa untuk hidangan ini!</p>
+            <button class="btn btn-outline-primary btn-sm" onclick="openMenuReviewModal()">
+              <i class="fa-solid fa-pen-nib"></i> Tulis Ulasan Pertama
+            </button>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = menuReviews.map(rev => `
+        <div class="panel-card" style="box-shadow: var(--shadow-sm); border-radius: var(--radius-lg);">
+          <div style="display: flex; align-items: center; gap: 0.85rem; margin-bottom: 1rem;">
+            <img src="${rev.avatar}" alt="${rev.name}" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover;">
+            <div>
+              <h5 class="font-bold text-gray-900" style="font-size: 0.95rem;">${rev.name}</h5>
+              <div style="color: #F59E0B; font-size: 0.8rem; display: flex; gap: 2px;">
+                ${Array(rev.rating).fill('<i class="fa-solid fa-star"></i>').join('')}
+              </div>
+            </div>
+          </div>
+          <p class="text-xs text-gray-700" style="line-height: 1.6; margin-bottom: 1rem;">"${rev.comment}"</p>
+          <div style="border-top: 1px solid #F1F5F9; padding-top: 0.65rem; display: flex; justify-content: space-between; font-size: 0.75rem; color: #9CA3AF;">
+            <span>Menu: <strong>${rev.item}</strong></span>
+            <span>${rev.date}</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    let currentDetailRating = 5;
+
+    function setupDetailStarRatingPicker() {
+      const picker = document.getElementById('detailStarRatingPicker');
+      const ratingInput = document.getElementById('menuRatingValue');
+      const label = document.getElementById('detailStarLabel');
+      if (!picker) return;
+
+      const stars = picker.querySelectorAll('.star-item');
+      const labels = {
+        1: 'Kecewa (1 Bintang)',
+        2: 'Kurang Puas (2 Bintang)',
+        3: 'Cukup Baik (3 Bintang)',
+        4: 'Puas & Enak (4 Bintang)',
+        5: 'Sangat Puas & Lezat (5 Bintang)'
+      };
+
+      const updateStarsDisplay = (rating) => {
+        stars.forEach(star => {
+          const val = parseInt(star.getAttribute('data-rating'));
+          if (val <= rating) {
+            star.classList.add('active');
+          } else {
+            star.classList.remove('active');
+          }
+        });
+        if (label) label.textContent = labels[rating] || `${rating} Bintang`;
+        if (ratingInput) ratingInput.value = rating;
+      };
+
+      stars.forEach(star => {
+        star.onclick = () => {
+          currentDetailRating = parseInt(star.getAttribute('data-rating'));
+          updateStarsDisplay(currentDetailRating);
+        };
+
+        star.onmouseenter = () => {
+          const hoverVal = parseInt(star.getAttribute('data-rating'));
+          stars.forEach(s => {
+            const val = parseInt(s.getAttribute('data-rating'));
+            if (val <= hoverVal) {
+              s.classList.add('hovered');
+            } else {
+              s.classList.remove('hovered');
+            }
+          });
+        };
+
+        star.onmouseleave = () => {
+          stars.forEach(s => s.classList.remove('hovered'));
+        };
+      });
+
+      updateStarsDisplay(currentDetailRating);
+    }
+
+    function openMenuReviewModal() {
+      if (!currentMenu) return;
+      const currentUser = getCurrentUser();
+      const authorInput = document.getElementById('menuReviewAuthor');
+      if (authorInput) {
+        authorInput.value = currentUser ? currentUser.name : '';
+      }
+      document.getElementById('menuReviewTargetName').textContent = currentMenu.name;
+      document.getElementById('menuReviewComment').value = '';
+      currentDetailRating = 5;
+      setupDetailStarRatingPicker();
+      openModal('menuReviewModal');
+    }
+
+    function submitMenuReview(e) {
+      e.preventDefault();
+      if (!currentMenu) return;
+
+      const author = document.getElementById('menuReviewAuthor').value.trim();
+      const comment = document.getElementById('menuReviewComment').value.trim();
+      const rating = parseInt(document.getElementById('menuRatingValue').value) || 5;
+
+      if (!author || !comment) {
+        showToast('Harap lengkapi nama dan ulasan Anda.', 'warning');
+        return;
+      }
+
+      const currentUser = getCurrentUser();
+      const avatar = (currentUser && currentUser.avatar) ? currentUser.avatar : 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100';
+
+      const newReview = {
+        id: Date.now(),
+        name: author,
+        rating: rating,
+        date: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }),
+        comment: comment,
+        avatar: avatar,
+        item: currentMenu.name,
+        restoId: currentMenu.restoId,
+        restoName: currentMenu.restoName
+      };
+
+      const reviews = getReviews();
+      reviews.unshift(newReview);
+      saveReviews(reviews);
+
+      closeModal('menuReviewModal');
+      showToast('Terima kasih! Ulasan menu berhasil dikirim.', 'success', 3500);
+      renderMenuReviews(currentMenu);
+    }
+
+    function renderRelatedMenus(menu) {
+      const allMenus = getMenus();
+      const related = allMenus
+        .filter(m => m.id !== menu.id && (m.category === menu.category || m.restoId === menu.restoId))
+        .slice(0, 4);
+
+      const grid = document.getElementById('relatedMenusGrid');
+      if (!grid) return;
+
+      grid.innerHTML = related.map(m => `
+        <div class="food-card">
+          <div class="food-img-container">
+            <img src="${m.image}" alt="${m.name}" class="food-img">
+            <span class="food-badge-category">${m.category}</span>
+            <span class="food-badge-rating"><i class="fa-solid fa-star"></i> ${m.rating}</span>
+          </div>
+          <div class="food-card-body">
+            <h4 class="food-title">${m.name}</h4>
+            <span class="text-xs text-muted mb-2"><i class="fa-solid fa-store text-orange-500"></i> ${m.restoName}</span>
+            <div class="food-price-row">
+              <span class="food-current-price">${formatRupiah(m.price)}</span>
+            </div>
+            <div class="food-actions">
+              <a href="detail-menu.html?id=${m.id}" class="btn btn-secondary btn-sm">Lihat</a>
+              <button class="btn btn-primary btn-sm" onclick="addToCart(${m.id}, 1)">Tambah</button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pesanan Saya - SajiCepat</title>
+  <meta name="description" content="Lacak status pesanan makanan Anda secara realtime dari restoran hingga pengantaran.">
+
+    <!-- Favicon / App Icon -->
+  <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg?v=2">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png?v=2">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png?v=2">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png?v=2">
+  <link rel="shortcut icon" href="favicon.ico?v=2">
+  <!-- Google Fonts & Font Awesome CDN -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/dashboard.css">
+</head>
+<body>
+
+  <!-- ================= HEADER & NAVBAR ================= -->
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="index.html" class="brand-logo">
+        <img src="assets/images/logo.svg" alt="SajiCepat Logo">
+      </a>
+
+      <nav>
+        <ul class="nav-menu" id="navbarMenu">
+          <li><a href="index.html" class="nav-link">Beranda</a></li>
+          <li><a href="menu.html" class="nav-link">Daftar Menu</a></li>
+          <li><a href="restoran.html" class="nav-link">Restoran</a></li>
+          <li><a href="ulasan.html" class="nav-link">Ulasan</a></li>
+          <li><a href="pesanan.html" class="nav-link active">Pesanan Saya</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="keranjang.html" class="cart-nav-btn" title="Keranjang Belanja">
+          <i class="fa-solid fa-basket-shopping"></i>
+          <span class="cart-badge" style="display: none;">0</span>
+        </a>
+
+        <div id="navUserContainer"></div>
+
+        <button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Toggle Menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= MAIN CONTENT ================= -->
+  <main class="container" style="padding-top: 2.5rem; padding-bottom: 5rem; max-width: 900px;">
+    
+    <!-- Page Header -->
+    <div style="margin-bottom: 2rem;">
+      <h1 class="section-title" style="font-size: 2.2rem; margin-bottom: 0.35rem;">Riwayat Pesanan Saya</h1>
+      <p class="section-subtitle">Pantau status pesanan aktif dan lihat kembali riwayat transaksi kuliner Anda.</p>
+    </div>
+
+    <!-- Filter Tabs -->
+    <div style="display: flex; gap: 0.5rem; margin-bottom: 2rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem; overflow-x: auto;">
+      <button class="category-pill order-tab-btn active" data-filter="all">
+        <i class="fa-solid fa-list-check"></i> Semua Pesanan
+      </button>
+      <button class="category-pill order-tab-btn" data-filter="active">
+        <i class="fa-solid fa-fire-burner"></i> Sedang Diproses
+      </button>
+      <button class="category-pill order-tab-btn" data-filter="completed">
+        <i class="fa-solid fa-circle-check"></i> Selesai
+      </button>
+      <button class="category-pill order-tab-btn" data-filter="cancelled">
+        <i class="fa-solid fa-ban"></i> Dibatalkan
+      </button>
+    </div>
+
+    <!-- Orders Container -->
+    <div id="customerOrdersContainer">
+      <!-- Populated dynamically by assets/js/orders.js -->
+    </div>
+
+    <!-- Empty State -->
+    <div id="ordersEmptyState" style="display: none; text-align: center; padding: 4.5rem 1.5rem; background: #FFFFFF; border-radius: var(--radius-xl); border: 2px dashed var(--border-color);">
+      <div style="width: 80px; height: 80px; border-radius: 50%; background: #FFF7ED; color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 2.5rem; margin: 0 auto 1.5rem;">
+        <i class="fa-solid fa-receipt"></i>
+      </div>
+      <h3 class="font-bold text-gray-900" style="font-size: 1.4rem; margin-bottom: 0.5rem;">Belum Ada Pesanan Pada Kategori Ini</h3>
+      <p class="text-xs text-muted" style="max-width: 440px; margin: 0 auto 1.5rem; font-size: 0.95rem;">
+        Yuk, pilih makanan kesukaanmu dan nikmati hidangan lezat sekarang juga!
+      </p>
+      <a href="menu.html" class="btn btn-primary">
+        <i class="fa-solid fa-utensils"></i> Jelajahi Menu SajiCepat
+      </a>
+    </div>
+
+  </main>
+
+  <!-- ================= ORDER DETAIL & TRACKING MODAL ================= -->
+  <div class="modal-backdrop" id="orderDetailModal">
+    <div class="modal-dialog" style="max-width: 600px; padding: 2rem;">
+      <button class="modal-close-btn" onclick="closeModal('orderDetailModal')" aria-label="Tutup">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <div id="orderDetailModalContent">
+        <!-- Rendered by orders.js showOrderDetailModal() -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= ORDER REVIEW MODAL ================= -->
+  <div class="modal-backdrop" id="orderReviewModal">
+    <div class="modal-dialog" style="max-width: 520px; padding: 2rem;">
+      <button class="modal-close-btn" onclick="closeModal('orderReviewModal')" aria-label="Tutup">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <form id="orderReviewForm" onsubmit="submitOrderReview(event)">
+        <div style="text-align: center; margin-bottom: 1.5rem;">
+          <div style="width: 56px; height: 56px; border-radius: 50%; background: #FEF3C7; color: #F59E0B; display: inline-flex; align-items: center; justify-content: center; font-size: 1.65rem; margin-bottom: 0.75rem;">
+            <i class="fa-solid fa-star"></i>
+          </div>
+          <h3 class="font-bold text-gray-900" style="font-size: 1.35rem;">Beri Ulasan Pesanan</h3>
+          <p class="text-xs text-muted" id="reviewModalSubtitle">Bagikan pengalaman kuliner Anda kepada pelanggan lain.</p>
+        </div>
+
+        <input type="hidden" id="reviewOrderId">
+        <input type="hidden" id="reviewOrderRestoId">
+        <input type="hidden" id="reviewRatingValue" value="5">
+
+        <!-- Selected Resto & Item Info -->
+        <div style="background: #F8FAFC; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 0.85rem 1rem; margin-bottom: 1.25rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+            <span class="text-xs text-muted">Restoran:</span>
+            <span class="font-bold text-gray-900 text-xs" id="reviewRestoName">-</span>
+          </div>
+          <div class="form-group" style="margin-bottom: 0;">
+            <label for="reviewItemSelect" class="form-label" style="font-size: 0.78rem;">Menu yang Diulas:</label>
+            <select id="reviewItemSelect" class="form-input" style="padding: 0.5rem 0.75rem; font-size: 0.85rem;">
+              <!-- Populated by JS -->
+            </select>
+          </div>
+        </div>
+
+        <!-- Star Rating Picker -->
+        <div style="text-align: center; margin-bottom: 1.25rem;">
+          <label class="form-label" style="font-size: 0.85rem; font-weight: 700;">Nilai Kepuasan Anda:</label>
+          <div class="star-rating-picker" id="orderStarRatingPicker">
+            <span class="star-item active" data-rating="1"><i class="fa-solid fa-star"></i></span>
+            <span class="star-item active" data-rating="2"><i class="fa-solid fa-star"></i></span>
+            <span class="star-item active" data-rating="3"><i class="fa-solid fa-star"></i></span>
+            <span class="star-item active" data-rating="4"><i class="fa-solid fa-star"></i></span>
+            <span class="star-item active" data-rating="5"><i class="fa-solid fa-star"></i></span>
+          </div>
+          <p class="text-xs text-muted" id="starRatingLabel" style="font-weight: 600; color: #D97706;">Sangat Puas (5 Bintang)</p>
+        </div>
+
+        <!-- Review Comment -->
+        <div class="form-group" style="margin-bottom: 1.5rem;">
+          <label for="reviewCommentText" class="form-label">Ulasan & Testimoni Anda:</label>
+          <textarea id="reviewCommentText" class="form-input" rows="3" required placeholder="Ceritakan rasa makanan, porsi, packaging, atau kecepatan pengantaran..."></textarea>
+        </div>
+
+        <div style="display: flex; gap: 0.75rem;">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('orderReviewModal')" style="flex: 1;">
+            Batal
+          </button>
+          <button type="submit" class="btn btn-primary" style="flex: 2;">
+            <i class="fa-solid fa-paper-plane"></i> Kirim Ulasan
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/cart.js"></script>
+  <script src="assets/js/orders.js"></script>
+</body>
+</html>

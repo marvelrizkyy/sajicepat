@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Pelanggan - Admin SajiCepat</title>
+  <meta name="description" content="Manajemen data pelanggan aplikasi SajiCepat.">
+
+    <!-- Favicon / App Icon -->
+  <link rel="icon" type="image/svg+xml" href="../assets/images/favicon.svg?v=2">
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/favicon-32x32.png?v=2">
+  <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon-16x16.png?v=2">
+  <link rel="apple-touch-icon" sizes="180x180" href="../assets/images/apple-touch-icon.png?v=2">
+  <link rel="shortcut icon" href="../favicon.ico?v=2">
+  <!-- Google Fonts & Font Awesome CDN -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Main & Dashboard Stylesheet -->
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/dashboard.css">
+</head>
+<body class="dashboard-layout">
+
+  <!-- ================= SIDEBAR ================= -->
+  <aside class="dashboard-sidebar" id="dashboardSidebar">
+    <div class="sidebar-header">
+      <a href="../index.html" class="sidebar-brand">
+        <i class="fa-solid fa-bolt text-primary"></i>
+        <span>SajiCepat</span>
+        <span class="badge-role">ADMIN</span>
+      </a>
+    </div>
+
+    <div class="sidebar-menu-wrapper">
+      <span class="sidebar-heading">Menu Utama</span>
+      <a href="dashboard.html" class="sidebar-item">
+        <i class="fa-solid fa-gauge-high"></i> Dashboard
+      </a>
+      <a href="pelanggan.html" class="sidebar-item active">
+        <i class="fa-solid fa-users"></i> Data Pelanggan
+      </a>
+      <a href="restoran.html" class="sidebar-item">
+        <i class="fa-solid fa-store"></i> Data Restoran
+      </a>
+      <a href="kategori.html" class="sidebar-item">
+        <i class="fa-solid fa-tags"></i> Kategori Menu
+      </a>
+      <a href="menu.html" class="sidebar-item">
+        <i class="fa-solid fa-bowl-food"></i> Menu Makanan
+      </a>
+      <a href="pesanan.html" class="sidebar-item">
+        <i class="fa-solid fa-receipt"></i> Pesanan Masuk
+      </a>
+      <a href="laporan.html" class="sidebar-item">
+        <i class="fa-solid fa-chart-line"></i> Laporan Penjualan
+      </a>
+
+      <span class="sidebar-heading" style="margin-top: 1rem;">Navigasi Portal</span>
+      <a href="../index.html" class="sidebar-item">
+        <i class="fa-solid fa-house"></i> Lihat Beranda Pelanggan
+      </a>
+      <button class="sidebar-item" onclick="logoutUser()" style="background: none; border: none; width: 100%; text-align: left; cursor: pointer; color: #EF4444;">
+        <i class="fa-solid fa-arrow-right-from-bracket"></i> Keluar
+      </button>
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-user-card">
+        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" alt="Admin" class="sidebar-user-avatar">
+        <div class="sidebar-user-info">
+          <p class="sidebar-user-name" id="adminUserName">Administrator</p>
+          <span class="sidebar-user-role">Super Admin</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ================= MAIN CONTENT ================= -->
+  <div class="dashboard-main">
+    
+    <header class="dashboard-topbar">
+      <div class="topbar-left">
+        <button class="sidebar-toggle-btn" id="sidebarToggleBtn">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <div class="topbar-page-title">
+          <h1>Kelola Data Pelanggan</h1>
+          <p>Daftar pengguna terdaftar dengan peran Pelanggan di sistem SajiCepat.</p>
+        </div>
+      </div>
+
+      <div class="topbar-right">
+        <button class="btn btn-primary" onclick="openAddPelangganModal()">
+          <i class="fa-solid fa-user-plus"></i> Tambah Pelanggan
+        </button>
+      </div>
+    </header>
+
+    <main class="dashboard-content">
+      
+      <!-- Table Panel -->
+      <div class="table-panel">
+        <div class="table-toolbar">
+          <div class="table-search-input">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="searchPelangganInput" placeholder="Cari nama, email, atau telepon pelanggan...">
+          </div>
+          <span class="text-xs text-muted">Data disimpan persisten di browser (LocalStorage)</span>
+        </div>
+
+        <div class="table-responsive">
+          <table class="custom-table">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Profil Pelanggan</th>
+                <th>No. Telepon</th>
+                <th>Alamat Utama</th>
+                <th>Tanggal Daftar</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="pelangganTableBody">
+              <!-- Rendered by admin.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- ================= MODAL TAMBAH / EDIT PELANGGAN ================= -->
+  <div class="modal-backdrop" id="pelangganModal">
+    <div class="modal-dialog">
+      <button class="modal-close-btn" onclick="closeModal('pelangganModal')">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      
+      <form id="pelangganForm">
+        <div style="padding: 1.5rem 1.75rem 0.5rem;">
+          <h3 class="panel-title" id="pelangganModalTitle">Tambah Pelanggan Baru</h3>
+        </div>
+
+        <input type="hidden" id="pelangganId">
+
+        <div class="modal-form-body">
+          <div class="form-group">
+            <label for="pelangganName" class="form-label">Nama Lengkap</label>
+            <input type="text" id="pelangganName" class="form-input" required placeholder="Nama lengkap">
+          </div>
+
+          <div class="form-group">
+            <label for="pelangganEmail" class="form-label">Alamat Email</label>
+            <input type="email" id="pelangganEmail" class="form-input" required placeholder="email@domain.com">
+          </div>
+
+          <div class="form-group">
+            <label for="pelangganPhone" class="form-label">Nomor Telepon</label>
+            <input type="tel" id="pelangganPhone" class="form-input" required placeholder="0812-xxxx-xxxx">
+          </div>
+
+          <div class="form-group">
+            <label for="pelangganAddress" class="form-label">Alamat Lengkap</label>
+            <textarea id="pelangganAddress" class="form-input" rows="3" required placeholder="Alamat rumah pengiriman..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="pelangganPassword" class="form-label">Kata Sandi</label>
+            <input type="password" id="pelangganPassword" class="form-input" placeholder="Password akun demo">
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('pelangganModal')">Batal</button>
+          <button type="submit" class="btn btn-primary">Simpan Pelanggan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../assets/js/data.js"></script>
+  <script src="../assets/js/app.js"></script>
+  <script src="../assets/js/admin.js"></script>
+</body>
+</html>

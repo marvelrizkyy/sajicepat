@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laporan Penjualan Resto - Mitra SajiCepat</title>
+  <meta name="description" content="Rekapitulasi omset dan performa penjualan gerai restoran di SajiCepat.">
+
+    <!-- Favicon / App Icon -->
+  <link rel="icon" type="image/svg+xml" href="../assets/images/favicon.svg?v=2">
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/favicon-32x32.png?v=2">
+  <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon-16x16.png?v=2">
+  <link rel="apple-touch-icon" sizes="180x180" href="../assets/images/apple-touch-icon.png?v=2">
+  <link rel="shortcut icon" href="../favicon.ico?v=2">
+  <!-- Google Fonts & Font Awesome CDN -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Main & Dashboard Stylesheet -->
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/dashboard.css">
+</head>
+<body class="dashboard-layout">
+
+  <!-- ================= SIDEBAR ================= -->
+  <aside class="dashboard-sidebar" id="dashboardSidebar">
+    <div class="sidebar-header">
+      <a href="../index.html" class="sidebar-brand">
+        <i class="fa-solid fa-store text-primary"></i>
+        <span>SajiCepat</span>
+        <span class="badge-role" style="background: #D97706;">MITRA</span>
+      </a>
+    </div>
+
+    <div class="sidebar-menu-wrapper">
+      <span class="sidebar-heading">Restoran Mitra</span>
+      <a href="dashboard.html" class="sidebar-item">
+        <i class="fa-solid fa-gauge-high"></i> Dashboard Resto
+      </a>
+      <a href="menu.html" class="sidebar-item">
+        <i class="fa-solid fa-bowl-food"></i> Menu Saya
+      </a>
+      <a href="pesanan.html" class="sidebar-item">
+        <i class="fa-solid fa-bell-concierge"></i> Pesanan Masuk
+      </a>
+      <a href="laporan.html" class="sidebar-item active">
+        <i class="fa-solid fa-chart-line"></i> Laporan Penjualan
+      </a>
+      <a href="profil.html" class="sidebar-item">
+        <i class="fa-solid fa-store"></i> Profil Restoran
+      </a>
+
+      <span class="sidebar-heading" style="margin-top: 1rem;">Navigasi Portal</span>
+      <a href="../index.html" class="sidebar-item">
+        <i class="fa-solid fa-house"></i> Lihat Beranda Pelanggan
+      </a>
+      <button class="sidebar-item" onclick="logoutUser()" style="background: none; border: none; width: 100%; text-align: left; cursor: pointer; color: #EF4444;">
+        <i class="fa-solid fa-arrow-right-from-bracket"></i> Keluar
+      </button>
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-user-card">
+        <img src="https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=100" alt="Resto" class="sidebar-user-avatar">
+        <div class="sidebar-user-info">
+          <p class="sidebar-user-name active-resto-name">Restoran Mitra</p>
+          <span class="sidebar-user-role">Mitra Resmi</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ================= MAIN CONTENT ================= -->
+  <div class="dashboard-main">
+    
+    <header class="dashboard-topbar">
+      <div class="topbar-left">
+        <button class="sidebar-toggle-btn" id="sidebarToggleBtn">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <div class="topbar-page-title">
+          <h1>Laporan Penjualan Restoran</h1>
+          <p>Catatan keuangan dan rekap omset dari pesanan yang masuk ke gerai Anda.</p>
+        </div>
+      </div>
+
+      <div class="topbar-right">
+        <button class="btn btn-secondary btn-sm" onclick="window.print()">
+          <i class="fa-solid fa-print"></i> Cetak Laporan Resto
+        </button>
+      </div>
+    </header>
+
+    <main class="dashboard-content">
+      
+      <!-- Summary Metrics Grid -->
+      <div class="stats-grid" style="grid-template-columns: 1fr 1fr; margin-bottom: 2rem;">
+        <div class="stat-card">
+          <div class="stat-info">
+            <span class="stat-label">Total Omset Sukses</span>
+            <span class="stat-value text-primary" id="restoReportOmset">Rp 0</span>
+            <span class="stat-subtext text-success"><i class="fa-solid fa-circle-check"></i> Pesanan status Selesai</span>
+          </div>
+          <div class="stat-icon green">
+            <i class="fa-solid fa-sack-dollar"></i>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-info">
+            <span class="stat-label">Total Riwayat Pesanan</span>
+            <span class="stat-value" id="restoReportTotalOrders">0</span>
+            <span class="stat-subtext">Semua pesanan masuk</span>
+          </div>
+          <div class="stat-icon blue">
+            <i class="fa-solid fa-receipt"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- Report Table -->
+      <div class="table-panel">
+        <div class="table-toolbar">
+          <h3 class="panel-title" style="margin-bottom: 0;">Rekapitulasi Transaksi Masuk</h3>
+        </div>
+
+        <div class="table-responsive">
+          <table class="custom-table">
+            <thead>
+              <tr>
+                <th>Kode Pesanan</th>
+                <th>Tanggal & Waktu</th>
+                <th>Nama Pelanggan</th>
+                <th>Porsi Makanan</th>
+                <th>Total Pembayaran</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="restoReportTableBody">
+              <!-- Rendered by restoran.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../assets/js/data.js"></script>
+  <script src="../assets/js/app.js"></script>
+  <script src="../assets/js/restoran.js"></script>
+</body>
+</html>

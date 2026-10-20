@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profil Pelanggan - SajiCepat</title>
+  <meta name="description" content="Kelola informasi akun pelanggan, kontak, dan alamat pengantaran makanan di SajiCepat.">
+
+    <!-- Favicon / App Icon -->
+  <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg?v=2">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png?v=2">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png?v=2">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png?v=2">
+  <link rel="shortcut icon" href="favicon.ico?v=2">
+  <!-- Google Fonts & Font Awesome CDN -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/dashboard.css">
+</head>
+<body>
+
+  <!-- ================= HEADER & NAVBAR ================= -->
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="index.html" class="brand-logo">
+        <img src="assets/images/logo.svg" alt="SajiCepat Logo">
+      </a>
+
+      <nav>
+        <ul class="nav-menu" id="navbarMenu">
+          <li><a href="index.html" class="nav-link">Beranda</a></li>
+          <li><a href="menu.html" class="nav-link">Daftar Menu</a></li>
+          <li><a href="restoran.html" class="nav-link">Restoran</a></li>
+          <li><a href="ulasan.html" class="nav-link">Ulasan</a></li>
+          <li><a href="pesanan.html" class="nav-link">Pesanan Saya</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="keranjang.html" class="cart-nav-btn" title="Keranjang Belanja">
+          <i class="fa-solid fa-basket-shopping"></i>
+          <span class="cart-badge" style="display: none;">0</span>
+        </a>
+
+        <div id="navUserContainer"></div>
+
+        <button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Toggle Menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= MAIN CONTENT ================= -->
+  <main class="container" style="padding-top: 2.5rem; padding-bottom: 5rem; max-width: 960px;">
+    
+    <!-- Profile Banner & Avatar Card -->
+    <div class="panel-card" style="border-radius: var(--radius-xl); padding: 2rem; margin-bottom: 2rem; border: 1px solid var(--border-color); background: #FFFFFF; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem;">
+      <div style="display: flex; align-items: center; gap: 1.5rem;">
+        <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=160" alt="Avatar" id="profileHeaderAvatar" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 3px solid var(--primary); box-shadow: var(--shadow-sm);">
+        <div>
+          <div style="display: flex; align-items: center; gap: 0.65rem;">
+            <h2 class="font-bold text-gray-900" id="profileHeaderName" style="font-size: 1.6rem;">Memuat Akun...</h2>
+            <span class="badge badge-primary" id="profileHeaderRole">Pelanggan</span>
+          </div>
+          <p class="text-xs text-muted" id="profileHeaderEmail" style="font-size: 0.9rem; margin-top: 2px;">-</p>
+          <span class="text-xs text-muted" style="margin-top: 4px; display: inline-block;">
+            <i class="fa-solid fa-calendar-check text-orange-500"></i> Terdaftar sejak: <span id="profileHeaderDate">-</span>
+          </span>
+        </div>
+      </div>
+
+      <div>
+        <button class="btn btn-secondary btn-sm text-danger" onclick="logoutUser()">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i> Keluar Akun
+        </button>
+      </div>
+    </div>
+
+    <!-- Quick Stats Grid -->
+    <div class="stats-grid" style="margin-bottom: 2.5rem;">
+      <div class="stat-card">
+        <div class="stat-info">
+          <span class="stat-label">Total Pesanan</span>
+          <span class="stat-value" id="profileStatTotalOrders">0</span>
+          <span class="stat-subtext">Semua pesanan Anda</span>
+        </div>
+        <div class="stat-icon orange">
+          <i class="fa-solid fa-receipt"></i>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-info">
+          <span class="stat-label">Pesanan Selesai</span>
+          <span class="stat-value text-success" id="profileStatCompletedOrders">0</span>
+          <span class="stat-subtext">Berhasil diantar</span>
+        </div>
+        <div class="stat-icon green">
+          <i class="fa-solid fa-circle-check"></i>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-info">
+          <span class="stat-label">Total Pengeluaran</span>
+          <span class="stat-value text-primary" id="profileStatSpending">Rp 0</span>
+          <span class="stat-subtext">Transaksi simulasi</span>
+        </div>
+        <div class="stat-icon blue">
+          <i class="fa-solid fa-wallet"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- Profile Edit Form -->
+    <div class="panel-card" style="border-radius: var(--radius-xl); padding: 2rem; border: 1px solid var(--border-color); background: #FFFFFF;">
+      <h3 class="panel-title" style="margin-bottom: 0.35rem; font-size: 1.3rem;">Informasi Data Pribadi</h3>
+      <p class="text-xs text-muted mb-4">Perbarui informasi profil dan alamat pengiriman Anda yang disimpan di LocalStorage.</p>
+
+      <form id="profileEditForm">
+        <div class="form-row-2">
+          <div class="form-group">
+            <label for="editProfileName" class="form-label">Nama Lengkap</label>
+            <div class="input-with-icon">
+              <i class="fa-solid fa-user input-icon"></i>
+              <input type="text" id="editProfileName" class="form-input" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="editProfileEmail" class="form-label">Alamat Email</label>
+            <div class="input-with-icon">
+              <i class="fa-solid fa-envelope input-icon"></i>
+              <input type="email" id="editProfileEmail" class="form-input" required>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row-2">
+          <div class="form-group">
+            <label for="editProfilePhone" class="form-label">Nomor Telepon / WhatsApp</label>
+            <div class="input-with-icon">
+              <i class="fa-solid fa-phone input-icon"></i>
+              <input type="tel" id="editProfilePhone" class="form-input" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="editProfileAvatar" class="form-label">URL Foto Profil (Opsional)</label>
+            <div class="input-with-icon">
+              <i class="fa-solid fa-image input-icon"></i>
+              <input type="url" id="editProfileAvatar" class="form-input" placeholder="https://...">
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="editProfileAddress" class="form-label">Alamat Utama Pengantaran</label>
+          <div class="input-with-icon has-textarea">
+            <i class="fa-solid fa-map-location-dot input-icon"></i>
+            <textarea id="editProfileAddress" class="form-input" rows="3" required></textarea>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 1.5rem; border-top: 1px solid #F1F5F9; padding-top: 1.25rem;">
+          <button type="submit" class="btn btn-primary btn-lg" id="saveProfileBtn">
+            <i class="fa-solid fa-floppy-disk"></i> Simpan Perubahan Profil
+          </button>
+        </div>
+      </form>
+    </div>
+
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom" style="border-top: none; padding-top: 0;">
+        <p>&copy; 2026 SajiCepat - Proyek Pemesanan Makanan Online Kelas XII RPL.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/cart.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      loadProfileData();
+      setupProfileForm();
+    });
+
+    function loadProfileData() {
+      const user = getCurrentUser();
+      if (!user) {
+        window.location.href = 'login.html';
+        return;
+      }
+
+      document.getElementById('profileHeaderName').textContent = user.name;
+      document.getElementById('profileHeaderEmail').textContent = user.email;
+      document.getElementById('profileHeaderRole').textContent = user.role.toUpperCase();
+      document.getElementById('profileHeaderAvatar').src = user.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=160';
+      document.getElementById('profileHeaderDate').textContent = user.createdAt || '2026-03-01';
+
+      document.getElementById('editProfileName').value = user.name;
+      document.getElementById('editProfileEmail').value = user.email;
+      document.getElementById('editProfilePhone').value = user.phone || '';
+      document.getElementById('editProfileAvatar').value = user.avatar || '';
+      document.getElementById('editProfileAddress').value = user.address || '';
+
+      // Orders Stats
+      const allOrders = getOrders();
+      const userOrders = allOrders.filter(o => o.customerEmail === user.email);
+      const completed = userOrders.filter(o => o.status === 'Selesai');
+      const spending = completed.reduce((sum, o) => sum + (o.total || 0), 0);
+
+      document.getElementById('profileStatTotalOrders').textContent = userOrders.length;
+      document.getElementById('profileStatCompletedOrders').textContent = completed.length;
+      document.getElementById('profileStatSpending').textContent = formatRupiah(spending);
+    }
+
+    function setupProfileForm() {
+      const form = document.getElementById('profileEditForm');
+      if (!form) return;
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const user = getCurrentUser();
+        if (!user) return;
+
+        const updatedName = document.getElementById('editProfileName').value.trim();
+        const updatedEmail = document.getElementById('editProfileEmail').value.trim();
+        const updatedPhone = document.getElementById('editProfilePhone').value.trim();
+        const updatedAvatar = document.getElementById('editProfileAvatar').value.trim();
+        const updatedAddress = document.getElementById('editProfileAddress').value.trim();
+
+        user.name = updatedName;
+        user.email = updatedEmail;
+        user.phone = updatedPhone;
+        user.address = updatedAddress;
+        if (updatedAvatar) user.avatar = updatedAvatar;
+
+        // Save to users collection
+        let users = getUsers();
+        const idx = users.findIndex(u => u.id === user.id);
+        if (idx > -1) {
+          users[idx] = { ...user };
+          saveUsers(users);
+        }
+
+        // Save current session
+        setCurrentUser(user);
+
+        showToast('Profil Anda berhasil diperbarui di LocalStorage!', 'success');
+        loadProfileData();
+        renderNavbarAuth();
+      });
+    }
+  </script>
+</body>
+</html>

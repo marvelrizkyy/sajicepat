@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pesanan Masuk - Mitra SajiCepat</title>
+  <meta name="description" content="Proses pesanan masuk dari pelanggan dan perbarui status persiapan makanan secara real-time.">
+
+    <!-- Favicon / App Icon -->
+  <link rel="icon" type="image/svg+xml" href="../assets/images/favicon.svg?v=2">
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/favicon-32x32.png?v=2">
+  <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon-16x16.png?v=2">
+  <link rel="apple-touch-icon" sizes="180x180" href="../assets/images/apple-touch-icon.png?v=2">
+  <link rel="shortcut icon" href="../favicon.ico?v=2">
+  <!-- Google Fonts & Font Awesome CDN -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Main & Dashboard Stylesheet -->
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/dashboard.css">
+</head>
+<body class="dashboard-layout">
+
+  <!-- ================= SIDEBAR ================= -->
+  <aside class="dashboard-sidebar" id="dashboardSidebar">
+    <div class="sidebar-header">
+      <a href="../index.html" class="sidebar-brand">
+        <i class="fa-solid fa-store text-primary"></i>
+        <span>SajiCepat</span>
+        <span class="badge-role" style="background: #D97706;">MITRA</span>
+      </a>
+    </div>
+
+    <div class="sidebar-menu-wrapper">
+      <span class="sidebar-heading">Restoran Mitra</span>
+      <a href="dashboard.html" class="sidebar-item">
+        <i class="fa-solid fa-gauge-high"></i> Dashboard Resto
+      </a>
+      <a href="menu.html" class="sidebar-item">
+        <i class="fa-solid fa-bowl-food"></i> Menu Saya
+      </a>
+      <a href="pesanan.html" class="sidebar-item active">
+        <i class="fa-solid fa-bell-concierge"></i> Pesanan Masuk
+      </a>
+      <a href="laporan.html" class="sidebar-item">
+        <i class="fa-solid fa-chart-line"></i> Laporan Penjualan
+      </a>
+      <a href="profil.html" class="sidebar-item">
+        <i class="fa-solid fa-store"></i> Profil Restoran
+      </a>
+
+      <span class="sidebar-heading" style="margin-top: 1rem;">Navigasi Portal</span>
+      <a href="../index.html" class="sidebar-item">
+        <i class="fa-solid fa-house"></i> Lihat Beranda Pelanggan
+      </a>
+      <button class="sidebar-item" onclick="logoutUser()" style="background: none; border: none; width: 100%; text-align: left; cursor: pointer; color: #EF4444;">
+        <i class="fa-solid fa-arrow-right-from-bracket"></i> Keluar
+      </button>
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-user-card">
+        <img src="https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=100" alt="Resto" class="sidebar-user-avatar">
+        <div class="sidebar-user-info">
+          <p class="sidebar-user-name active-resto-name">Restoran Mitra</p>
+          <span class="sidebar-user-role">Mitra Resmi</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ================= MAIN CONTENT ================= -->
+  <div class="dashboard-main">
+    
+    <header class="dashboard-topbar">
+      <div class="topbar-left">
+        <button class="sidebar-toggle-btn" id="sidebarToggleBtn">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <div class="topbar-page-title">
+          <h1>Kelola Pesanan Masuk Restoran</h1>
+          <p>Terima pesanan pelanggan, mulai proses memasak, dan siapkan makanan untuk kurir.</p>
+        </div>
+      </div>
+    </header>
+
+    <main class="dashboard-content">
+      
+      <div class="table-panel">
+        <div class="table-toolbar">
+          <h3 class="panel-title" style="margin-bottom: 0;">Antrean Pesanan Masuk</h3>
+
+          <div class="table-actions-group">
+            <select id="filterRestoOrderStatus" class="form-input" style="padding: 0.55rem 0.85rem; font-size: 0.88rem;">
+              <option value="all">Semua Status Pesanan</option>
+              <option value="Menunggu konfirmasi">Menunggu konfirmasi</option>
+              <option value="Dikonfirmasi">Dikonfirmasi</option>
+              <option value="Sedang disiapkan">Sedang disiapkan</option>
+              <option value="Siap dikirim">Siap dikirim</option>
+              <option value="Dalam pengantaran">Dalam pengantaran</option>
+              <option value="Selesai">Selesai</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="custom-table">
+            <thead>
+              <tr>
+                <th>Kode Pesanan</th>
+                <th>Pemesan</th>
+                <th>Rincian Porsi</th>
+                <th>Total Bayar</th>
+                <th>Status Saat Ini</th>
+                <th>Tindakan Operasional</th>
+              </tr>
+            </thead>
+            <tbody id="restoOrdersTableBody">
+              <!-- Rendered by restoran.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- ================= MODAL INVOICE STRUK PESANAN ================= -->
+  <div class="modal-backdrop" id="restoInvoiceModal">
+    <div class="modal-dialog" style="max-width: 580px; padding: 2rem;">
+      <button class="modal-close-btn" onclick="closeModal('restoInvoiceModal')">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div id="restoInvoiceContent">
+        <!-- Rendered by restoran.js openRestoOrderInvoice() -->
+      </div>
+
+      <div style="margin-top: 1.5rem; display: flex; justify-content: flex-end; gap: 0.75rem;">
+        <button class="btn btn-secondary btn-sm" onclick="closeModal('restoInvoiceModal')">Tutup</button>
+        <button class="btn btn-primary btn-sm" onclick="window.print()">
+          <i class="fa-solid fa-print"></i> Cetak Struk Dapur
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../assets/js/data.js"></script>
+  <script src="../assets/js/app.js"></script>
+  <script src="../assets/js/restoran.js"></script>
+</body>
+</html>

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Admin - SajiCepat</title>
+  <meta name="description" content="Dashboard administrasi dan kontrol sistem pemesanan makanan online SajiCepat.">
+
+    <!-- Favicon / App Icon -->
+  <link rel="icon" type="image/svg+xml" href="../assets/images/favicon.svg?v=2">
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/favicon-32x32.png?v=2">
+  <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon-16x16.png?v=2">
+  <link rel="apple-touch-icon" sizes="180x180" href="../assets/images/apple-touch-icon.png?v=2">
+  <link rel="shortcut icon" href="../favicon.ico?v=2">
+  <!-- Google Fonts & Font Awesome CDN -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Main & Dashboard Stylesheet -->
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/dashboard.css">
+</head>
+<body class="dashboard-layout">
+
+  <!-- ================= SIDEBAR ================= -->
+  <aside class="dashboard-sidebar" id="dashboardSidebar">
+    <div class="sidebar-header">
+      <a href="../index.html" class="sidebar-brand">
+        <i class="fa-solid fa-bolt text-primary"></i>
+        <span>SajiCepat</span>
+        <span class="badge-role">ADMIN</span>
+      </a>
+    </div>
+
+    <div class="sidebar-menu-wrapper">
+      <span class="sidebar-heading">Menu Utama</span>
+      <a href="dashboard.html" class="sidebar-item active">
+        <i class="fa-solid fa-gauge-high"></i> Dashboard
+      </a>
+      <a href="pelanggan.html" class="sidebar-item">
+        <i class="fa-solid fa-users"></i> Data Pelanggan
+      </a>
+      <a href="restoran.html" class="sidebar-item">
+        <i class="fa-solid fa-store"></i> Data Restoran
+      </a>
+      <a href="kategori.html" class="sidebar-item">
+        <i class="fa-solid fa-tags"></i> Kategori Menu
+      </a>
+      <a href="menu.html" class="sidebar-item">
+        <i class="fa-solid fa-bowl-food"></i> Menu Makanan
+      </a>
+      <a href="pesanan.html" class="sidebar-item">
+        <i class="fa-solid fa-receipt"></i> Pesanan Masuk
+      </a>
+      <a href="laporan.html" class="sidebar-item">
+        <i class="fa-solid fa-chart-line"></i> Laporan Penjualan
+      </a>
+
+      <span class="sidebar-heading" style="margin-top: 1rem;">Navigasi Portal</span>
+      <a href="../index.html" class="sidebar-item">
+        <i class="fa-solid fa-house"></i> Lihat Beranda Pelanggan
+      </a>
+      <button class="sidebar-item" onclick="logoutUser()" style="background: none; border: none; width: 100%; text-align: left; cursor: pointer; color: #EF4444;">
+        <i class="fa-solid fa-arrow-right-from-bracket"></i> Keluar
+      </button>
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-user-card">
+        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" alt="Admin" class="sidebar-user-avatar">
+        <div class="sidebar-user-info">
+          <p class="sidebar-user-name" id="adminUserName">Administrator</p>
+          <span class="sidebar-user-role">Super Admin</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ================= MAIN CONTENT ================= -->
+  <div class="dashboard-main">
+    
+    <!-- Topbar Header -->
+    <header class="dashboard-topbar">
+      <div class="topbar-left">
+        <button class="sidebar-toggle-btn" id="sidebarToggleBtn" aria-label="Toggle Sidebar">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <div class="topbar-page-title">
+          <h1>Dashboard Ringkasan Admin</h1>
+          <p>Statistik performa aplikasi, pesanan real-time, dan analitik penjualan demo.</p>
+        </div>
+      </div>
+
+      <div class="topbar-right">
+        <div class="topbar-badge-role">
+          <i class="fa-solid fa-shield-halved"></i>
+          <span>Superadmin Demo</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Dashboard Body -->
+    <main class="dashboard-content">
+      
+      <!-- Metrics Stat Grid -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-info">
+            <span class="stat-label">Total Pelanggan</span>
+            <span class="stat-value" id="statTotalPelanggan">0</span>
+            <span class="stat-subtext"><i class="fa-solid fa-arrow-trend-up"></i> Akun terdaftar</span>
+          </div>
+          <div class="stat-icon blue">
+            <i class="fa-solid fa-users"></i>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-info">
+            <span class="stat-label">Mitra Restoran</span>
+            <span class="stat-value" id="statTotalRestoran">0</span>
+            <span class="stat-subtext"><i class="fa-solid fa-check"></i> Mitra aktif</span>
+          </div>
+          <div class="stat-icon orange">
+            <i class="fa-solid fa-store"></i>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-info">
+            <span class="stat-label">Total Menu Makanan</span>
+            <span class="stat-value" id="statTotalMenu">0</span>
+            <span class="stat-subtext"><i class="fa-solid fa-utensils"></i> Katalog aktif</span>
+          </div>
+          <div class="stat-icon purple">
+            <i class="fa-solid fa-bowl-food"></i>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-info">
+            <span class="stat-label">Total Pesanan</span>
+            <span class="stat-value" id="statTotalPesanan">0</span>
+            <span class="stat-subtext"><i class="fa-solid fa-bag-shopping"></i> Transaksi demo</span>
+          </div>
+          <div class="stat-icon green">
+            <i class="fa-solid fa-receipt"></i>
+          </div>
+        </div>
+
+        <div class="stat-card" style="grid-column: span 1;">
+          <div class="stat-info">
+            <span class="stat-label">Total Transaksi Demo</span>
+            <span class="stat-value text-primary" id="statTotalOmset" style="font-size: 1.4rem;">Rp 0</span>
+            <span class="stat-subtext"><i class="fa-solid fa-wallet"></i> Estimasi omset</span>
+          </div>
+          <div class="stat-icon red">
+            <i class="fa-solid fa-coins"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- Charts Section -->
+      <div class="charts-grid">
+        <div class="panel-card">
+          <div class="panel-header">
+            <h3 class="panel-title"><i class="fa-solid fa-chart-area text-orange-500"></i> Tren Penjualan 7 Hari Terakhir</h3>
+            <span class="badge badge-primary">Grafik Interaktif</span>
+          </div>
+          <div class="chart-wrapper">
+            <canvas id="salesTrendChart"></canvas>
+          </div>
+        </div>
+
+        <div class="panel-card">
+          <div class="panel-header">
+            <h3 class="panel-title"><i class="fa-solid fa-chart-pie text-orange-500"></i> Distribusi Kategori</h3>
+          </div>
+          <div class="chart-wrapper">
+            <canvas id="categoryPieChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Grid: Recent Orders & Top Selling Dishes -->
+      <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem; align-items: flex-start;" id="adminOverviewBottomGrid">
+        
+        <!-- Recent Orders Table -->
+        <div class="table-panel">
+          <div class="table-toolbar">
+            <h3 class="panel-title" style="margin-bottom: 0;">Pesanan Terbaru Masuk</h3>
+            <a href="pesanan.html" class="btn btn-outline-primary btn-sm">Lihat Semua Pesanan</a>
+          </div>
+          <div class="table-responsive">
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th>Kode</th>
+                  <th>Pelanggan</th>
+                  <th>Restoran</th>
+                  <th>Total</th>
+                  <th>Status</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="recentOrdersTableBody">
+                <!-- Rendered by admin.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Top Selling Foods Panel -->
+        <div class="panel-card">
+          <div class="panel-header">
+            <h3 class="panel-title"><i class="fa-solid fa-fire text-orange-500"></i> Menu Terlaris</h3>
+            <a href="menu.html" class="text-xs text-primary font-semibold">Kelola</a>
+          </div>
+          <div id="topSellingMenusContainer">
+            <!-- Rendered by admin.js -->
+          </div>
+        </div>
+
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../assets/js/data.js"></script>
+  <script src="../assets/js/app.js"></script>
+  <script src="../assets/js/admin.js"></script>
+</body>
+</html>

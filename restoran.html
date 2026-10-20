@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daftar Mitra Restoran - SajiCepat</title>
+  <meta name="description" content="Jelajahi daftar mitra restoran kuliner terbaik di SajiCepat. Temukan gerai favorit Anda dengan rasa terjamin dan pengantaran cepat.">
+
+  <!-- Favicon / App Icon -->
+  <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg?v=2">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png?v=2">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png?v=2">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png?v=2">
+  <link rel="shortcut icon" href="favicon.ico?v=2">
+
+  <!-- Google Fonts & Font Awesome CDN -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <!-- ================= HEADER & NAVBAR ================= -->
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="index.html" class="brand-logo">
+        <img src="assets/images/logo.svg" alt="SajiCepat Logo">
+      </a>
+
+      <!-- Navigation Menu -->
+      <nav>
+        <ul class="nav-menu" id="navbarMenu">
+          <li><a href="index.html" class="nav-link">Beranda</a></li>
+          <li><a href="menu.html" class="nav-link">Daftar Menu</a></li>
+          <li><a href="restoran.html" class="nav-link active">Restoran</a></li>
+          <li><a href="ulasan.html" class="nav-link">Ulasan</a></li>
+          <li><a href="pesanan.html" class="nav-link">Pesanan Saya</a></li>
+        </ul>
+      </nav>
+
+      <!-- Nav Actions (Cart & User Auth) -->
+      <div class="nav-actions">
+        <a href="keranjang.html" class="cart-nav-btn" title="Keranjang Belanja">
+          <i class="fa-solid fa-basket-shopping"></i>
+          <span class="cart-badge" style="display: none;">0</span>
+        </a>
+
+        <!-- Dynamic User Auth Container -->
+        <div id="navUserContainer"></div>
+
+        <!-- Mobile Hamburger Toggle -->
+        <button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Toggle Menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= MAIN CONTENT ================= -->
+  <main class="container" style="padding-top: 2.5rem; padding-bottom: 5rem;">
+    
+    <!-- Page Header -->
+    <div style="margin-bottom: 2rem;">
+      <div style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.35rem 0.85rem; background: #FFEDD5; color: #EA580C; border-radius: var(--radius-full); font-size: 0.82rem; font-weight: 700; margin-bottom: 0.75rem;">
+        <i class="fa-solid fa-store"></i> Mitra Kuliner Terpercaya
+      </div>
+      <h1 class="section-title" style="font-size: 2.3rem; margin-bottom: 0.35rem;">Jelajahi Mitra Restoran</h1>
+      <p class="section-subtitle">Pilih gerai kuliner favoritmu dengan jaminan rasa autentik, bahan segar, dan pengantaran kilat.</p>
+    </div>
+
+    <!-- Search & Filter Controls Card -->
+    <div class="panel-card" style="margin-bottom: 2.5rem; border-radius: var(--radius-lg); border: 1px solid var(--border-color); background: #FFFFFF; padding: 1.5rem; box-shadow: var(--shadow-sm);">
+      <div style="display: grid; grid-template-columns: 2fr 1.2fr; gap: 1rem; align-items: center;" id="restoFilterGrid">
+        
+        <!-- Search Input -->
+        <div class="input-with-icon" style="width: 100%;">
+          <i class="fa-solid fa-magnifying-glass input-icon" style="color: var(--primary);"></i>
+          <input type="text" id="restoSearchInput" class="form-input" placeholder="Cari nama restoran, kategori makanan, atau alamat..." style="padding-left: 2.65rem;">
+        </div>
+
+        <!-- Sort Select -->
+        <div>
+          <select id="restoSortSelect" class="form-input" style="padding-left: 1rem;">
+            <option value="rating">Urutkan: Rating Tertinggi</option>
+            <option value="reviews">Ulasan Terbanyak</option>
+            <option value="delivery">Ongkos Kirim Terendah</option>
+            <option value="name-asc">Nama Restoran (A - Z)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Categories Pills Filter -->
+      <div style="margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid var(--border-light); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+        <div class="categories-scroll" id="restoCategoryPills" style="flex: 1;">
+          <!-- Rendered dynamically by JavaScript -->
+        </div>
+        <a href="ulasan.html" class="btn btn-secondary btn-sm" style="white-space: nowrap;">
+          <i class="fa-solid fa-star text-warning"></i> Lihat Ulasan Resto
+        </a>
+      </div>
+    </div>
+
+    <!-- Active Result Count & Reset Filters -->
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 0.75rem;">
+      <div>
+        <span class="text-xs text-muted">Menampilkan mitra:</span>
+        <strong id="restoResultCount" style="color: var(--text-main); font-size: 0.95rem;">0 Restoran</strong>
+      </div>
+      <button class="btn btn-secondary btn-sm" id="resetRestoFilterBtn" style="display: none;" onclick="resetRestoFilters()">
+        <i class="fa-solid fa-rotate-left"></i> Reset Filter
+      </button>
+    </div>
+
+    <!-- Restaurants Grid -->
+    <div class="resto-grid" id="restaurantsContainer">
+      <!-- Populated dynamically by JavaScript -->
+    </div>
+
+    <!-- Empty State -->
+    <div id="restoEmptyState" style="display: none; text-align: center; padding: 4.5rem 1.5rem; background: #FFFFFF; border-radius: var(--radius-xl); border: 2px dashed var(--border-color); margin-top: 1.5rem;">
+      <div style="width: 72px; height: 72px; border-radius: 50%; background: #FFF7ED; color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 2.2rem; margin: 0 auto 1.25rem;">
+        <i class="fa-solid fa-store-slash"></i>
+      </div>
+      <h3 class="font-bold text-gray-900" style="font-size: 1.35rem; margin-bottom: 0.5rem;">Tidak Ada Restoran Ditemukan</h3>
+      <p class="text-xs text-muted" style="max-width: 440px; margin: 0 auto 1.5rem; font-size: 0.95rem;">
+        Coba gunakan kata kunci pencarian lain atau pilih kategori yang berbeda.
+      </p>
+      <button class="btn btn-primary" onclick="resetRestoFilters()">
+        <i class="fa-solid fa-rotate-left"></i> Tampilkan Semua Restoran
+      </button>
+    </div>
+
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="brand-logo" style="margin-bottom: 1rem;">
+            <img src="assets/images/logo.svg" alt="SajiCepat">
+          </a>
+          <p>Aplikasi pemesanan makanan online modern berbasis HTML, CSS, dan JavaScript murni tanpa framework.</p>
+          <div class="footer-socials">
+            <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
+            <a href="#" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+          </div>
+        </div>
+
+        <div class="footer-links">
+          <h4>Navigasi</h4>
+          <ul>
+            <li><a href="index.html">Beranda</a></li>
+            <li><a href="menu.html">Daftar Menu</a></li>
+            <li><a href="restoran.html">Mitra Restoran</a></li>
+            <li><a href="ulasan.html">Ulasan Pelanggan</a></li>
+            <li><a href="pesanan.html">Pesanan Saya</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links">
+          <h4>Kategori Populer</h4>
+          <ul>
+            <li><a href="menu.html?cat=Makanan+berat">Makanan Berat</a></li>
+            <li><a href="menu.html?cat=Fast+food">Fast Food</a></li>
+            <li><a href="menu.html?cat=Minuman">Minuman Segar</a></li>
+            <li><a href="menu.html?cat=Dessert">Dessert & Kue</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links">
+          <h4>Hubungi Kami</h4>
+          <ul>
+            <li><i class="fa-solid fa-location-dot"></i> Jl. Pendidikan No. 12, Jakarta</li>
+            <li><i class="fa-solid fa-phone"></i> (021) 555-0199</li>
+            <li><i class="fa-solid fa-envelope"></i> info@sajicepat.com</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 SajiCepat - Proyek Pemesanan Makanan Online Kelas XII RPL.</p>
+        <div class="footer-bottom-links">
+          <a href="#">Privasi</a>
+          <a href="#">Syarat & Ketentuan</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/app.js"></script>
+
+  <script>
+    let activeCategory = 'all';
+    let searchQuery = '';
+    let sortBy = 'rating';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderCategoryPills();
+      setupEventListeners();
+      renderRestaurants();
+    });
+
+    function setupEventListeners() {
+      const searchInput = document.getElementById('restoSearchInput');
+      const sortSelect = document.getElementById('restoSortSelect');
+
+      if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+          searchQuery = e.target.value.toLowerCase().trim();
+          renderRestaurants();
+        });
+      }
+
+      if (sortSelect) {
+        sortSelect.addEventListener('change', (e) => {
+          sortBy = e.target.value;
+          renderRestaurants();
+        });
+      }
+    }
+
+    function renderCategoryPills() {
+      const container = document.getElementById('restoCategoryPills');
+      if (!container) return;
+
+      const categories = ['all', 'Makanan berat', 'Fast food', 'Minuman', 'Dessert', 'Makanan ringan'];
+
+      container.innerHTML = categories.map(cat => `
+        <button class="category-pill ${activeCategory === cat ? 'active' : ''}" onclick="filterByCategory('${cat}')">
+          ${cat === 'all' ? '<i class="fa-solid fa-utensils"></i> Semua Restoran' : cat}
+        </button>
+      `).join('');
+    }
+
+    function filterByCategory(cat) {
+      activeCategory = cat;
+      renderCategoryPills();
+      renderRestaurants();
+    }
+
+    function resetRestoFilters() {
+      activeCategory = 'all';
+      searchQuery = '';
+      sortBy = 'rating';
+
+      const searchInput = document.getElementById('restoSearchInput');
+      const sortSelect = document.getElementById('restoSortSelect');
+      if (searchInput) searchInput.value = '';
+      if (sortSelect) sortSelect.value = 'rating';
+
+      renderCategoryPills();
+      renderRestaurants();
+    }
+
+    function renderRestaurants() {
+      const container = document.getElementById('restaurantsContainer');
+      const emptyState = document.getElementById('restoEmptyState');
+      const countEl = document.getElementById('restoResultCount');
+      const resetBtn = document.getElementById('resetRestoFilterBtn');
+      if (!container) return;
+
+      const allRestos = getRestaurants();
+
+      let filtered = allRestos.filter(r => {
+        const matchesCategory = activeCategory === 'all' || r.category === activeCategory;
+        const matchesSearch = !searchQuery || 
+          r.name.toLowerCase().includes(searchQuery) ||
+          r.category.toLowerCase().includes(searchQuery) ||
+          (r.description && r.description.toLowerCase().includes(searchQuery)) ||
+          (r.address && r.address.toLowerCase().includes(searchQuery));
+        
+        return matchesCategory && matchesSearch;
+      });
+
+      // Sorting
+      if (sortBy === 'rating') {
+        filtered.sort((a, b) => b.rating - a.rating);
+      } else if (sortBy === 'reviews') {
+        filtered.sort((a, b) => (b.reviewsCount || 0) - (a.reviewsCount || 0));
+      } else if (sortBy === 'delivery') {
+        filtered.sort((a, b) => (a.deliveryFee || 0) - (b.deliveryFee || 0));
+      } else if (sortBy === 'name-asc') {
+        filtered.sort((a, b) => a.name.localeCompare(b.name));
+      }
+
+      if (countEl) countEl.textContent = `${filtered.length} Restoran`;
+
+      if (resetBtn) {
+        resetBtn.style.display = (activeCategory !== 'all' || searchQuery !== '') ? 'inline-flex' : 'none';
+      }
+
+      if (filtered.length === 0) {
+        container.innerHTML = '';
+        if (emptyState) emptyState.style.display = 'block';
+        return;
+      }
+
+      if (emptyState) emptyState.style.display = 'none';
+
+      container.innerHTML = filtered.map(r => `
+        <div class="resto-card">
+          <div class="resto-banner">
+            <img src="${r.image}" alt="${r.name}" loading="lazy">
+          </div>
+          <div class="resto-card-content">
+            <div class="resto-card-top">
+              <h3 class="resto-name">${r.name}</h3>
+              <span class="badge badge-primary">${r.category}</span>
+            </div>
+            <p class="text-xs text-muted" style="margin-bottom: 0.85rem; line-height: 1.5;">${r.description || 'Restoran mitra SajiCepat pilihan'}</p>
+            
+            <div class="resto-meta" style="margin-bottom: 1rem;">
+              <div class="resto-meta-item">
+                <i class="fa-solid fa-star text-warning"></i>
+                <a href="ulasan.html?resto=${r.id}" style="color: inherit; text-decoration: none;" title="Lihat Ulasan Restoran Ini">
+                  <strong>${r.rating}</strong> (${r.reviewsCount || 0} ulasan)
+                </a>
+              </div>
+              <div class="resto-meta-item">
+                <i class="fa-solid fa-motorcycle text-primary"></i>
+                <span>Ongkir ${formatRupiah(r.deliveryFee)}</span>
+              </div>
+              <div class="resto-meta-item">
+                <i class="fa-solid fa-clock text-muted"></i>
+                <span>${r.operationalHours}</span>
+              </div>
+            </div>
+
+            <div style="font-size: 0.78rem; color: #64748B; margin-bottom: 1.25rem; display: flex; align-items: flex-start; gap: 0.4rem;">
+              <i class="fa-solid fa-location-dot text-danger" style="margin-top: 3px;"></i>
+              <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${r.address}</span>
+            </div>
+
+            <div style="display: flex; gap: 0.65rem;">
+              <a href="menu.html?resto=${r.id}" class="btn btn-primary btn-sm" style="flex: 1.2;">
+                <i class="fa-solid fa-utensils"></i> Lihat Menu
+              </a>
+              <a href="ulasan.html?resto=${r.id}" class="btn btn-secondary btn-sm" style="flex: 1;" title="Lihat Penilaian & Ulasan">
+                <i class="fa-solid fa-star text-warning"></i> Ulasan
+              </a>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+  </script>
+</body>
+</html>

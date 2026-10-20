@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SajiCepat - Pesan Makanan Favoritmu, Lebih Cepat!</title>
+  <meta name="description" content="Aplikasi pemesanan makanan online modern berbasis HTML, CSS, dan JavaScript murni. Cepat, lezat, dan terpercaya.">
+
+    <!-- Favicon / App Icon -->
+  <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg?v=2">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png?v=2">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png?v=2">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png?v=2">
+  <link rel="shortcut icon" href="favicon.ico?v=2">
+  <!-- Google Fonts & Font Awesome CDN -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <!-- ================= HEADER & NAVBAR ================= -->
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="index.html" class="brand-logo" id="brandLogo">
+        <img src="assets/images/logo.svg" alt="SajiCepat Logo" id="siteLogoImg">
+      </a>
+
+      <!-- Navigation Menu -->
+      <nav>
+        <ul class="nav-menu" id="navbarMenu">
+          <li><a href="index.html" class="nav-link active" id="navHome">Beranda</a></li>
+          <li><a href="menu.html" class="nav-link" id="navMenu">Daftar Menu</a></li>
+          <li><a href="restoran.html" class="nav-link" id="navResto">Restoran</a></li>
+          <li><a href="ulasan.html" class="nav-link" id="navUlasan">Ulasan</a></li>
+          <li><a href="pesanan.html" class="nav-link" id="navOrders">Pesanan Saya</a></li>
+        </ul>
+      </nav>
+
+      <!-- Nav Actions (Cart & User Auth) -->
+      <div class="nav-actions">
+        <a href="keranjang.html" class="cart-nav-btn" id="cartNavButton" title="Keranjang Belanja">
+          <i class="fa-solid fa-basket-shopping"></i>
+          <span class="cart-badge" id="cartBadge" style="display: none;">0</span>
+        </a>
+
+        <!-- Dynamic User Auth Container -->
+        <div id="navUserContainer">
+          <!-- Filled by assets/js/app.js renderNavbarAuth() -->
+        </div>
+
+        <!-- Mobile Hamburger Toggle -->
+        <button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Toggle Menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= MAIN CONTENT ================= -->
+  <main>
+    <!-- HERO SECTION -->
+    <section class="hero-section">
+      <div class="container hero-grid">
+        <div class="hero-content">
+          <div class="hero-badge">
+            <i class="fa-solid fa-bolt text-primary"></i>
+            <span>Layanan Pesan Antar Makanan No. 1</span>
+          </div>
+          <h1 class="hero-title">
+            Pesan Makanan Favoritmu, <span class="text-primary">Lebih Cepat!</span>
+          </h1>
+          <p class="hero-description">
+            Nikmati aneka hidangan lezat dari puluhan resto mitra terbaik Nusantara. Hangat, higienis, dan diantar langsung ke depan pintu rumahmu.
+          </p>
+
+          <!-- Quick Search Bar -->
+          <form class="hero-search-bar" id="heroSearchForm" action="menu.html" method="GET">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" name="q" id="heroSearchInput" placeholder="Mau makan apa hari ini? Cari ayam, bakso, kopi..." autocomplete="off">
+            <button type="submit" class="btn btn-primary" id="heroSearchBtn">
+              Cari Menu
+            </button>
+          </form>
+
+          <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+            <a href="menu.html" class="btn btn-primary btn-lg" id="exploreMenuHeroBtn">
+              <i class="fa-solid fa-utensils"></i> Jelajahi Seluruh Menu
+            </a>
+            <div style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-muted); font-size: 0.9rem;">
+              <i class="fa-solid fa-shield-heart text-success" style="font-size: 1.25rem;"></i>
+              <span>Garansi Hangat & Higienis</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hero Graphic with Floating Badges -->
+        <div class="hero-image-wrapper">
+          <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&auto=format&fit=crop&q=80" alt="Hidangan Lezat SajiCepat" class="hero-main-img">
+          
+          <div class="hero-floating-card floating-1">
+            <div style="background: #D1FAE5; color: #047857; width: 44px; height: 44px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
+              <i class="fa-solid fa-clock"></i>
+            </div>
+            <div>
+              <strong style="display: block; font-size: 0.95rem; color: #1F2937;">Pengantaran Kilat</strong>
+              <small style="color: #6B7280;">Rata-rata 25 menit sampai</small>
+            </div>
+          </div>
+
+          <div class="hero-floating-card floating-2">
+            <div style="background: #FEF3C7; color: #D97706; width: 44px; height: 44px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
+              <i class="fa-solid fa-star"></i>
+            </div>
+            <div>
+              <strong style="display: block; font-size: 0.95rem; color: #1F2937;">Rating 4.9 / 5.0</strong>
+              <small style="color: #6B7280;">Dari 10.000+ Ulasan Pelanggan</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROMO BANNER SECTION -->
+    <section class="container">
+      <div class="promo-banner">
+        <div>
+          <span class="promo-tag"><i class="fa-solid fa-tag"></i> PROMO SPESIAL HARI INI</span>
+          <h2 class="promo-title">Diskon 20% Pembelian Pertama!</h2>
+          <p class="promo-desc">
+            Gunakan kode promo <strong style="background: rgba(0,0,0,0.25); padding: 4px 10px; border-radius: 6px; letter-spacing: 1px;">SAJICEPATHEMAT</strong> pada halaman keranjang dan nikmati potongan harga langsung.
+          </p>
+          <a href="menu.html" class="btn btn-secondary btn-lg" style="color: var(--primary-hover); font-weight: 800;">
+            Klaim Promo Sekarang <i class="fa-solid fa-arrow-right"></i>
+          </a>
+        </div>
+        <div style="display: flex; justify-content: center;">
+          <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500&auto=format&fit=crop&q=80" alt="Pizza Promo Lezat" style="max-height: 220px; border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); object-fit: cover;">
+        </div>
+      </div>
+    </section>
+
+    <!-- CATEGORIES SECTION -->
+    <section class="container" style="margin-bottom: 3.5rem;">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Kategori Makanan</h2>
+          <p class="section-subtitle">Pilih santapan favorit sesuai selera dan suasana hatimu</p>
+        </div>
+        <a href="menu.html" class="btn btn-outline-primary btn-sm">Lihat Semua Kategori</a>
+      </div>
+
+      <div class="categories-scroll" id="homeCategoriesContainer">
+        <!-- Rendered by JavaScript -->
+      </div>
+    </section>
+
+    <!-- POPULAR MENUS SECTION -->
+    <section class="container" style="margin-bottom: 4rem;">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Menu Paling Populer</h2>
+          <p class="section-subtitle">Pilihan favorit pelanggan dengan rating tertinggi minggu ini</p>
+        </div>
+        <a href="menu.html" class="btn btn-outline-primary btn-sm">Jelajahi Semua Menu</a>
+      </div>
+
+      <div class="food-grid" id="homePopularMenusGrid">
+        <!-- Rendered by JavaScript -->
+      </div>
+    </section>
+
+    <!-- POPULAR RESTAURANTS SECTION -->
+    <section class="container" id="restoranSection" style="margin-bottom: 4rem;">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Restoran Mitra Populer</h2>
+          <p class="section-subtitle">Dapur pilihan dengan standar kebersihan dan rasa terjamin</p>
+        </div>
+        <a href="restoran.html" class="btn btn-outline-primary btn-sm">Lihat Semua Restoran <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+
+      <div class="resto-grid" id="homeRestaurantsGrid">
+        <!-- Rendered by JavaScript -->
+      </div>
+    </section>
+
+    <!-- APP FEATURES / VALUE PROPOSITIONS -->
+    <section style="background: #FFFFFF; padding: 4.5rem 0; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); margin-bottom: 4rem;">
+      <div class="container">
+        <div style="text-align: center; max-width: 650px; margin: 0 auto 3rem;">
+          <h2 class="section-title">Mengapa Memilih SajiCepat?</h2>
+          <p class="section-subtitle">Pengalaman memesan makanan terbaik yang dirancang khusus untuk kenyamanan Anda</p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 2rem;">
+          <div style="text-align: center; padding: 1.5rem;">
+            <div style="width: 64px; height: 64px; border-radius: var(--radius-lg); background: #FFEDD5; color: #EA580C; display: flex; align-items: center; justify-content: center; font-size: 1.75rem; margin: 0 auto 1.25rem;">
+              <i class="fa-solid fa-motorcycle"></i>
+            </div>
+            <h4 class="font-bold mb-2">Pengiriman Kilat</h4>
+            <p class="text-xs text-muted" style="line-height: 1.6;">Makanan sampai di tujuan selagi hangat dengan armada kurir terpercaya.</p>
+          </div>
+
+          <div style="text-align: center; padding: 1.5rem;">
+            <div style="width: 64px; height: 64px; border-radius: var(--radius-lg); background: #D1FAE5; color: #059669; display: flex; align-items: center; justify-content: center; font-size: 1.75rem; margin: 0 auto 1.25rem;">
+              <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            <h4 class="font-bold mb-2">Kualitas & Kebersihan</h4>
+            <p class="text-xs text-muted" style="line-height: 1.6;">Semua mitra resto diaudit secara berkala untuk menjaga standar higienis bahan.</p>
+          </div>
+
+          <div style="text-align: center; padding: 1.5rem;">
+            <div style="width: 64px; height: 64px; border-radius: var(--radius-lg); background: #DBEAFE; color: #2563EB; display: flex; align-items: center; justify-content: center; font-size: 1.75rem; margin: 0 auto 1.25rem;">
+              <i class="fa-solid fa-wallet"></i>
+            </div>
+            <h4 class="font-bold mb-2">Simulasi Bayar Fleksibel</h4>
+            <p class="text-xs text-muted" style="line-height: 1.6;">Mendukung simulasi pembayaran COD, Transfer Virtual Account, dan E-Wallet QRIS.</p>
+          </div>
+
+          <div style="text-align: center; padding: 1.5rem;">
+            <div style="width: 64px; height: 64px; border-radius: var(--radius-lg); background: #FEE2E2; color: #DC2626; display: flex; align-items: center; justify-content: center; font-size: 1.75rem; margin: 0 auto 1.25rem;">
+              <i class="fa-solid fa-percent"></i>
+            </div>
+            <h4 class="font-bold mb-2">Banyak Promo Menarik</h4>
+            <p class="text-xs text-muted" style="line-height: 1.6;">Voucher diskon harian, cashback, dan potongan ongkir hemat setiap pemesanan.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CUSTOMER REVIEWS SECTION -->
+    <section class="container" style="margin-bottom: 5rem;">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Apa Kata Pelanggan SajiCepat?</h2>
+          <p class="section-subtitle">Testimoni nyata dari pecinta kuliner yang telah memesan melalui SajiCepat</p>
+        </div>
+        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+          <a href="ulasan.html" class="btn btn-secondary">
+            <i class="fa-solid fa-comments"></i> Lihat Semua Ulasan
+          </a>
+          <button class="btn btn-outline-primary" onclick="openHomeReviewModal()">
+            <i class="fa-solid fa-star text-warning"></i> Tulis Ulasan / Testimoni
+          </button>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;" id="homeReviewsContainer">
+        <!-- Rendered by JavaScript -->
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= FOOD DETAIL MODAL ================= -->
+  <div class="modal-backdrop" id="foodDetailModal">
+    <div class="modal-dialog">
+      <button class="modal-close-btn" onclick="closeModal('foodDetailModal')" aria-label="Tutup">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <div id="foodDetailModalContent">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= HOME REVIEW MODAL ================= -->
+  <div class="modal-backdrop" id="homeReviewModal">
+    <div class="modal-dialog" style="max-width: 520px; padding: 2rem;">
+      <button class="modal-close-btn" onclick="closeModal('homeReviewModal')" aria-label="Tutup">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <form id="homeReviewForm" onsubmit="submitHomeReview(event)">
+        <div style="text-align: center; margin-bottom: 1.5rem;">
+          <div style="width: 56px; height: 56px; border-radius: 50%; background: #FEF3C7; color: #F59E0B; display: inline-flex; align-items: center; justify-content: center; font-size: 1.65rem; margin-bottom: 0.75rem;">
+            <i class="fa-solid fa-pen-nib"></i>
+          </div>
+          <h3 class="font-bold text-gray-900" style="font-size: 1.35rem;">Bagikan Pengalaman Kuliner</h3>
+          <p class="text-xs text-muted">Testimoni Anda akan langsung tampil di beranda SajiCepat.</p>
+        </div>
+
+        <input type="hidden" id="homeRatingValue" value="5">
+
+        <div class="form-row-2">
+          <div class="form-group">
+            <label for="homeReviewName" class="form-label">Nama Anda</label>
+            <input type="text" id="homeReviewName" class="form-input" required placeholder="Nama Anda">
+          </div>
+          <div class="form-group">
+            <label for="homeReviewMenu" class="form-label">Menu Favorit / Pilihan</label>
+            <input type="text" id="homeReviewMenu" class="form-input" required placeholder="contoh: Ayam Geprek Mozarella">
+          </div>
+        </div>
+
+        <!-- Star Rating Picker -->
+        <div style="text-align: center; margin-bottom: 1.25rem;">
+          <label class="form-label" style="font-size: 0.85rem; font-weight: 700;">Rating Kepuasan:</label>
+          <div class="star-rating-picker" id="homeStarRatingPicker">
+            <span class="star-item active" data-rating="1"><i class="fa-solid fa-star"></i></span>
+            <span class="star-item active" data-rating="2"><i class="fa-solid fa-star"></i></span>
+            <span class="star-item active" data-rating="3"><i class="fa-solid fa-star"></i></span>
+            <span class="star-item active" data-rating="4"><i class="fa-solid fa-star"></i></span>
+            <span class="star-item active" data-rating="5"><i class="fa-solid fa-star"></i></span>
+          </div>
+          <p class="text-xs text-muted" id="homeStarLabel" style="font-weight: 600; color: #D97706;">Sangat Puas & Lezat (5 Bintang)</p>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 1.5rem;">
+          <label for="homeReviewComment" class="form-label">Testimoni / Ulasan</label>
+          <textarea id="homeReviewComment" class="form-input" rows="3" required placeholder="Tuliskan kepuasan Anda mengenai rasa makanan, kebersihan, porsi, dan pelayanan..."></textarea>
+        </div>
+
+        <div style="display: flex; gap: 0.75rem;">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('homeReviewModal')" style="flex: 1;">
+            Batal
+          </button>
+          <button type="submit" class="btn btn-primary" style="flex: 2;">
+            <i class="fa-solid fa-paper-plane"></i> Publikasikan Ulasan
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="brand-logo" style="display: inline-block;">
+            <img src="assets/images/logo.svg" alt="SajiCepat Logo" style="filter: brightness(0) invert(1); height: 42px;">
+          </a>
+          <p>
+            Aplikasi pemesanan makanan online modern berbasis Web Frontend, dirancang sebagai portofolio proyek siswa SMK Kelas XII Rekayasa Perangkat Lunak.
+          </p>
+          <div style="display: flex; gap: 0.75rem; margin-top: 1.25rem;">
+            <a href="#" style="color: #9CA3AF; font-size: 1.25rem;"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" style="color: #9CA3AF; font-size: 1.25rem;"><i class="fa-brands fa-facebook"></i></a>
+            <a href="#" style="color: #9CA3AF; font-size: 1.25rem;"><i class="fa-brands fa-youtube"></i></a>
+            <a href="#" style="color: #9CA3AF; font-size: 1.25rem;"><i class="fa-brands fa-github"></i></a>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Navigasi</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">Beranda</a></li>
+            <li><a href="menu.html">Daftar Menu</a></li>
+            <li><a href="ulasan.html">Ulasan Pelanggan</a></li>
+            <li><a href="keranjang.html">Keranjang</a></li>
+            <li><a href="pesanan.html">Pesanan Saya</a></li>
+            <li><a href="profil.html">Profil Akun</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Area Portal</h4>
+          <ul class="footer-links">
+            <li><a href="login.html">Masuk Akun</a></li>
+            <li><a href="register.html">Daftar Pelanggan</a></li>
+            <li><a href="admin/dashboard.html">Dashboard Admin</a></li>
+            <li><a href="restoran/dashboard.html">Dashboard Restoran</a></li>
+          </ul>
+        </div>
+
+
+        </div>
+      </div>
+
+     
+    </div>
+  </footer>
+
+  <!-- ================= SCRIPTS ================= -->
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/cart.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      renderHomeCategories();
+      renderHomePopularMenus();
+      renderHomeRestaurants();
+      renderHomeReviews();
+    });
+
+    // Render Categories
+    function renderHomeCategories() {
+      const container = document.getElementById('homeCategoriesContainer');
+      if (!container) return;
+      const categories = getCategories();
+
+      container.innerHTML = categories.map(cat => `
+        <a href="menu.html?cat=${encodeURIComponent(cat.name)}" class="category-pill ${cat.name === 'Semua' ? 'active' : ''}">
+          <i class="fa-solid ${cat.icon || 'fa-utensils'}"></i>
+          <span>${cat.name}</span>
+        </a>
+      `).join('');
+    }
+
+    // Render Popular Menus
+    function renderHomePopularMenus() {
+      const grid = document.getElementById('homePopularMenusGrid');
+      if (!grid) return;
+      const menus = getMenus().slice(0, 8); // Top 8 menus
+
+      grid.innerHTML = menus.map(menu => createFoodCardHTML(menu)).join('');
+    }
+
+    // Create Food Card HTML helper
+    function createFoodCardHTML(menu) {
+      return `
+        <div class="food-card">
+          <div class="food-img-container">
+            <img src="${menu.image}" alt="${menu.name}" class="food-img">
+            <span class="food-badge-category">${menu.category}</span>
+            <span class="food-badge-rating">
+              <i class="fa-solid fa-star"></i> ${menu.rating}
+            </span>
+            <span class="food-stock-badge ${menu.isAvailable ? 'badge-success' : 'badge-danger'}">
+              ${menu.isAvailable ? 'Tersedia' : 'Habis'}
+            </span>
+          </div>
+
+          <div class="food-card-body">
+            <span class="food-resto-name">
+              <i class="fa-solid fa-store text-orange-500"></i> ${menu.restoName}
+            </span>
+            <h3 class="food-title" title="${menu.name}">${menu.name}</h3>
+            <p class="food-description">${menu.description}</p>
+
+            <div class="food-price-row">
+              <span class="food-current-price">${formatRupiah(menu.price)}</span>
+              ${menu.originalPrice && menu.originalPrice > menu.price ? `
+                <span class="food-original-price">${formatRupiah(menu.originalPrice)}</span>
+              ` : ''}
+            </div>
+
+            <div class="food-actions">
+              <button class="btn btn-secondary btn-sm" onclick="showFoodDetail(${menu.id})">
+                <i class="fa-solid fa-circle-info"></i> Detail
+              </button>
+              <button class="btn btn-primary btn-sm" onclick="addToCart(${menu.id}, 1)" ${!menu.isAvailable ? 'disabled style="opacity: 0.6; cursor: not-allowed;"' : ''}>
+                <i class="fa-solid fa-cart-plus"></i> Tambah
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // Render Restaurants
+    function renderHomeRestaurants() {
+      const grid = document.getElementById('homeRestaurantsGrid');
+      if (!grid) return;
+      const restos = getRestaurants().slice(0, 3);
+
+      grid.innerHTML = restos.map(r => `
+        <div class="resto-card">
+          <div class="resto-banner">
+            <img src="${r.image}" alt="${r.name}">
+          </div>
+          <div class="resto-card-content">
+            <div class="resto-card-top">
+              <h3 class="resto-name">${r.name}</h3>
+              <span class="badge badge-primary">${r.category}</span>
+            </div>
+            <p class="text-xs text-muted" style="margin-bottom: 0.5rem;">${r.description}</p>
+            <div class="resto-meta">
+              <div class="resto-meta-item">
+                <i class="fa-solid fa-star text-warning"></i>
+                <a href="ulasan.html?resto=${r.id}" style="color: inherit; text-decoration: none;" title="Lihat Ulasan Restoran Ini">
+                  <strong>${r.rating}</strong> (${r.reviewsCount} ulasan)
+                </a>
+              </div>
+              <div class="resto-meta-item">
+                <i class="fa-solid fa-motorcycle text-primary"></i>
+                <span>Ongkir ${formatRupiah(r.deliveryFee)}</span>
+              </div>
+              <div class="resto-meta-item">
+                <i class="fa-solid fa-clock text-muted"></i>
+                <span>${r.operationalHours}</span>
+              </div>
+            </div>
+            <div style="margin-top: 1rem; display: flex; gap: 0.5rem;">
+              <a href="menu.html?resto=${r.id}" class="btn btn-outline-primary btn-sm" style="flex: 1;">
+                Lihat Menu <i class="fa-solid fa-arrow-right"></i>
+              </a>
+              <a href="ulasan.html?resto=${r.id}" class="btn btn-secondary btn-sm" title="Lihat Ulasan Restoran Ini">
+                <i class="fa-solid fa-star text-warning"></i> Ulasan
+              </a>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Render Reviews
+    function renderHomeReviews() {
+      const container = document.getElementById('homeReviewsContainer');
+      if (!container) return;
+      const reviews = JSON.parse(localStorage.getItem('sajicepat_reviews')) || [];
+
+      container.innerHTML = reviews.map(rev => `
+        <div class="panel-card" style="box-shadow: var(--shadow-sm); border-radius: var(--radius-lg);">
+          <div style="display: flex; align-items: center; gap: 0.85rem; margin-bottom: 1rem;">
+            <img src="${rev.avatar}" alt="${rev.name}" style="width: 46px; height: 46px; border-radius: 50%; object-fit: cover;">
+            <div>
+              <h5 class="font-bold text-gray-900" style="font-size: 0.95rem;">${rev.name}</h5>
+              <div style="color: #F59E0B; font-size: 0.8rem; display: flex; gap: 2px;">
+                ${Array(rev.rating).fill('<i class="fa-solid fa-star"></i>').join('')}
+              </div>
+            </div>
+          </div>
+          <p class="text-xs text-gray-700" style="line-height: 1.6; margin-bottom: 1rem;">"${rev.comment}"</p>
+          <div style="border-top: 1px solid #F1F5F9; padding-top: 0.65rem; display: flex; justify-content: space-between; font-size: 0.75rem; color: #9CA3AF;">
+            <span>Pesanan: <strong>${rev.item}</strong></span>
+            <span>${rev.date}</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Home Review Modal & Rating Picker
+    let currentHomeRating = 5;
+
+    function setupHomeStarRatingPicker() {
+      const picker = document.getElementById('homeStarRatingPicker');
+      const ratingInput = document.getElementById('homeRatingValue');
+      const label = document.getElementById('homeStarLabel');
+      if (!picker) return;
+
+      const stars = picker.querySelectorAll('.star-item');
+      const labels = {
+        1: 'Kecewa (1 Bintang)',
+        2: 'Kurang Puas (2 Bintang)',
+        3: 'Cukup Baik (3 Bintang)',
+        4: 'Puas & Enak (4 Bintang)',
+        5: 'Sangat Puas & Lezat (5 Bintang)'
+      };
+
+      const updateStarsDisplay = (rating) => {
+        stars.forEach(star => {
+          const val = parseInt(star.getAttribute('data-rating'));
+          if (val <= rating) {
+            star.classList.add('active');
+          } else {
+            star.classList.remove('active');
+          }
+        });
+        if (label) label.textContent = labels[rating] || `${rating} Bintang`;
+        if (ratingInput) ratingInput.value = rating;
+      };
+
+      stars.forEach(star => {
+        star.onclick = () => {
+          currentHomeRating = parseInt(star.getAttribute('data-rating'));
+          updateStarsDisplay(currentHomeRating);
+        };
+
+        star.onmouseenter = () => {
+          const hoverVal = parseInt(star.getAttribute('data-rating'));
+          stars.forEach(s => {
+            const val = parseInt(s.getAttribute('data-rating'));
+            if (val <= hoverVal) {
+              s.classList.add('hovered');
+            } else {
+              s.classList.remove('hovered');
+            }
+          });
+        };
+
+        star.onmouseleave = () => {
+          stars.forEach(s => s.classList.remove('hovered'));
+        };
+      });
+
+      updateStarsDisplay(currentHomeRating);
+    }
+
+    function openHomeReviewModal() {
+      const currentUser = getCurrentUser();
+      const nameInput = document.getElementById('homeReviewName');
+      if (nameInput) {
+        nameInput.value = currentUser ? currentUser.name : '';
+      }
+      document.getElementById('homeReviewComment').value = '';
+      currentHomeRating = 5;
+      setupHomeStarRatingPicker();
+      openModal('homeReviewModal');
+    }
+
+    function submitHomeReview(e) {
+      e.preventDefault();
+      const name = document.getElementById('homeReviewName').value.trim();
+      const item = document.getElementById('homeReviewMenu').value.trim();
+      const comment = document.getElementById('homeReviewComment').value.trim();
+      const rating = parseInt(document.getElementById('homeRatingValue').value) || 5;
+
+      if (!name || !item || !comment) {
+        showToast('Harap lengkapi semua data ulasan.', 'warning');
+        return;
+      }
+
+      const currentUser = getCurrentUser();
+      const avatar = (currentUser && currentUser.avatar) ? currentUser.avatar : 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100';
+
+      const newReview = {
+        id: Date.now(),
+        name: name,
+        rating: rating,
+        date: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }),
+        comment: comment,
+        avatar: avatar,
+        item: item
+      };
+
+      const reviews = getReviews();
+      reviews.unshift(newReview);
+      saveReviews(reviews);
+
+      closeModal('homeReviewModal');
+      showToast('Ulasan Anda berhasil ditambahkan dan langsung tampil di beranda!', 'success', 3500);
+      renderHomeReviews();
+    }
+
+    // Show Detail Modal
+    function showFoodDetail(menuId) {
+      const menus = getMenus();
+      const menu = menus.find(m => m.id === parseInt(menuId));
+      if (!menu) return;
+
+      const content = document.getElementById('foodDetailModalContent');
+      if (!content) return;
+
+      content.innerHTML = `
+        <div style="position: relative;">
+          <img src="${menu.image}" alt="${menu.name}" style="width: 100%; height: 260px; object-fit: cover; border-top-left-radius: var(--radius-xl); border-top-right-radius: var(--radius-xl);">
+          <span class="badge badge-primary" style="position: absolute; bottom: 12px; left: 16px;">${menu.category}</span>
+        </div>
+        <div style="padding: 1.75rem;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; margin-bottom: 0.75rem;">
+            <div>
+              <span class="text-xs text-muted"><i class="fa-solid fa-store text-orange-500"></i> ${menu.restoName}</span>
+              <h3 class="font-bold text-gray-900" style="font-size: 1.4rem; margin-top: 2px;">${menu.name}</h3>
+            </div>
+            <div style="text-align: right;">
+              <span class="font-bold text-primary" style="font-size: 1.35rem;">${formatRupiah(menu.price)}</span>
+              ${menu.originalPrice ? `<span class="text-xs text-muted" style="display: block; text-decoration: line-through;">${formatRupiah(menu.originalPrice)}</span>` : ''}
+            </div>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 1rem; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.25rem;">
+            <span><i class="fa-solid fa-star text-warning"></i> <strong>${menu.rating}</strong></span>
+            <span>•</span>
+            <span><i class="fa-solid fa-bag-shopping"></i> ${menu.soldCount || 100}+ Terjual</span>
+            <span>•</span>
+            <span class="status-badge ${menu.isAvailable ? 'status-tersedia' : 'status-habis'}">${menu.isAvailable ? 'Tersedia' : 'Habis'}</span>
+          </div>
+
+          <h5 class="font-bold text-gray-900 mb-1" style="font-size: 0.95rem;">Deskripsi Makanan</h5>
+          <p class="text-xs text-gray-700" style="line-height: 1.7; margin-bottom: 1.75rem;">${menu.description}</p>
+
+          <div style="display: flex; align-items: center; justify-content: space-between; border-top: 1px solid #F1F5F9; padding-top: 1.25rem; flex-wrap: wrap; gap: 1rem;">
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
+              <span class="text-xs font-bold text-muted">Jumlah:</span>
+              <div class="qty-control">
+                <button class="qty-btn" onclick="let q=document.getElementById('modalQty'); if(parseInt(q.value)>1) q.value=parseInt(q.value)-1;">−</button>
+                <input type="text" class="qty-input" id="modalQty" value="1" readonly>
+                <button class="qty-btn" onclick="let q=document.getElementById('modalQty'); if(parseInt(q.value)<${menu.stock}) q.value=parseInt(q.value)+1;">+</button>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 0.75rem;">
+              <a href="detail-menu.html?id=${menu.id}" class="btn btn-secondary">
+                Halaman Penuh
+              </a>
+              <button class="btn btn-primary" onclick="if(addToCart(${menu.id}, parseInt(document.getElementById('modalQty').value))) closeModal('foodDetailModal');" ${!menu.isAvailable ? 'disabled style="opacity:0.6;"' : ''}>
+                <i class="fa-solid fa-cart-plus"></i> Tambah ke Keranjang
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+
+      openModal('foodDetailModal');
+    }
+  </script>
+</body>
+</html>

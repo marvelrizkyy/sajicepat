@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profil Restoran - Mitra SajiCepat</title>
+  <meta name="description" content="Pengaturan profil dan identitas gerai restoran mitra di SajiCepat.">
+
+    <!-- Favicon / App Icon -->
+  <link rel="icon" type="image/svg+xml" href="../assets/images/favicon.svg?v=2">
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/favicon-32x32.png?v=2">
+  <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon-16x16.png?v=2">
+  <link rel="apple-touch-icon" sizes="180x180" href="../assets/images/apple-touch-icon.png?v=2">
+  <link rel="shortcut icon" href="../favicon.ico?v=2">
+  <!-- Google Fonts & Font Awesome CDN -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Main & Dashboard Stylesheet -->
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/dashboard.css">
+</head>
+<body class="dashboard-layout">
+
+  <!-- ================= SIDEBAR ================= -->
+  <aside class="dashboard-sidebar" id="dashboardSidebar">
+    <div class="sidebar-header">
+      <a href="../index.html" class="sidebar-brand">
+        <i class="fa-solid fa-store text-primary"></i>
+        <span>SajiCepat</span>
+        <span class="badge-role" style="background: #D97706;">MITRA</span>
+      </a>
+    </div>
+
+    <div class="sidebar-menu-wrapper">
+      <span class="sidebar-heading">Restoran Mitra</span>
+      <a href="dashboard.html" class="sidebar-item">
+        <i class="fa-solid fa-gauge-high"></i> Dashboard Resto
+      </a>
+      <a href="menu.html" class="sidebar-item">
+        <i class="fa-solid fa-bowl-food"></i> Menu Saya
+      </a>
+      <a href="pesanan.html" class="sidebar-item">
+        <i class="fa-solid fa-bell-concierge"></i> Pesanan Masuk
+      </a>
+      <a href="laporan.html" class="sidebar-item">
+        <i class="fa-solid fa-chart-line"></i> Laporan Penjualan
+      </a>
+      <a href="profil.html" class="sidebar-item active">
+        <i class="fa-solid fa-store"></i> Profil Restoran
+      </a>
+
+      <span class="sidebar-heading" style="margin-top: 1rem;">Navigasi Portal</span>
+      <a href="../index.html" class="sidebar-item">
+        <i class="fa-solid fa-house"></i> Lihat Beranda Pelanggan
+      </a>
+      <button class="sidebar-item" onclick="logoutUser()" style="background: none; border: none; width: 100%; text-align: left; cursor: pointer; color: #EF4444;">
+        <i class="fa-solid fa-arrow-right-from-bracket"></i> Keluar
+      </button>
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-user-card">
+        <img src="https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=100" alt="Resto" class="sidebar-user-avatar">
+        <div class="sidebar-user-info">
+          <p class="sidebar-user-name active-resto-name">Restoran Mitra</p>
+          <span class="sidebar-user-role">Mitra Resmi</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ================= MAIN CONTENT ================= -->
+  <div class="dashboard-main">
+    
+    <header class="dashboard-topbar">
+      <div class="topbar-left">
+        <button class="sidebar-toggle-btn" id="sidebarToggleBtn">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <div class="topbar-page-title">
+          <h1>Profil & Informasi Gerai Restoran</h1>
+          <p>Informasi ini akan ditampilkan kepada calon pelanggan di halaman beranda dan menu.</p>
+        </div>
+      </div>
+    </header>
+
+    <main class="dashboard-content" style="max-width: 900px;">
+      
+      <div class="panel-card" style="border-radius: var(--radius-xl); padding: 2rem; border: 1px solid var(--border-color); background: #FFFFFF;">
+        
+        <!-- Banner Preview -->
+        <div style="margin-bottom: 2rem; position: relative; border-radius: var(--radius-lg); overflow: hidden; height: 180px; background: #F3F4F6;">
+          <img src="" alt="Banner Preview" id="profileRestoPreviewImg" style="width: 100%; height: 100%; object-fit: cover;">
+          <div style="position: absolute; bottom: 12px; left: 16px; background: rgba(0,0,0,0.6); color: #FFFFFF; padding: 4px 10px; border-radius: 6px; font-size: 0.75rem;">
+            <i class="fa-solid fa-camera"></i> Pratinjau Banner Gerai
+          </div>
+        </div>
+
+        <form id="restoProfileForm">
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="profileRestoName" class="form-label">Nama Gerai Restoran</label>
+              <input type="text" id="profileRestoName" class="form-input" required>
+            </div>
+
+            <div class="form-group">
+              <label for="profileRestoCategory" class="form-label">Kategori Utama</label>
+              <select id="profileRestoCategory" class="form-input" required>
+                <option value="Makanan berat">Makanan berat</option>
+                <option value="Makanan ringan">Makanan ringan</option>
+                <option value="Minuman">Minuman</option>
+                <option value="Dessert">Dessert</option>
+                <option value="Fast food">Fast food</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="profileRestoPhone" class="form-label">Nomor Telepon Gerai</label>
+              <input type="tel" id="profileRestoPhone" class="form-input" required>
+            </div>
+
+            <div class="form-group">
+              <label for="profileRestoHours" class="form-label">Jam Operasional</label>
+              <input type="text" id="profileRestoHours" class="form-input" required placeholder="09:00 - 21:00">
+            </div>
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="profileRestoDeliveryFee" class="form-label">Biaya Pengiriman Standar (Rp)</label>
+              <input type="number" id="profileRestoDeliveryFee" class="form-input" required>
+            </div>
+
+            <div class="form-group">
+              <label for="profileRestoImage" class="form-label">URL Foto Banner Restoran</label>
+              <input type="url" id="profileRestoImage" class="form-input" oninput="document.getElementById('profileRestoPreviewImg').src = this.value">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="profileRestoAddress" class="form-label">Alamat Lengkap Gerai</label>
+            <input type="text" id="profileRestoAddress" class="form-input" required>
+          </div>
+
+          <div class="form-group">
+            <label for="profileRestoDesc" class="form-label">Deskripsi & Slogan Restoran</label>
+            <textarea id="profileRestoDesc" class="form-input" rows="3"></textarea>
+          </div>
+
+          <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 1.5rem; border-top: 1px solid #F1F5F9; padding-top: 1.25rem;">
+            <button type="submit" class="btn btn-primary btn-lg">
+              <i class="fa-solid fa-floppy-disk"></i> Simpan Profil Restoran
+            </button>
+          </div>
+        </form>
+
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../assets/js/data.js"></script>
+  <script src="../assets/js/app.js"></script>
+  <script src="../assets/js/restoran.js"></script>
+</body>
+</html>

@@ -1,0 +1,320 @@
+/* ==========================================================================
+   SAJICEPAT - AUTHENTICATION STYLES (LOGIN & REGISTER)
+   Proyek Pemesanan Makanan Online Kelas XII RPL
+   ========================================================================== */
+
+body {
+  padding-top: 0 !important;
+}
+
+.auth-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem 1rem;
+  background: radial-gradient(circle at top right, #FFEDD5 0%, #FFF7ED 50%, #FED7AA 100%);
+  position: relative;
+}
+
+.auth-card-container {
+  width: 100%;
+  max-width: 960px;
+  background: #FFFFFF;
+  border-radius: var(--radius-xl);
+  box-shadow: 0 20px 40px -10px rgba(249, 115, 22, 0.2);
+  border: 1px solid rgba(254, 215, 170, 0.8);
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+}
+
+.auth-card-container.auth-register-mode {
+  grid-template-columns: 1fr 1.35fr;
+  max-width: 1040px;
+}
+
+/* Left Brand Sidebar */
+.auth-sidebar {
+  background: var(--primary-gradient);
+  color: #FFFFFF;
+  padding: 3rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-sidebar::before {
+  content: '';
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  width: 200px;
+  height: 200px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-full);
+}
+
+.auth-sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.auth-sidebar-brand h2 {
+  color: #FFFFFF;
+  font-size: 1.75rem;
+  font-weight: 800;
+}
+
+.auth-sidebar-content h3 {
+  color: #FFFFFF;
+  font-size: 1.85rem;
+  font-weight: 800;
+  line-height: 1.25;
+  margin-bottom: 1rem;
+}
+
+.auth-sidebar-content p {
+  opacity: 0.9;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.auth-features-list {
+  list-style: none;
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.auth-features-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.auth-features-list i {
+  background: rgba(255, 255, 255, 0.25);
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+}
+
+.auth-disclaimer-box {
+  background: rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-md);
+  padding: 0.85rem;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  margin-top: 2rem;
+}
+
+/* Right Form Section */
+.auth-form-section {
+  padding: 3rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.auth-form-header {
+  margin-bottom: 1.75rem;
+}
+
+.auth-form-title {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin-bottom: 0.35rem;
+}
+
+.auth-form-subtitle {
+  color: var(--text-muted);
+  font-size: 0.92rem;
+}
+
+/* Quick Demo Login Cards */
+.demo-accounts-card {
+  background: #FFF7ED;
+  border: 1px dashed var(--primary);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  margin-bottom: 1.75rem;
+}
+
+.demo-accounts-title {
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: var(--primary-hover);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.65rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.demo-account-chips {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+}
+
+.demo-chip {
+  padding: 0.5rem 0.65rem;
+  background: #FFFFFF;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-main);
+  cursor: pointer;
+  text-align: center;
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.demo-chip:hover {
+  background: var(--primary);
+  color: #FFFFFF;
+  border-color: var(--primary);
+}
+
+.demo-chip small {
+  font-size: 0.68rem;
+  opacity: 0.8;
+  font-weight: normal;
+}
+
+/* Form Controls */
+.form-group {
+  margin-bottom: 1.25rem;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-bottom: 0.4rem;
+}
+
+.input-with-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-with-icon i.input-icon {
+  position: absolute;
+  left: 1rem;
+  color: var(--text-light);
+  font-size: 1rem;
+  transition: var(--transition);
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.75rem 1rem 0.75rem 2.65rem;
+  border: 1.5px solid #E5E7EB;
+  border-radius: var(--radius-md);
+  background: #FFFFFF;
+  font-size: 0.95rem;
+  color: var(--text-main);
+  outline: none;
+  transition: var(--transition);
+}
+
+.form-input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.15);
+}
+
+.form-input:focus + i.input-icon,
+.input-with-icon:focus-within i.input-icon {
+  color: var(--primary);
+}
+
+.password-toggle-btn {
+  position: absolute;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: var(--text-light);
+  cursor: pointer;
+  padding: 0;
+  font-size: 0.95rem;
+}
+
+.password-toggle-btn:hover {
+  color: var(--text-main);
+}
+
+.auth-options {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  margin-bottom: 1.5rem;
+}
+
+.remember-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.auth-footer-prompt {
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-top: 1.75rem;
+}
+
+.auth-footer-prompt a {
+  color: var(--primary-hover);
+  font-weight: 700;
+}
+
+.auth-footer-prompt a:hover {
+  text-decoration: underline;
+}
+
+.form-row-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 860px) {
+  .auth-card-container,
+  .auth-card-container.auth-register-mode {
+    grid-template-columns: 1fr;
+  }
+  .auth-sidebar {
+    display: none;
+  }
+  .auth-form-section {
+    padding: 2rem 1.5rem;
+  }
+  .form-row-2 {
+    grid-template-columns: 1fr;
+  }
+}

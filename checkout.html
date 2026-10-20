@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout & Pembayaran - SajiCepat</title>
+  <meta name="description" content="Selesaikan proses pemesanan makanan Anda dengan simulasi pengiriman dan pembayaran di SajiCepat.">
+
+    <!-- Favicon / App Icon -->
+  <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg?v=2">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png?v=2">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png?v=2">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png?v=2">
+  <link rel="shortcut icon" href="favicon.ico?v=2">
+  <!-- Google Fonts & Font Awesome CDN -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/dashboard.css">
+</head>
+<body>
+
+  <!-- ================= HEADER & NAVBAR ================= -->
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="index.html" class="brand-logo">
+        <img src="assets/images/logo.svg" alt="SajiCepat Logo">
+      </a>
+
+      <nav>
+        <ul class="nav-menu" id="navbarMenu">
+          <li><a href="index.html" class="nav-link">Beranda</a></li>
+          <li><a href="menu.html" class="nav-link">Daftar Menu</a></li>
+          <li><a href="restoran.html" class="nav-link">Restoran</a></li>
+          <li><a href="ulasan.html" class="nav-link">Ulasan</a></li>
+          <li><a href="pesanan.html" class="nav-link">Pesanan Saya</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="keranjang.html" class="cart-nav-btn" title="Keranjang Belanja">
+          <i class="fa-solid fa-basket-shopping"></i>
+          <span class="cart-badge" style="display: none;">0</span>
+        </a>
+
+        <div id="navUserContainer"></div>
+
+        <button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Toggle Menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= MAIN CONTENT ================= -->
+  <main class="container" style="padding-top: 2.5rem; padding-bottom: 5rem;">
+    
+    <!-- Page Header -->
+    <div style="margin-bottom: 2rem;">
+      <h1 class="section-title" style="font-size: 2.2rem; margin-bottom: 0.35rem;">Konfirmasi & Checkout</h1>
+      <p class="section-subtitle">Lengkapi detail pengiriman dan pilih metode pembayaran untuk membuat pesanan.</p>
+    </div>
+
+    <form id="checkoutForm" onsubmit="handleCheckoutSubmit(event)">
+      <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 2rem; align-items: flex-start;" id="checkoutLayoutGrid">
+        
+        <!-- Left: Delivery Form & Payment Method -->
+        <div>
+          
+          <!-- Delivery Details Card -->
+          <div class="panel-card" style="margin-bottom: 1.75rem; border-radius: var(--radius-lg); border: 1px solid var(--border-color); background: #FFFFFF; padding: 1.75rem;">
+            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem;">
+              <div style="width: 36px; height: 36px; border-radius: 50%; background: var(--primary-light); color: var(--primary-hover); display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
+                <i class="fa-solid fa-location-dot"></i>
+              </div>
+              <h3 class="panel-title" style="margin-bottom: 0;">Alamat & Kontak Pengantaran</h3>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="customerName" class="form-label">Nama Penerima</label>
+                <div class="input-with-icon">
+                  <i class="fa-solid fa-user input-icon"></i>
+                  <input type="text" id="customerName" class="form-input" placeholder="Nama lengkap penerima" required>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="customerPhone" class="form-label">Nomor WhatsApp / HP</label>
+                <div class="input-with-icon">
+                  <i class="fa-solid fa-phone input-icon"></i>
+                  <input type="tel" id="customerPhone" class="form-input" placeholder="0812-xxxx-xxxx" required>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="deliveryAddress" class="form-label">Alamat Lengkap Pengiriman</label>
+              <div class="input-with-icon has-textarea">
+                <i class="fa-solid fa-map-pin input-icon"></i>
+                <textarea id="deliveryAddress" class="form-input" rows="3" placeholder="Nama jalan, nomor rumah, RT/RW, blok, atau patokan lokasi..." required></textarea>
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 0;">
+              <label for="orderNotes" class="form-label">Catatan Khusus Restoran (Opsional)</label>
+              <div class="input-with-icon">
+                <i class="fa-solid fa-pen-clip input-icon"></i>
+                <input type="text" id="orderNotes" class="form-input" placeholder="contoh: Jangan terlalu pedas, kuah dipisah, sendok plastik...">
+              </div>
+            </div>
+          </div>
+
+          <!-- Payment Method Selection Card -->
+          <div class="panel-card" style="border-radius: var(--radius-lg); border: 1px solid var(--border-color); background: #FFFFFF; padding: 1.75rem;">
+            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem;">
+              <div style="width: 36px; height: 36px; border-radius: 50%; background: var(--primary-light); color: var(--primary-hover); display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
+                <i class="fa-solid fa-credit-card"></i>
+              </div>
+              <div>
+                <h3 class="panel-title" style="margin-bottom: 0;">Metode Pembayaran (Simulasi)</h3>
+                <small class="text-xs text-muted">Seluruh pembayaran merupakan simulasi frontend tugas sekolah.</small>
+              </div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 0.85rem;">
+              
+              <!-- 1. Tunai COD -->
+              <label style="display: flex; align-items: flex-start; gap: 0.85rem; padding: 1rem; border: 1.5px solid #E2E8F0; border-radius: var(--radius-md); cursor: pointer; transition: var(--transition);" class="payment-option">
+                <input type="radio" name="paymentMethod" value="cod" checked style="margin-top: 3px; accent-color: var(--primary);">
+                <div style="flex: 1;">
+                  <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <strong style="font-size: 0.95rem; color: var(--text-main);"><i class="fa-solid fa-money-bill-wave text-success"></i> Tunai saat Pengantaran (COD)</strong>
+                    <span class="badge badge-success">Praktis</span>
+                  </div>
+                  <p class="text-xs text-muted" style="margin-top: 4px;">Bayar langsung secara tunai kepada kurir saat makanan tiba di alamat Anda.</p>
+                </div>
+              </label>
+
+              <!-- 2. Transfer Bank -->
+              <label style="display: flex; align-items: flex-start; gap: 0.85rem; padding: 1rem; border: 1.5px solid #E2E8F0; border-radius: var(--radius-md); cursor: pointer; transition: var(--transition);" class="payment-option">
+                <input type="radio" name="paymentMethod" value="transfer" style="margin-top: 3px; accent-color: var(--primary);">
+                <div style="flex: 1;">
+                  <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <strong style="font-size: 0.95rem; color: var(--text-main);"><i class="fa-solid fa-building-columns text-primary"></i> Transfer Virtual Account (Simulasi)</strong>
+                    <span class="badge badge-primary">BCA / Mandiri / BRI</span>
+                  </div>
+                  <p class="text-xs text-muted" style="margin-top: 4px;">Simulasi nomor rekening virtual account instan untuk transfer bank.</p>
+                  
+                  <div id="transferBankInfo" style="display: none; margin-top: 0.75rem; background: #F8FAFC; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid #E2E8F0;">
+                    <label class="form-label" style="font-size: 0.75rem;">Pilih Bank Tujuan:</label>
+                    <select id="bankSelect" class="form-input" style="padding: 0.4rem 0.75rem; font-size: 0.85rem; margin-bottom: 0.5rem;">
+                      <option value="BCA">BCA Virtual Account (80777-08123456789)</option>
+                      <option value="Mandiri">Bank Mandiri (89508-08123456789)</option>
+                      <option value="BRI">BRI BRIVA (12845-08123456789)</option>
+                    </select>
+                    <small class="text-xs text-muted"><i class="fa-solid fa-info-circle"></i> Sistem akan otomatis memverifikasi pembayaran secara simulasi.</small>
+                  </div>
+                </div>
+              </label>
+
+              <!-- 3. E-Wallet -->
+              <label style="display: flex; align-items: flex-start; gap: 0.85rem; padding: 1rem; border: 1.5px solid #E2E8F0; border-radius: var(--radius-md); cursor: pointer; transition: var(--transition);" class="payment-option">
+                <input type="radio" name="paymentMethod" value="ewallet" style="margin-top: 3px; accent-color: var(--primary);">
+                <div style="flex: 1;">
+                  <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <strong style="font-size: 0.95rem; color: var(--text-main);"><i class="fa-solid fa-qrcode text-danger"></i> Dompet Digital / QRIS (Simulasi)</strong>
+                    <span class="badge badge-warning">GoPay / OVO / Dana</span>
+                  </div>
+                  <p class="text-xs text-muted" style="margin-top: 4px;">Pindai kode QRIS simulasi menggunakan aplikasi e-wallet apa pun.</p>
+                  
+                  <div id="ewalletInfo" style="display: none; margin-top: 0.75rem; background: #F8FAFC; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid #E2E8F0;">
+                    <label class="form-label" style="font-size: 0.75rem;">Pilih Dompet Digital:</label>
+                    <select id="walletSelect" class="form-input" style="padding: 0.4rem 0.75rem; font-size: 0.85rem; margin-bottom: 0.5rem;">
+                      <option value="GoPay">GoPay</option>
+                      <option value="OVO">OVO</option>
+                      <option value="DANA">DANA</option>
+                      <option value="ShopeePay">ShopeePay</option>
+                    </select>
+                    <div style="text-align: center; padding: 0.5rem; background: #FFFFFF; border-radius: 6px; border: 1px solid #CBD5E1;">
+                      <i class="fa-solid fa-qrcode" style="font-size: 3rem; color: #1F2937;"></i>
+                      <p class="text-xs text-muted mt-1">QRIS SajiCepat (Simulasi Otomatis)</p>
+                    </div>
+                  </div>
+                </div>
+              </label>
+
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right: Order Summary Breakdown -->
+        <div class="panel-card" style="box-shadow: var(--shadow-md); border-radius: var(--radius-lg); border: 1px solid var(--border-color); background: #FFFFFF; position: sticky; top: 90px; padding: 1.75rem;">
+          <h3 class="panel-title" style="margin-bottom: 1.25rem; font-size: 1.2rem;">Ringkasan Pesanan</h3>
+
+          <!-- Items Scroll Area -->
+          <div id="checkoutItemsList" style="max-height: 240px; overflow-y: auto; margin-bottom: 1.25rem;">
+            <!-- Populated by JS -->
+          </div>
+
+          <!-- Price Summary -->
+          <div style="display: flex; flex-direction: column; gap: 0.65rem; border-top: 1px solid var(--border-light); padding-top: 1.25rem; margin-bottom: 1.5rem;">
+            <div style="display: flex; justify-content: space-between; font-size: 0.9rem;">
+              <span class="text-muted">Subtotal Makanan</span>
+              <strong id="checkoutSubtotal">Rp 0</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 0.9rem;">
+              <span class="text-muted">Ongkos Kirim (Simulasi)</span>
+              <strong id="checkoutDeliveryFee">Rp 8.000</strong>
+            </div>
+            <div id="checkoutDiscountRow" style="display: none; justify-content: space-between; font-size: 0.9rem; color: var(--success);">
+              <span>Diskon Promo</span>
+              <strong id="checkoutDiscount">- Rp 0</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 1.3rem; font-weight: 800; border-top: 2px dashed #E2E8F0; padding-top: 0.85rem; margin-top: 0.35rem;">
+              <span>Total Bayar</span>
+              <span class="text-primary" id="checkoutTotal">Rp 0</span>
+            </div>
+          </div>
+
+          <!-- Submit Order Button -->
+          <button type="submit" class="btn btn-primary btn-block btn-lg" id="placeOrderSubmitBtn">
+            <i class="fa-solid fa-circle-check"></i> Buat Pesanan Sekarang
+          </button>
+
+          <div style="margin-top: 1rem; text-align: center;">
+            <a href="keranjang.html" class="text-xs text-muted hover:text-primary">
+              <i class="fa-solid fa-arrow-left"></i> Kembali ke Keranjang
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </form>
+
+  </main>
+
+  <!-- ================= ORDER SUCCESS MODAL ================= -->
+  <div class="modal-backdrop" id="orderSuccessModal">
+    <div class="modal-dialog" style="max-width: 520px; text-align: center; padding: 2.5rem 2rem;">
+      <div style="width: 80px; height: 80px; border-radius: 50%; background: #D1FAE5; color: #059669; display: flex; align-items: center; justify-content: center; font-size: 2.75rem; margin: 0 auto 1.5rem; animation: bounceCart 0.5s ease;">
+        <i class="fa-solid fa-check"></i>
+      </div>
+
+      <h2 class="font-bold text-gray-900" style="font-size: 1.65rem; margin-bottom: 0.5rem;">Pesanan Berhasil Dibuat!</h2>
+      <p class="text-xs text-muted" style="font-size: 0.92rem; line-height: 1.6; margin-bottom: 1.5rem;">
+        Terima kasih telah memesan melalui SajiCepat. Pesanan Anda telah diteruskan ke mitra restoran untuk segera diproses.
+      </p>
+
+      <div style="background: #FFF7ED; border: 1px dashed var(--primary); border-radius: var(--radius-md); padding: 1rem; margin-bottom: 1.75rem;">
+        <span class="text-xs text-muted" style="display: block; margin-bottom: 2px;">Kode Pesanan Unik:</span>
+        <strong id="successOrderCode" class="text-primary" style="font-size: 1.35rem; font-family: monospace; letter-spacing: 1px;">SJC-XXXXXX</strong>
+        <div style="display: flex; justify-content: space-between; margin-top: 0.75rem; padding-top: 0.5rem; border-top: 1px solid rgba(249, 115, 22, 0.2); font-size: 0.85rem;">
+          <span class="text-muted">Total Pembayaran:</span>
+          <strong id="successTotal" class="text-gray-900">Rp 0</strong>
+        </div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+        <a href="pesanan.html" class="btn btn-primary btn-lg">
+          <i class="fa-solid fa-receipt"></i> Lihat Status Pesanan Saya
+        </a>
+        <a href="index.html" class="btn btn-secondary">
+          Kembali ke Beranda
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom" style="border-top: none; padding-top: 0;">
+        <p>&copy; 2026 SajiCepat - Proyek Pemesanan Makanan Online Kelas XII RPL.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/cart.js"></script>
+  <script src="assets/js/checkout.js"></script>
+</body>
+</html>

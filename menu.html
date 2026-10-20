@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daftar Menu Makanan & Minuman - SajiCepat</title>
+  <meta name="description" content="Jelajahi pilihan menu makanan, minuman, cemilan, dan dessert favorit dari resto mitra SajiCepat.">
+
+    <!-- Favicon / App Icon -->
+  <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg?v=2">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png?v=2">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png?v=2">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png?v=2">
+  <link rel="shortcut icon" href="favicon.ico?v=2">
+  <!-- Google Fonts & Font Awesome CDN -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <!-- ================= HEADER & NAVBAR ================= -->
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="index.html" class="brand-logo">
+        <img src="assets/images/logo.svg" alt="SajiCepat Logo">
+      </a>
+
+      <!-- Navigation Menu -->
+      <nav>
+        <ul class="nav-menu" id="navbarMenu">
+          <li><a href="index.html" class="nav-link">Beranda</a></li>
+          <li><a href="menu.html" class="nav-link active">Daftar Menu</a></li>
+          <li><a href="restoran.html" class="nav-link">Restoran</a></li>
+          <li><a href="ulasan.html" class="nav-link">Ulasan</a></li>
+          <li><a href="pesanan.html" class="nav-link">Pesanan Saya</a></li>
+        </ul>
+      </nav>
+
+      <!-- Nav Actions (Cart & User Auth) -->
+      <div class="nav-actions">
+        <a href="keranjang.html" class="cart-nav-btn" title="Keranjang Belanja">
+          <i class="fa-solid fa-basket-shopping"></i>
+          <span class="cart-badge" style="display: none;">0</span>
+        </a>
+
+        <div id="navUserContainer"></div>
+
+        <button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Toggle Menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= MAIN CONTENT ================= -->
+  <main class="container" style="padding-top: 2.5rem; padding-bottom: 5rem;">
+    
+    <!-- Page Header & Filters Header -->
+    <div style="margin-bottom: 2rem;">
+      <h1 class="section-title" style="font-size: 2.2rem; margin-bottom: 0.35rem;">Eksplorasi Menu Lezat</h1>
+      <p class="section-subtitle">Temukan puluhan pilihan hidangan nusantara dan internasional favoritmu.</p>
+    </div>
+
+    <!-- Search & Filter Controls Card -->
+    <div class="panel-card" style="margin-bottom: 2.5rem; border-radius: var(--radius-lg); border: 1px solid var(--border-color); background: #FFFFFF; padding: 1.5rem;">
+      <div style="display: grid; grid-template-columns: 1.8fr 1fr 1fr; gap: 1rem; align-items: center;" id="filterGridControls">
+        
+        <!-- Live Search Input -->
+        <div class="input-with-icon" style="width: 100%;">
+          <i class="fa-solid fa-magnifying-glass input-icon" style="color: var(--primary);"></i>
+          <input type="text" id="menuSearchInput" class="form-input" placeholder="Cari nama makanan, restoran, atau kategori..." style="padding-left: 2.65rem;">
+        </div>
+
+        <!-- Filter by Restaurant -->
+        <div>
+          <select id="filterRestoSelect" class="form-input" style="padding-left: 1rem;">
+            <option value="all">Semua Restoran</option>
+            <!-- Populated by JS -->
+          </select>
+        </div>
+
+        <!-- Sort By -->
+        <div>
+          <select id="sortMenuSelect" class="form-input" style="padding-left: 1rem;">
+            <option value="popular">Urutkan: Paling Populer</option>
+            <option value="price-asc">Harga: Terendah ke Tertinggi</option>
+            <option value="price-desc">Harga: Tertinggi ke Terendah</option>
+            <option value="rating">Rating Tertinggi</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Categories Pills Filter -->
+      <div style="margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid var(--border-light); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+        <div class="categories-scroll" id="menuPageCategories" style="flex: 1;">
+          <!-- Populated by JS -->
+        </div>
+        <a href="ulasan.html" class="btn btn-secondary btn-sm" style="white-space: nowrap;">
+          <i class="fa-solid fa-star text-warning"></i> Ulasan Per Resto
+        </a>
+      </div>
+    </div>
+
+    <!-- Active Filter Summary & Result Count -->
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 0.75rem;">
+      <div>
+        <span class="text-xs text-muted">Menampilkan hasil:</span>
+        <strong id="menuResultCount" style="color: var(--text-main);">0 Menu</strong>
+      </div>
+      <button class="btn btn-secondary btn-sm" id="resetFiltersBtn" style="display: none;" onclick="resetAllMenuFilters()">
+        <i class="fa-solid fa-rotate-left"></i> Reset Filter
+      </button>
+    </div>
+
+    <!-- Food Grid -->
+    <div class="food-grid" id="menuCatalogGrid">
+      <!-- Populated by JS -->
+    </div>
+
+    <!-- Empty State -->
+    <div id="menuEmptyState" style="display: none; text-align: center; padding: 4.5rem 1.5rem; background: #FFFFFF; border-radius: var(--radius-xl); border: 2px dashed var(--border-color); margin-top: 1.5rem;">
+      <div style="width: 80px; height: 80px; border-radius: 50%; background: #FFF7ED; color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 2.5rem; margin: 0 auto 1.5rem;">
+        <i class="fa-solid fa-bowl-food"></i>
+      </div>
+      <h3 class="font-bold text-gray-900" style="font-size: 1.5rem; margin-bottom: 0.5rem;">Menu Tidak Ditemukan</h3>
+      <p class="text-xs text-muted" style="max-width: 440px; margin: 0 auto 1.5rem; font-size: 0.95rem;">
+        Maaf, tidak ada hidangan yang cocok dengan kata kunci atau filter yang Anda pilih. Coba gunakan kata kunci lain.
+      </p>
+      <button class="btn btn-primary" onclick="resetAllMenuFilters()">
+        <i class="fa-solid fa-rotate-left"></i> Lihat Semua Menu
+      </button>
+    </div>
+
+  </main>
+
+  <!-- ================= FOOD DETAIL MODAL ================= -->
+  <div class="modal-backdrop" id="foodDetailModal">
+    <div class="modal-dialog">
+      <button class="modal-close-btn" onclick="closeModal('foodDetailModal')" aria-label="Tutup">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <div id="foodDetailModalContent">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom" style="border-top: none; padding-top: 0;">
+        <p>&copy; 2026 SajiCepat - Proyek Aplikasi Pemesanan Makanan Online Kelas XII RPL.</p>
+        <p>Aplikasi Frontend Simulasi LocalStorage.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================= SCRIPTS ================= -->
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/cart.js"></script>
+
+  <script>
+    let activeCategory = 'Semua';
+    let activeResto = 'all';
+    let searchQuery = '';
+    let sortMode = 'popular';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Parse URL parameters
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.has('q')) {
+        searchQuery = urlParams.get('q');
+        document.getElementById('menuSearchInput').value = searchQuery;
+      }
+      if (urlParams.has('cat')) {
+        activeCategory = urlParams.get('cat');
+      }
+      if (urlParams.has('resto')) {
+        activeResto = urlParams.get('resto');
+      }
+
+      initMenuPage();
+    });
+
+    function initMenuPage() {
+      renderCategoryPills();
+      renderRestoOptions();
+      applyFilters();
+
+      // Search input live listener
+      document.getElementById('menuSearchInput').addEventListener('input', (e) => {
+        searchQuery = e.target.value.trim();
+        applyFilters();
+      });
+
+      // Resto select listener
+      document.getElementById('filterRestoSelect').addEventListener('change', (e) => {
+        activeResto = e.target.value;
+        applyFilters();
+      });
+
+      // Sort select listener
+      document.getElementById('sortMenuSelect').addEventListener('change', (e) => {
+        sortMode = e.target.value;
+        applyFilters();
+      });
+    }
+
+    function renderCategoryPills() {
+      const container = document.getElementById('menuPageCategories');
+      if (!container) return;
+      const categories = getCategories();
+
+      container.innerHTML = categories.map(cat => `
+        <button type="button" class="category-pill ${cat.name === activeCategory ? 'active' : ''}" onclick="selectCategory('${cat.name}')">
+          <i class="fa-solid ${cat.icon || 'fa-utensils'}"></i>
+          <span>${cat.name}</span>
+        </button>
+      `).join('');
+    }
+
+    function renderRestoOptions() {
+      const select = document.getElementById('filterRestoSelect');
+      if (!select) return;
+      const restos = getRestaurants();
+
+      select.innerHTML = `<option value="all">Semua Restoran</option>` + restos.map(r => `
+        <option value="${r.id}" ${activeResto == r.id ? 'selected' : ''}>${r.name}</option>
+      `).join('');
+    }
+
+    function selectCategory(catName) {
+      activeCategory = catName;
+      renderCategoryPills();
+      applyFilters();
+    }
+
+    function resetAllMenuFilters() {
+      activeCategory = 'Semua';
+      activeResto = 'all';
+      searchQuery = '';
+      sortMode = 'popular';
+
+      document.getElementById('menuSearchInput').value = '';
+      document.getElementById('filterRestoSelect').value = 'all';
+      document.getElementById('sortMenuSelect').value = 'popular';
+
+      renderCategoryPills();
+      applyFilters();
+    }
+
+    function applyFilters() {
+      let menus = getMenus();
+      const q = searchQuery.toLowerCase();
+
+      // Filter by search query (name, resto, category)
+      if (q) {
+        menus = menus.filter(m => 
+          m.name.toLowerCase().includes(q) ||
+          m.restoName.toLowerCase().includes(q) ||
+          m.category.toLowerCase().includes(q)
+        );
+      }
+
+      // Filter by category
+      if (activeCategory !== 'Semua') {
+        menus = menus.filter(m => m.category.toLowerCase() === activeCategory.toLowerCase());
+      }
+
+      // Filter by restaurant
+      if (activeResto !== 'all') {
+        menus = menus.filter(m => m.restoId === parseInt(activeResto));
+      }
+
+      // Sorting
+      if (sortMode === 'price-asc') {
+        menus.sort((a, b) => a.price - b.price);
+      } else if (sortMode === 'price-desc') {
+        menus.sort((a, b) => b.price - a.price);
+      } else if (sortMode === 'rating') {
+        menus.sort((a, b) => b.rating - a.rating);
+      } else {
+        // popular
+        menus.sort((a, b) => (b.soldCount || 0) - (a.soldCount || 0));
+      }
+
+      // Update count & reset button visibility
+      const countEl = document.getElementById('menuResultCount');
+      const resetBtn = document.getElementById('resetFiltersBtn');
+      if (countEl) countEl.textContent = `${menus.length} Menu Ditemukan`;
+
+      const hasActiveFilters = activeCategory !== 'Semua' || activeResto !== 'all' || searchQuery !== '';
+      if (resetBtn) resetBtn.style.display = hasActiveFilters ? 'inline-flex' : 'none';
+
+      // Render grid or empty state
+      const grid = document.getElementById('menuCatalogGrid');
+      const emptyState = document.getElementById('menuEmptyState');
+
+      if (menus.length === 0) {
+        grid.innerHTML = '';
+        emptyState.style.display = 'block';
+      } else {
+        emptyState.style.display = 'none';
+        grid.innerHTML = menus.map(menu => `
+          <div class="food-card">
+            <div class="food-img-container">
+              <img src="${menu.image}" alt="${menu.name}" class="food-img">
+              <span class="food-badge-category">${menu.category}</span>
+              <span class="food-badge-rating">
+                <i class="fa-solid fa-star"></i> ${menu.rating}
+              </span>
+              <span class="food-stock-badge ${menu.isAvailable ? 'badge-success' : 'badge-danger'}">
+                ${menu.isAvailable ? 'Tersedia' : 'Habis'}
+              </span>
+            </div>
+
+            <div class="food-card-body">
+              <span class="food-resto-name">
+                <i class="fa-solid fa-store text-orange-500"></i> ${menu.restoName}
+              </span>
+              <h3 class="food-title" title="${menu.name}">${menu.name}</h3>
+              <p class="food-description">${menu.description}</p>
+
+              <div class="food-price-row">
+                <span class="food-current-price">${formatRupiah(menu.price)}</span>
+                ${menu.originalPrice && menu.originalPrice > menu.price ? `
+                  <span class="food-original-price">${formatRupiah(menu.originalPrice)}</span>
+                ` : ''}
+              </div>
+
+              <div class="food-actions">
+                <button class="btn btn-secondary btn-sm" onclick="showFoodDetail(${menu.id})">
+                  <i class="fa-solid fa-circle-info"></i> Detail
+                </button>
+                <button class="btn btn-primary btn-sm" onclick="addToCart(${menu.id}, 1)" ${!menu.isAvailable ? 'disabled style="opacity: 0.6; cursor: not-allowed;"' : ''}>
+                  <i class="fa-solid fa-cart-plus"></i> Tambah
+                </button>
+              </div>
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+
+    // Food detail modal function
+    function showFoodDetail(menuId) {
+      const menus = getMenus();
+      const menu = menus.find(m => m.id === parseInt(menuId));
+      if (!menu) return;
+
+      const content = document.getElementById('foodDetailModalContent');
+      if (!content) return;
+
+      content.innerHTML = `
+        <div style="position: relative;">
+          <img src="${menu.image}" alt="${menu.name}" style="width: 100%; height: 260px; object-fit: cover; border-top-left-radius: var(--radius-xl); border-top-right-radius: var(--radius-xl);">
+          <span class="badge badge-primary" style="position: absolute; bottom: 12px; left: 16px;">${menu.category}</span>
+        </div>
+        <div style="padding: 1.75rem;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; margin-bottom: 0.75rem;">
+            <div>
+              <span class="text-xs text-muted"><i class="fa-solid fa-store text-orange-500"></i> ${menu.restoName}</span>
+              <h3 class="font-bold text-gray-900" style="font-size: 1.4rem; margin-top: 2px;">${menu.name}</h3>
+            </div>
+            <div style="text-align: right;">
+              <span class="font-bold text-primary" style="font-size: 1.35rem;">${formatRupiah(menu.price)}</span>
+              ${menu.originalPrice ? `<span class="text-xs text-muted" style="display: block; text-decoration: line-through;">${formatRupiah(menu.originalPrice)}</span>` : ''}
+            </div>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 1rem; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.25rem;">
+            <span><i class="fa-solid fa-star text-warning"></i> <strong>${menu.rating}</strong></span>
+            <span>•</span>
+            <span><i class="fa-solid fa-bag-shopping"></i> ${menu.soldCount || 100}+ Terjual</span>
+            <span>•</span>
+            <span class="status-badge ${menu.isAvailable ? 'status-tersedia' : 'status-habis'}">${menu.isAvailable ? 'Tersedia' : 'Habis'}</span>
+          </div>
+
+          <h5 class="font-bold text-gray-900 mb-1" style="font-size: 0.95rem;">Deskripsi Makanan</h5>
+          <p class="text-xs text-gray-700" style="line-height: 1.7; margin-bottom: 1.75rem;">${menu.description}</p>
+
+          <div style="display: flex; align-items: center; justify-content: space-between; border-top: 1px solid #F1F5F9; padding-top: 1.25rem; flex-wrap: wrap; gap: 1rem;">
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
+              <span class="text-xs font-bold text-muted">Jumlah:</span>
+              <div class="qty-control">
+                <button class="qty-btn" onclick="let q=document.getElementById('modalQty'); if(parseInt(q.value)>1) q.value=parseInt(q.value)-1;">−</button>
+                <input type="text" class="qty-input" id="modalQty" value="1" readonly>
+                <button class="qty-btn" onclick="let q=document.getElementById('modalQty'); if(parseInt(q.value)<${menu.stock}) q.value=parseInt(q.value)+1;">+</button>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 0.75rem;">
+              <a href="detail-menu.html?id=${menu.id}" class="btn btn-secondary">
+                Halaman Penuh
+              </a>
+              <button class="btn btn-primary" onclick="if(addToCart(${menu.id}, parseInt(document.getElementById('modalQty').value))) closeModal('foodDetailModal');" ${!menu.isAvailable ? 'disabled style="opacity:0.6;"' : ''}>
+                <i class="fa-solid fa-cart-plus"></i> Tambah ke Keranjang
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+
+      openModal('foodDetailModal');
+    }
+  </script>
+</body>
+</html>

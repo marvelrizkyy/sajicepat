@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Masuk Akun - SajiCepat</title>
+  <meta name="description" content="Masuk ke portal SajiCepat sebagai Pelanggan, Mitra Restoran, atau Administrator.">
+
+    <!-- Favicon / App Icon -->
+  <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg?v=2">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png?v=2">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png?v=2">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png?v=2">
+  <link rel="shortcut icon" href="favicon.ico?v=2">
+  <!-- Google Fonts & Font Awesome CDN -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Main & Auth Stylesheet -->
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/auth.css">
+</head>
+<body>
+
+  <div class="auth-wrapper">
+    <div class="auth-card-container">
+      
+      <!-- Left Sidebar Brand Info -->
+      <div class="auth-sidebar">
+        <div>
+          <a href="index.html" class="auth-sidebar-brand">
+            <img src="assets/images/logo.svg" alt="SajiCepat" style="filter: brightness(0) invert(1); height: 38px;">
+          </a>
+          <div class="auth-sidebar-content">
+            <h3>Selamat Datang di SajiCepat</h3>
+           
+            <ul class="auth-features-list">
+              <li><i class="fa-solid fa-check"></i> Pesan makanan dari puluhan resto mitra</li>
+              <li><i class="fa-solid fa-check"></i> Pengantaran cepat rata-rata 25 menit</li>
+              <li><i class="fa-solid fa-check"></i> Simulasi pembayaran COD, VA & E-Wallet</li>
+              <li><i class="fa-solid fa-check"></i> Dashboard interaktif Pelanggan, Resto & Admin</li>
+            </ul>
+          </div>
+        </div>
+
+        
+      </div>
+
+      <!-- Right Form Section -->
+      <div class="auth-form-section">
+        <div class="auth-form-header">
+          <h1 class="auth-form-title">Masuk ke SajiCepat</h1>
+          <p class="auth-form-subtitle">Pilih salah satu akun demo di bawah atau masukkan email Anda.</p>
+        </div>
+
+        <!-- Quick 1-Click Demo Accounts Selector -->
+        <div class="demo-accounts-card">
+          <div class="demo-accounts-title" style="justify-content: space-between; cursor: pointer;" onclick="const p=document.getElementById('allDemoAccountsPanel'); p.style.display = p.style.display === 'none' ? 'block' : 'none';">
+            <span><i class="fa-solid fa-id-badge"></i> Akun Demo Sekali Klik</span>
+            <span style="color: var(--primary); text-transform: none; font-size: 0.75rem; font-weight: 700;">Lihat Semua Akun <i class="fa-solid fa-chevron-down"></i></span>
+          </div>
+          <div class="demo-account-chips">
+            <button type="button" class="demo-chip" onclick="fillDemoLogin('pelanggan')">
+              <i class="fa-solid fa-user text-orange-500"></i>
+              <span>Pelanggan</span>
+              <small>Budi Santoso</small>
+            </button>
+            <button type="button" class="demo-chip" onclick="fillDemoLogin('restoran')">
+              <i class="fa-solid fa-store text-yellow-600"></i>
+              <span>Restoran</span>
+              <small>Ayam Geprek</small>
+            </button>
+            <button type="button" class="demo-chip" onclick="fillDemoLogin('admin')">
+              <i class="fa-solid fa-shield-halved text-red-500"></i>
+              <span>Admin</span>
+              <small>Administrator</small>
+            </button>
+          </div>
+
+          <!-- All Registered Accounts Dropdown/Collapsible -->
+          <div id="allDemoAccountsPanel" style="display: none; margin-top: 0.85rem; padding-top: 0.85rem; border-top: 1px dashed var(--border-color);">
+            <p style="font-size: 0.75rem; font-weight: 700; color: #4B5563; margin-bottom: 0.4rem;">Pilih Akun Mitra Restoran:</p>
+            <div style="display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 0.75rem;">
+              <button type="button" class="btn btn-secondary btn-sm" style="font-size: 0.72rem; padding: 0.25rem 0.5rem;" onclick="fillDemoLogin('resto@sajicepat.com', 'password123', 'Ayam Geprek Juara')">
+                <i class="fa-solid fa-store text-orange-500"></i> Ayam Geprek
+              </button>
+              <button type="button" class="btn btn-secondary btn-sm" style="font-size: 0.72rem; padding: 0.25rem 0.5rem;" onclick="fillDemoLogin('padang@sajicepat.com', 'password123', 'RM Padang Minang')">
+                <i class="fa-solid fa-store text-orange-500"></i> Padang Minang
+              </button>
+              <button type="button" class="btn btn-secondary btn-sm" style="font-size: 0.72rem; padding: 0.25rem 0.5rem;" onclick="fillDemoLogin('bakso@sajicepat.com', 'password123', 'Dapur Bakso & Mie')">
+                <i class="fa-solid fa-store text-orange-500"></i> Bakso & Mie Sejati
+              </button>
+              <button type="button" class="btn btn-secondary btn-sm" style="font-size: 0.72rem; padding: 0.25rem 0.5rem;" onclick="fillDemoLogin('kopi@sajicepat.com', 'password123', 'Kedai Kopi & Roti')">
+                <i class="fa-solid fa-store text-orange-500"></i> Kopi & Roti
+              </button>
+              <button type="button" class="btn btn-secondary btn-sm" style="font-size: 0.72rem; padding: 0.25rem 0.5rem;" onclick="fillDemoLogin('bakery@sajicepat.com', 'password123', 'Sweet Treats Bakery')">
+                <i class="fa-solid fa-store text-orange-500"></i> Sweet Bakery
+              </button>
+            </div>
+
+            <p style="font-size: 0.75rem; font-weight: 700; color: #4B5563; margin-bottom: 0.4rem;">Pilih Akun Pelanggan:</p>
+            <div style="display: flex; flex-wrap: wrap; gap: 0.35rem;">
+              <button type="button" class="btn btn-secondary btn-sm" style="font-size: 0.72rem; padding: 0.25rem 0.5rem;" onclick="fillDemoLogin('budi@gmail.com', 'password123', 'Budi Santoso')">
+                Budi Santoso
+              </button>
+              <button type="button" class="btn btn-secondary btn-sm" style="font-size: 0.72rem; padding: 0.25rem 0.5rem;" onclick="fillDemoLogin('siti@gmail.com', 'password123', 'Siti Rahmawati')">
+                Siti Rahmawati
+              </button>
+              <button type="button" class="btn btn-secondary btn-sm" style="font-size: 0.72rem; padding: 0.25rem 0.5rem;" onclick="fillDemoLogin('ahmad@gmail.com', 'password123', 'Ahmad Fauzi')">
+                Ahmad Fauzi
+              </button>
+              <button type="button" class="btn btn-secondary btn-sm" style="font-size: 0.72rem; padding: 0.25rem 0.5rem;" onclick="fillDemoLogin('dewi@gmail.com', 'password123', 'Dewi Lestari')">
+                Dewi Lestari
+              </button>
+              <button type="button" class="btn btn-secondary btn-sm" style="font-size: 0.72rem; padding: 0.25rem 0.5rem;" onclick="fillDemoLogin('rizky@gmail.com', 'password123', 'Rizky Pratama')">
+                Rizky Pratama
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Login Form -->
+        <form id="loginForm">
+          <div class="form-group">
+            <label for="loginEmail" class="form-label">Alamat Email</label>
+            <div class="input-with-icon">
+              <i class="fa-solid fa-envelope input-icon"></i>
+              <input type="email" id="loginEmail" class="form-input" placeholder="contoh: budi@gmail.com" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="loginPassword" class="form-label">Kata Sandi</label>
+            <div class="input-with-icon">
+              <i class="fa-solid fa-lock input-icon"></i>
+              <input type="password" id="loginPassword" class="form-input" placeholder="Masukkan kata sandi" required>
+              <button type="button" class="password-toggle-btn" aria-label="Lihat kata sandi">
+                <i class="fa-solid fa-eye"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="auth-options">
+            <label class="remember-label">
+              <input type="checkbox" id="rememberMe" checked>
+              <span>Ingat saya di browser ini</span>
+            </label>
+            <a href="#" onclick="showToast('Fitur lupa kata sandi adalah simulasi demo.', 'info'); return false;" class="text-xs text-primary font-semibold">Lupa kata sandi?</a>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block btn-lg" id="submitLoginBtn">
+            <i class="fa-solid fa-arrow-right-to-bracket"></i> Masuk Sekarang
+          </button>
+        </form>
+
+        <div class="auth-footer-prompt">
+          Belum memiliki akun pelanggan? <a href="register.html">Daftar sekarang</a>
+        </div>
+        <div style="text-align: center; margin-top: 1rem;">
+          <a href="index.html" class="text-xs text-muted hover:text-gray-900">
+            <i class="fa-solid fa-arrow-left"></i> Kembali ke Beranda
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/auth.js"></script>
+</body>
+</html>

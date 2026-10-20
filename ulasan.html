@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ulasan Restoran & Testimoni Pelanggan - SajiCepat</title>
+  <meta name="description" content="Baca ulasan jujur dan penilaian per restoran dari ribuan pelanggan terdaftar SajiCepat. Bagikan pengalaman kuliner Anda per gerai!">
+
+    <!-- Favicon / App Icon -->
+  <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg?v=2">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png?v=2">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png?v=2">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png?v=2">
+  <link rel="shortcut icon" href="favicon.ico?v=2">
+  <!-- Google Fonts & Font Awesome CDN -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <style>
+    /* Styling for Dedicated Per-Restaurant Reviews Page */
+    .review-hero {
+      background: linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 45%, #FEF3C7 100%);
+      padding: 3.5rem 0 2.5rem;
+      border-bottom: 1px solid var(--border-color);
+      text-align: center;
+      position: relative;
+    }
+    .review-hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 0.95rem;
+      background: #FFFFFF;
+      color: var(--primary-hover);
+      border: 1px solid var(--primary-light);
+      border-radius: var(--radius-full);
+      font-size: 0.82rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      box-shadow: 0 2px 8px rgba(249, 115, 22, 0.08);
+    }
+    .review-hero-title {
+      font-size: 2.35rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 0.65rem;
+      letter-spacing: -0.02em;
+    }
+    .review-hero-subtitle {
+      font-size: 1rem;
+      color: #64748B;
+      max-width: 620px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* Restaurant Tabs Showcase */
+    .resto-selector-section {
+      margin-top: -1.75rem;
+      margin-bottom: 2.25rem;
+      position: relative;
+      z-index: 10;
+    }
+    .resto-tabs-scroll {
+      display: flex;
+      gap: 0.85rem;
+      overflow-x: auto;
+      padding-bottom: 0.75rem;
+      scrollbar-width: thin;
+    }
+    .resto-tab-card {
+      background: #FFFFFF;
+      border: 2px solid #E2E8F0;
+      border-radius: var(--radius-lg);
+      padding: 0.85rem 1.15rem;
+      min-width: 210px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+      box-shadow: var(--shadow-sm);
+    }
+    .resto-tab-card:hover {
+      border-color: #FED7AA;
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+    .resto-tab-card.active {
+      border-color: var(--primary);
+      background: #FFF7ED;
+      box-shadow: 0 4px 14px rgba(249, 115, 22, 0.18);
+    }
+    .resto-tab-card.active .resto-tab-name {
+      color: var(--primary);
+    }
+    .resto-tab-img {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-md);
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    .resto-tab-name {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: #1E293B;
+      margin-bottom: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 135px;
+    }
+    .resto-tab-meta {
+      font-size: 0.75rem;
+      color: #64748B;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    /* Active Restaurant Profile Spotlight Card */
+    .resto-spotlight-card {
+      background: #FFFFFF;
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border-color);
+      overflow: hidden;
+      margin-bottom: 2.25rem;
+      box-shadow: var(--shadow-sm);
+    }
+    .resto-spotlight-cover {
+      height: 120px;
+      background: linear-gradient(90deg, #1E293B 0%, #334155 100%);
+      position: relative;
+    }
+    .resto-spotlight-body {
+      padding: 1.5rem 2rem 1.75rem;
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+    .resto-spotlight-logo {
+      width: 80px;
+      height: 80px;
+      border-radius: var(--radius-lg);
+      object-fit: cover;
+      border: 3.5px solid #FFFFFF;
+      box-shadow: var(--shadow-md);
+      position: absolute;
+      top: -45px;
+      left: 2rem;
+      background: #FFFFFF;
+    }
+    .resto-spotlight-info {
+      padding-left: 95px;
+    }
+    @media (max-width: 768px) {
+      .resto-spotlight-body {
+        padding: 1.25rem 1.25rem;
+      }
+      .resto-spotlight-logo {
+        left: 1.25rem;
+      }
+      .resto-spotlight-info {
+        padding-left: 0;
+        padding-top: 40px;
+      }
+    }
+
+    /* Rating Analytics per Resto */
+    .analytics-panel {
+      background: #FFFFFF;
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border-color);
+      padding: 1.75rem 2rem;
+      margin-bottom: 2.25rem;
+      box-shadow: var(--shadow-sm);
+      display: grid;
+      grid-template-columns: 240px 1fr 260px;
+      gap: 2rem;
+      align-items: center;
+    }
+    @media (max-width: 992px) {
+      .analytics-panel {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+    }
+    .overall-score-card {
+      text-align: center;
+      padding-right: 1.75rem;
+      border-right: 1px solid #F1F5F9;
+    }
+    @media (max-width: 992px) {
+      .overall-score-card {
+        padding-right: 0;
+        border-right: none;
+        border-bottom: 1px solid #F1F5F9;
+        padding-bottom: 1.25rem;
+      }
+    }
+    .rating-bars-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .rating-bar-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.82rem;
+    }
+    .rating-bar-track {
+      flex: 1;
+      height: 8px;
+      background: #F1F5F9;
+      border-radius: var(--radius-full);
+      overflow: hidden;
+    }
+    .rating-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #F59E0B 0%, #D97706 100%);
+      border-radius: var(--radius-full);
+      transition: width 0.6s ease;
+    }
+
+    /* Reviews Filter Bar */
+    .reviews-filter-bar {
+      background: #FFFFFF;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 1rem 1.25rem;
+      margin-bottom: 1.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.85rem;
+    }
+
+    .filter-pills-group {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+    .filter-pill {
+      padding: 0.4rem 0.85rem;
+      border-radius: var(--radius-full);
+      border: 1px solid #E2E8F0;
+      background: #FFFFFF;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #64748B;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .filter-pill:hover,
+    .filter-pill.active {
+      background: var(--primary);
+      color: #FFFFFF;
+      border-color: var(--primary);
+    }
+
+    /* Review Card */
+    .review-card-modern {
+      background: #FFFFFF;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-xl);
+      padding: 1.5rem;
+      transition: all 0.25s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+    }
+    .review-card-modern:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.06);
+      border-color: #FED7AA;
+    }
+    .review-quote-mark {
+      position: absolute;
+      top: 1.25rem;
+      right: 1.25rem;
+      font-size: 2rem;
+      color: #F8FAFC;
+      pointer-events: none;
+    }
+    .btn-helpful {
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      color: #64748B;
+      border-radius: var(--radius-full);
+      padding: 0.35rem 0.75rem;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s;
+    }
+    .btn-helpful:hover,
+    .btn-helpful.active {
+      background: #FFF7ED;
+      color: var(--primary);
+      border-color: var(--primary);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ================= HEADER & NAVBAR ================= -->
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="index.html" class="brand-logo" id="brandLogo">
+        <img src="assets/images/logo.svg" alt="SajiCepat Logo" id="siteLogoImg">
+      </a>
+
+      <!-- Navigation Menu -->
+      <nav>
+        <ul class="nav-menu" id="navbarMenu">
+          <li><a href="index.html" class="nav-link" id="navHome">Beranda</a></li>
+          <li><a href="menu.html" class="nav-link" id="navMenu">Daftar Menu</a></li>
+          <li><a href="restoran.html" class="nav-link" id="navResto">Restoran</a></li>
+          <li><a href="ulasan.html" class="nav-link active" id="navUlasan">Ulasan</a></li>
+          <li><a href="pesanan.html" class="nav-link" id="navOrders">Pesanan Saya</a></li>
+        </ul>
+      </nav>
+
+      <!-- Nav Actions (Cart & User Auth) -->
+      <div class="nav-actions">
+        <a href="keranjang.html" class="cart-nav-btn" id="cartNavButton" title="Keranjang Belanja">
+          <i class="fa-solid fa-basket-shopping"></i>
+          <span class="cart-badge" id="cartBadge" style="display: none;">0</span>
+        </a>
+
+        <!-- Dynamic User Auth Container -->
+        <div id="navUserContainer">
+          <!-- Filled by assets/js/app.js renderNavbarAuth() -->
+        </div>
+
+        <!-- Mobile Hamburger Toggle -->
+        <button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Toggle Menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= MAIN CONTENT ================= -->
+  <main>
+
+    <!-- HERO SECTION -->
+    <section class="review-hero">
+      <div class="container">
+        <div class="review-hero-badge">
+          <i class="fa-solid fa-store text-warning"></i>
+          <span>Portal Ulasan & Penilaian Per Restoran</span>
+        </div>
+        <h1 class="review-hero-title">Ulasan Mitra Restoran SajiCepat</h1>
+        <p class="review-hero-subtitle">
+          Pilih salah satu restoran mitra di bawah untuk membaca penilaian cita rasa, kepuasan porsi, dan reputasi gerai dari pelanggan terverifikasi.
+        </p>
+      </div>
+    </section>
+
+    <!-- CONTENT WRAPPER -->
+    <div class="container">
+
+      <!-- ================= RESTAURANT TABS / CARDS SELECTOR ================= -->
+      <div class="resto-selector-section">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.65rem;">
+          <span class="text-xs font-bold text-muted" style="text-transform: uppercase; letter-spacing: 0.05em;">
+            <i class="fa-solid fa-utensils text-primary"></i> Pilih Restoran Mitra:
+          </span>
+          <span class="text-xs text-muted" id="selectedRestoCountInfo">5 Gerai Tersedia</span>
+        </div>
+
+        <div class="resto-tabs-scroll" id="restoTabsContainer">
+          <!-- Populated dynamically by JavaScript -->
+        </div>
+      </div>
+
+      <!-- ================= ACTIVE RESTAURANT SPOTLIGHT CARD ================= -->
+      <div class="resto-spotlight-card" id="restoSpotlightCard">
+        <div class="resto-spotlight-cover" id="spotlightCover"></div>
+        <div class="resto-spotlight-body">
+          <img src="" alt="Resto Logo" class="resto-spotlight-logo" id="spotlightLogo">
+          
+          <div class="resto-spotlight-info">
+            <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+              <h2 class="font-bold text-gray-900" style="font-size: 1.45rem;" id="spotlightName">Ayam Geprek Juara</h2>
+              <span class="badge badge-primary" id="spotlightCategory">Fast food</span>
+              <span class="badge" style="background: #ECFDF5; color: #047857; font-size: 0.72rem;">
+                <i class="fa-solid fa-circle-check"></i> Mitra Resmi SajiCepat
+              </span>
+            </div>
+            
+            <p class="text-xs text-muted" style="margin-top: 4px; max-width: 580px; line-height: 1.5;" id="spotlightDesc">
+              -
+            </p>
+
+            <div style="display: flex; align-items: center; gap: 1.25rem; font-size: 0.8rem; color: #64748B; margin-top: 0.75rem; flex-wrap: wrap;">
+              <span><i class="fa-solid fa-clock text-orange-500"></i> <span id="spotlightHours">10:00 - 22:00</span></span>
+              <span><i class="fa-solid fa-location-dot text-danger"></i> <span id="spotlightAddress">Jakarta</span></span>
+              <span><i class="fa-solid fa-phone text-success"></i> <span id="spotlightPhone">-</span></span>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; margin-left: auto;">
+            <a href="menu.html" class="btn btn-secondary" id="spotlightMenuBtn">
+              <i class="fa-solid fa-bowl-food"></i> Lihat Menu Gerai
+            </a>
+            <button class="btn btn-primary" onclick="openWriteReviewModalForActiveResto()">
+              <i class="fa-solid fa-star"></i> Tulis Ulasan Resto Ini
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= RATING ANALYTICS FOR SELECTED RESTO ================= -->
+      <div class="analytics-panel" id="restoAnalyticsPanel">
+        
+        <!-- Score Box -->
+        <div class="overall-score-card">
+          <span style="font-size: 3.5rem; font-weight: 800; color: #1E293B; line-height: 1;" id="restoScoreNumber">4.8</span>
+          <div style="color: #F59E0B; font-size: 1.2rem; margin: 0.4rem 0; display: flex; justify-content: center; gap: 4px;">
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+          </div>
+          <p class="text-xs text-muted" id="restoReviewsCountText">Berdasarkan data ulasan pelanggan</p>
+          <span class="review-score-badge" style="margin-top: 0.5rem;" id="restoScoreBadge">
+            <i class="fa-solid fa-circle-check text-success"></i> Sangat Direkomendasikan
+          </span>
+        </div>
+
+        <!-- Star Distribution Bars -->
+        <div class="rating-bars-list">
+          <div class="rating-bar-row">
+            <span style="width: 65px; font-weight: 700; color: #475569;">5 Bintang</span>
+            <div class="rating-bar-track">
+              <div class="rating-bar-fill" id="bar5" style="width: 85%;"></div>
+            </div>
+            <span style="width: 45px; text-align: right; color: #64748B; font-weight: 600;" id="pct5">85%</span>
+          </div>
+
+          <div class="rating-bar-row">
+            <span style="width: 65px; font-weight: 700; color: #475569;">4 Bintang</span>
+            <div class="rating-bar-track">
+              <div class="rating-bar-fill" id="bar4" style="width: 15%;"></div>
+            </div>
+            <span style="width: 45px; text-align: right; color: #64748B; font-weight: 600;" id="pct4">15%</span>
+          </div>
+
+          <div class="rating-bar-row">
+            <span style="width: 65px; font-weight: 700; color: #475569;">3 Bintang</span>
+            <div class="rating-bar-track">
+              <div class="rating-bar-fill" id="bar3" style="width: 0%;"></div>
+            </div>
+            <span style="width: 45px; text-align: right; color: #64748B; font-weight: 600;" id="pct3">0%</span>
+          </div>
+
+          <div class="rating-bar-row">
+            <span style="width: 65px; font-weight: 700; color: #475569;">2 Bintang</span>
+            <div class="rating-bar-track">
+              <div class="rating-bar-fill" id="bar2" style="width: 0%;"></div>
+            </div>
+            <span style="width: 45px; text-align: right; color: #64748B; font-weight: 600;" id="pct2">0%</span>
+          </div>
+
+          <div class="rating-bar-row">
+            <span style="width: 65px; font-weight: 700; color: #475569;">1 Bintang</span>
+            <div class="rating-bar-track">
+              <div class="rating-bar-fill" id="bar1" style="width: 0%;"></div>
+            </div>
+            <span style="width: 45px; text-align: right; color: #64748B; font-weight: 600;" id="pct1">0%</span>
+          </div>
+        </div>
+
+        <!-- Highlights for this restaurant -->
+        <div style="display: flex; flex-direction: column; gap: 0.75rem; border-left: 1px solid #F1F5F9; padding-left: 1.5rem;">
+          <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <div style="width: 36px; height: 36px; border-radius: 8px; background: #FEF3C7; color: #D97706; display: flex; align-items: center; justify-content: center; font-size: 1rem;"><i class="fa-solid fa-utensils"></i></div>
+            <div>
+              <strong style="font-size: 0.9rem; color: #1E293B; display: block;" id="metaMenuCount">16 Menu Tersedia</strong>
+              <small class="text-xs text-muted">Variasi hidangan lengkap</small>
+            </div>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <div style="width: 36px; height: 36px; border-radius: 8px; background: #ECFDF5; color: #059669; display: flex; align-items: center; justify-content: center; font-size: 1rem;"><i class="fa-solid fa-truck-fast"></i></div>
+            <div>
+              <strong style="font-size: 0.9rem; color: #1E293B; display: block;" id="metaDeliveryFee">Ongkir Rp 8.000</strong>
+              <small class="text-xs text-muted">Pengiriman cepat terjamin</small>
+            </div>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <div style="width: 36px; height: 36px; border-radius: 8px; background: #EFF6FF; color: #2563EB; display: flex; align-items: center; justify-content: center; font-size: 1rem;"><i class="fa-solid fa-shield-check"></i></div>
+            <div>
+              <strong style="font-size: 0.9rem; color: #1E293B; display: block;">100% Higienis</strong>
+              <small class="text-xs text-muted">Kemasan rapi & tersegel</small>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ================= FILTERS & SEARCH CONTROLS ================= -->
+      <div class="reviews-filter-bar">
+        
+        <!-- Live Search within current Resto -->
+        <div class="input-with-icon" style="max-width: 320px; flex: 1;">
+          <i class="fa-solid fa-magnifying-glass input-icon"></i>
+          <input type="text" id="reviewSearchInput" class="form-input" placeholder="Cari ulasan menu gerai ini...">
+        </div>
+
+        <!-- Filter Rating Pills -->
+        <div class="filter-pills-group" id="ratingPillsContainer">
+          <button type="button" class="filter-pill active" data-rating="all">Semua Bintang</button>
+          <button type="button" class="filter-pill" data-rating="5">⭐ 5 Bintang</button>
+          <button type="button" class="filter-pill" data-rating="4">⭐ 4 Bintang</button>
+          <button type="button" class="filter-pill" data-rating="3">⭐ 3 & Kebawah</button>
+        </div>
+
+        <!-- Sort By -->
+        <div>
+          <select id="sortReviewsSelect" class="form-input" style="width: auto; min-width: 160px;">
+            <option value="newest">Terbaru</option>
+            <option value="helpful">Paling Membantu</option>
+            <option value="highest">Rating Tertinggi</option>
+            <option value="lowest">Rating Terendah</option>
+          </select>
+        </div>
+
+      </div>
+
+      <!-- ================= REVIEWS GRID CONTAINER ================= -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 1.5rem; margin-bottom: 5rem;" id="reviewsGridContainer">
+        <!-- Rendered by JavaScript -->
+      </div>
+
+      <!-- Empty State -->
+      <div id="reviewsEmptyState" style="display: none; text-align: center; padding: 4.5rem 1.5rem; background: #FFFFFF; border-radius: var(--radius-xl); border: 2px dashed var(--border-color); margin-bottom: 5rem;">
+        <div style="width: 72px; height: 72px; border-radius: 50%; background: #FFF7ED; color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 2.2rem; margin: 0 auto 1.25rem;">
+          <i class="fa-solid fa-comment-slash"></i>
+        </div>
+        <h3 class="font-bold text-gray-900" style="font-size: 1.3rem; margin-bottom: 0.5rem;" id="emptyStateTitle">Belum Ada Ulasan untuk Kategori Ini</h3>
+        <p class="text-xs text-muted" style="max-width: 440px; margin: 0 auto 1.5rem; font-size: 0.95rem;">
+          Jadilah pelanggan pertama yang membagikan pengalaman rasa hidangan restoran ini!
+        </p>
+        <button class="btn btn-primary" onclick="openWriteReviewModalForActiveResto()">
+          <i class="fa-solid fa-pen-nib"></i> Tulis Ulasan Pertama untuk Gerai Ini
+        </button>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- ================= WRITE REVIEW MODAL ================= -->
+  <div class="modal-backdrop" id="writeReviewModal">
+    <div class="modal-dialog" style="max-width: 540px; padding: 2.25rem;">
+      <button class="modal-close-btn" onclick="closeModal('writeReviewModal')" aria-label="Tutup">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <form id="writeReviewForm" onsubmit="handleReviewSubmit(event)">
+        <div style="text-align: center; margin-bottom: 1.5rem;">
+          <div style="width: 60px; height: 60px; border-radius: 50%; background: #FEF3C7; color: #F59E0B; display: inline-flex; align-items: center; justify-content: center; font-size: 1.8rem; margin-bottom: 0.75rem;">
+            <i class="fa-solid fa-store"></i>
+          </div>
+          <h3 class="font-bold text-gray-900" style="font-size: 1.4rem;" id="modalFormTitle">Beri Ulasan Restoran</h3>
+          <p class="text-xs text-muted" id="modalFormSubtitle">Bagikan penilaian Anda tentang rasa makanan dan pelayanan gerai ini.</p>
+        </div>
+
+        <input type="hidden" id="modalRatingValue" value="5">
+
+        <div class="form-row-2">
+          <div class="form-group">
+            <label for="reviewAuthorName" class="form-label">Nama Anda</label>
+            <div class="input-with-icon">
+              <i class="fa-solid fa-user input-icon"></i>
+              <input type="text" id="reviewAuthorName" class="form-input" required placeholder="Nama Anda">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="reviewRestoSelect" class="form-label">Restoran Mitra</label>
+            <select id="reviewRestoSelect" class="form-input" required onchange="onModalRestoChange(this.value)">
+              <!-- Populated by JS -->
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="reviewMenuSelect" class="form-label">Pilih / Tulis Menu yang Diulas</label>
+          <div class="input-with-icon">
+            <i class="fa-solid fa-utensils input-icon"></i>
+            <input type="text" id="reviewMenuInput" class="form-input" list="modalMenuList" required placeholder="contoh: Ayam Geprek Mozarella">
+            <datalist id="modalMenuList"></datalist>
+          </div>
+        </div>
+
+        <!-- Interactive 5-Star Rating Picker -->
+        <div style="text-align: center; margin-bottom: 1.5rem; background: #FFFBF5; padding: 1rem; border-radius: var(--radius-md); border: 1px dashed #FED7AA;">
+          <label class="form-label" style="font-size: 0.88rem; font-weight: 700; color: #9A3412;">Nilai Kepuasan untuk Gerai Ini:</label>
+          <div class="star-rating-picker" id="modalStarPicker" style="margin: 0.35rem 0;">
+            <span class="star-item active" data-rating="1"><i class="fa-solid fa-star"></i></span>
+            <span class="star-item active" data-rating="2"><i class="fa-solid fa-star"></i></span>
+            <span class="star-item active" data-rating="3"><i class="fa-solid fa-star"></i></span>
+            <span class="star-item active" data-rating="4"><i class="fa-solid fa-star"></i></span>
+            <span class="star-item active" data-rating="5"><i class="fa-solid fa-star"></i></span>
+          </div>
+          <p class="text-xs" id="modalStarDesc" style="font-weight: 700; color: #D97706;">Sangat Puas & Lezat (5 Bintang)</p>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 1.5rem;">
+          <label for="reviewCommentArea" class="form-label">Ulasan Pengalaman Kuliner</label>
+          <textarea id="reviewCommentArea" class="form-input" rows="3" required placeholder="Ceritakan rasa hidangan, porsi, packaging, atau ketepatan pengantaran..."></textarea>
+        </div>
+
+        <div style="display: flex; gap: 0.75rem;">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('writeReviewModal')" style="flex: 1;">
+            Batal
+          </button>
+          <button type="submit" class="btn btn-primary" style="flex: 2;">
+            <i class="fa-solid fa-paper-plane"></i> Kirim Ulasan Resto
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/cart.js"></script>
+
+  <script>
+    // State management for per-restaurant reviews
+    let activeRestoId = 'all'; // 'all' or restaurant id
+    let activeRatingFilter = 'all';
+    let currentRatingPickerVal = 5;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Check query parameter ?resto=X
+      const urlParams = new URLSearchParams(window.location.search);
+      const queryResto = urlParams.get('resto');
+
+      renderRestoSelectorTabs();
+
+      if (queryResto) {
+        selectResto(queryResto);
+      } else {
+        // Default to first restaurant (Ayam Geprek Juara Nusantara) for instant focused per-resto review experience
+        const restos = getRestaurants();
+        if (restos.length > 0) {
+          selectResto(restos[0].id);
+        } else {
+          selectResto('all');
+        }
+      }
+
+      setupRatingPills();
+      setupLiveFilterListeners();
+      setupModalStarPicker();
+    });
+
+    // 1. Render Horizontal Tabs of All Restaurants
+    function renderRestoSelectorTabs() {
+      const container = document.getElementById('restoTabsContainer');
+      const infoCount = document.getElementById('selectedRestoCountInfo');
+      if (!container) return;
+
+      const restos = getRestaurants();
+      if (infoCount) infoCount.textContent = `${restos.length} Gerai Mitra`;
+
+      let html = `
+        <div class="resto-tab-card ${activeRestoId === 'all' ? 'active' : ''}" onclick="selectResto('all')">
+          <div style="width: 44px; height: 44px; border-radius: var(--radius-md); background: #FFF7ED; color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 1.35rem; flex-shrink: 0;">
+            <i class="fa-solid fa-layer-group"></i>
+          </div>
+          <div>
+            <h4 class="resto-tab-name">Semua Restoran</h4>
+            <span class="resto-tab-meta"><i class="fa-solid fa-list-check"></i> Gabungan Ulasan</span>
+          </div>
+        </div>
+      `;
+
+      html += restos.map(r => `
+        <div class="resto-tab-card ${activeRestoId == r.id ? 'active' : ''}" onclick="selectResto(${r.id})">
+          <img src="${r.logo || r.image}" alt="${r.name}" class="resto-tab-img">
+          <div>
+            <h4 class="resto-tab-name" title="${r.name}">${r.name}</h4>
+            <span class="resto-tab-meta">
+              <i class="fa-solid fa-star text-warning"></i> <strong>${r.rating}</strong> (${r.reviewsCount || 0})
+            </span>
+          </div>
+        </div>
+      `).join('');
+
+      container.innerHTML = html;
+    }
+
+    // 2. Select Active Restaurant
+    function selectResto(id) {
+      activeRestoId = id;
+      renderRestoSelectorTabs();
+      updateRestoSpotlight(id);
+      renderReviewsForActiveResto();
+    }
+
+    // 3. Update Restaurant Header Spotlight
+    function updateRestoSpotlight(id) {
+      const restos = getRestaurants();
+      const spotlightCard = document.getElementById('restoSpotlightCard');
+      const menus = getMenus();
+
+      if (id === 'all') {
+        document.getElementById('spotlightLogo').src = 'assets/images/logo.svg';
+        document.getElementById('spotlightName').textContent = 'Semua Mitra Restoran SajiCepat';
+        document.getElementById('spotlightCategory').textContent = 'Multi-Kategori';
+        document.getElementById('spotlightDesc').textContent = 'Ulasan komprehensif dari seluruh gerai mitra kuliner pilihan yang tergabung di jaringan SajiCepat.';
+        document.getElementById('spotlightHours').textContent = '07:30 - 23:00 (Variatif)';
+        document.getElementById('spotlightAddress').textContent = 'Jabodetabek & Seluruh Indonesia';
+        document.getElementById('spotlightPhone').textContent = 'Call Center SajiCepat';
+        document.getElementById('spotlightMenuBtn').href = 'menu.html';
+        document.getElementById('metaMenuCount').textContent = `${menus.length} Total Menu`;
+        document.getElementById('metaDeliveryFee').textContent = 'Mulai Rp 6.000';
+        return;
+      }
+
+      const resto = restos.find(r => r.id == id);
+      if (!resto) return;
+
+      document.getElementById('spotlightLogo').src = resto.logo || resto.image;
+      document.getElementById('spotlightName').textContent = resto.name;
+      document.getElementById('spotlightCategory').textContent = resto.category;
+      document.getElementById('spotlightDesc').textContent = resto.description || `Pilihan kuliner favorit kategori ${resto.category} dengan komitmen rasa lezat dan pengantaran cepat.`;
+      document.getElementById('spotlightHours').textContent = resto.operationalHours;
+      document.getElementById('spotlightAddress').textContent = resto.address;
+      document.getElementById('spotlightPhone').textContent = resto.phone;
+      document.getElementById('spotlightMenuBtn').href = `menu.html?resto=${resto.id}`;
+
+      const restoMenus = menus.filter(m => m.restoId === resto.id);
+      document.getElementById('metaMenuCount').textContent = `${restoMenus.length} Menu Gerai`;
+      document.getElementById('metaDeliveryFee').textContent = `Ongkir ${formatRupiah(resto.deliveryFee)}`;
+    }
+
+    // 4. Render Reviews Filtered by the Selected Restaurant
+    function renderReviewsForActiveResto() {
+      const container = document.getElementById('reviewsGridContainer');
+      const emptyState = document.getElementById('reviewsEmptyState');
+      if (!container) return;
+
+      const allReviews = getReviews();
+      let restoReviews = allReviews;
+
+      // Filter by Active Resto
+      if (activeRestoId !== 'all') {
+        const restos = getRestaurants();
+        const activeResto = restos.find(r => r.id == activeRestoId);
+        const activeRestoName = activeResto ? activeResto.name.toLowerCase() : '';
+
+        restoReviews = allReviews.filter(r => 
+          (r.restoId && r.restoId == activeRestoId) ||
+          (r.restoName && r.restoName.toLowerCase().includes(activeRestoName))
+        );
+      }
+
+      // Update Analytics Score & Progress Bars for this specific Resto
+      updateRestoAnalytics(restoReviews);
+
+      const searchQuery = (document.getElementById('reviewSearchInput')?.value || '').toLowerCase().trim();
+      const sortBy = document.getElementById('sortReviewsSelect')?.value || 'newest';
+
+      // Filter by Rating Pill
+      let filtered = restoReviews;
+      if (activeRatingFilter === '5') {
+        filtered = filtered.filter(r => r.rating === 5);
+      } else if (activeRatingFilter === '4') {
+        filtered = filtered.filter(r => r.rating === 4);
+      } else if (activeRatingFilter === '3') {
+        filtered = filtered.filter(r => r.rating <= 3);
+      }
+
+      // Filter by Search Query
+      if (searchQuery) {
+        filtered = filtered.filter(r => 
+          (r.name && r.name.toLowerCase().includes(searchQuery)) ||
+          (r.comment && r.comment.toLowerCase().includes(searchQuery)) ||
+          (r.item && r.item.toLowerCase().includes(searchQuery))
+        );
+      }
+
+      // Sort
+      if (sortBy === 'helpful') {
+        filtered.sort((a, b) => (b.helpfulCount || 0) - (a.helpfulCount || 0));
+      } else if (sortBy === 'highest') {
+        filtered.sort((a, b) => b.rating - a.rating);
+      } else if (sortBy === 'lowest') {
+        filtered.sort((a, b) => a.rating - b.rating);
+      } else {
+        filtered.sort((a, b) => b.id - a.id);
+      }
+
+      // Handle Empty State
+      if (filtered.length === 0) {
+        container.innerHTML = '';
+        if (emptyState) {
+          emptyState.style.display = 'block';
+          const titleEl = document.getElementById('emptyStateTitle');
+          if (titleEl) {
+            titleEl.textContent = activeRestoId === 'all' ? 
+              'Belum ada ulasan untuk kriteria pencarian ini.' : 
+              `Belum ada ulasan untuk gerai ini pada filter ini.`;
+          }
+        }
+        return;
+      }
+
+      if (emptyState) emptyState.style.display = 'none';
+
+      container.innerHTML = filtered.map(rev => {
+        const helpfulCount = rev.helpfulCount || 0;
+        const restoTitle = rev.restoName || (activeRestoId !== 'all' ? document.getElementById('spotlightName').textContent : 'Mitra SajiCepat');
+        return `
+          <div class="review-card-modern">
+            <i class="fa-solid fa-quote-right review-quote-mark"></i>
+            
+            <div>
+              <!-- Author Header -->
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.85rem;">
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                  <img src="${rev.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100'}" alt="${rev.name}" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover; border: 2px solid #FED7AA;">
+                  <div>
+                    <div style="display: flex; align-items: center; gap: 0.4rem;">
+                      <h4 class="font-bold text-gray-900" style="font-size: 0.95rem;">${rev.name}</h4>
+                      <span style="color: #059669; font-size: 0.75rem;" title="Pembeli Terverifikasi"><i class="fa-solid fa-circle-check"></i></span>
+                    </div>
+                    <span class="text-xs text-muted">${rev.date}</span>
+                  </div>
+                </div>
+
+                <div class="review-score-badge">
+                  <i class="fa-solid fa-star text-warning"></i> ${rev.rating}.0
+                </div>
+              </div>
+
+              <!-- Menu & Resto Info Tag -->
+              <div style="background: #F8FAFC; border: 1px solid #F1F5F9; border-radius: var(--radius-sm); padding: 0.5rem 0.75rem; margin-bottom: 1rem;">
+                <span class="text-xs font-semibold text-primary" style="display: block; margin-bottom: 2px;">
+                  <i class="fa-solid fa-store text-orange-500"></i> ${restoTitle}
+                </span>
+                <span class="text-xs text-gray-700 font-bold" style="font-size: 0.8rem;">
+                  <i class="fa-solid fa-bowl-food text-muted"></i> ${rev.item}
+                </span>
+              </div>
+
+              <!-- Comment Text -->
+              <p class="text-xs text-gray-700" style="line-height: 1.7; font-size: 0.88rem; margin-bottom: 1.25rem; position: relative; z-index: 2;">
+                "${rev.comment}"
+              </p>
+            </div>
+
+            <!-- Card Bottom Actions -->
+            <div style="border-top: 1px solid #F1F5F9; padding-top: 0.85rem; display: flex; align-items: center; justify-content: space-between;">
+              <button type="button" class="btn-helpful" id="btnHelpful-${rev.id}" onclick="toggleHelpful(${rev.id})">
+                <i class="fa-regular fa-thumbs-up"></i> Membantu (<span id="countHelpful-${rev.id}">${helpfulCount}</span>)
+              </button>
+
+              <button type="button" onclick="showToast('Tautan ulasan berhasil disalin!', 'info')" style="background: none; border: none; font-size: 0.8rem; color: #94A3B8; cursor: pointer;" title="Bagikan">
+                <i class="fa-solid fa-share-nodes"></i> Bagikan
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // 5. Update Rating Analytics for this specific Restaurant
+    function updateRestoAnalytics(reviews) {
+      const scoreEl = document.getElementById('restoScoreNumber');
+      const countEl = document.getElementById('restoReviewsCountText');
+      if (!scoreEl) return;
+
+      if (!reviews || reviews.length === 0) {
+        scoreEl.textContent = '5.0';
+        countEl.textContent = 'Belum ada ulasan terdaftar';
+        for (let s = 1; s <= 5; s++) {
+          const bar = document.getElementById(`bar${s}`);
+          const pct = document.getElementById(`pct${s}`);
+          if (bar) bar.style.width = s === 5 ? '100%' : '0%';
+          if (pct) pct.textContent = s === 5 ? '100%' : '0%';
+        }
+        return;
+      }
+
+      const total = reviews.length;
+      const sum = reviews.reduce((acc, r) => acc + (r.rating || 5), 0);
+      const avg = (sum / total).toFixed(1);
+
+      scoreEl.textContent = avg;
+      countEl.textContent = `Berdasarkan ${total} ulasan pelanggan`;
+
+      const counts = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
+      reviews.forEach(r => {
+        const star = Math.min(5, Math.max(1, r.rating || 5));
+        counts[star] = (counts[star] || 0) + 1;
+      });
+
+      for (let s = 1; s <= 5; s++) {
+        const pct = Math.round((counts[s] / total) * 100);
+        const bar = document.getElementById(`bar${s}`);
+        const pctText = document.getElementById(`pct${s}`);
+        if (bar) bar.style.width = `${pct}%`;
+        if (pctText) pctText.textContent = `${pct}%`;
+      }
+    }
+
+    // 6. Toggle Helpful
+    function toggleHelpful(reviewId) {
+      let reviews = getReviews();
+      const rev = reviews.find(r => r.id === reviewId);
+      if (!rev) return;
+
+      const btn = document.getElementById(`btnHelpful-${reviewId}`);
+      const countEl = document.getElementById(`countHelpful-${reviewId}`);
+
+      if (btn.classList.contains('active')) {
+        rev.helpfulCount = Math.max(0, (rev.helpfulCount || 1) - 1);
+        btn.classList.remove('active');
+        btn.querySelector('i').className = 'fa-regular fa-thumbs-up';
+      } else {
+        rev.helpfulCount = (rev.helpfulCount || 0) + 1;
+        btn.classList.add('active');
+        btn.querySelector('i').className = 'fa-solid fa-thumbs-up';
+        showToast('Terima kasih atas penilaian Anda!', 'success', 2000);
+      }
+
+      if (countEl) countEl.textContent = rev.helpfulCount;
+      saveReviews(reviews);
+    }
+
+    // 7. Filter Pills
+    function setupRatingPills() {
+      const pills = document.querySelectorAll('.filter-pill');
+      pills.forEach(pill => {
+        pill.addEventListener('click', () => {
+          pills.forEach(p => p.classList.remove('active'));
+          pill.classList.add('active');
+          activeRatingFilter = pill.getAttribute('data-rating') || 'all';
+          renderReviewsForActiveResto();
+        });
+      });
+    }
+
+    function setupLiveFilterListeners() {
+      const searchInput = document.getElementById('reviewSearchInput');
+      if (searchInput) {
+        searchInput.addEventListener('input', () => renderReviewsForActiveResto());
+      }
+      const sortSelect = document.getElementById('sortReviewsSelect');
+      if (sortSelect) {
+        sortSelect.addEventListener('change', () => renderReviewsForActiveResto());
+      }
+    }
+
+    // 8. Open Write Review Modal with Active Resto Pre-selected
+    function openWriteReviewModalForActiveResto() {
+      const currentUser = getCurrentUser();
+      const nameInput = document.getElementById('reviewAuthorName');
+      if (nameInput) {
+        nameInput.value = currentUser ? currentUser.name : '';
+      }
+
+      const restos = getRestaurants();
+      const modalSelect = document.getElementById('reviewRestoSelect');
+      if (modalSelect) {
+        modalSelect.innerHTML = restos.map(r => `
+          <option value="${r.id}" ${activeRestoId == r.id ? 'selected' : ''}>${r.name}</option>
+        `).join('');
+      }
+
+      const targetRestoId = (activeRestoId !== 'all') ? activeRestoId : (restos[0] ? restos[0].id : 1);
+      if (modalSelect) modalSelect.value = targetRestoId;
+      onModalRestoChange(targetRestoId);
+
+      document.getElementById('reviewCommentArea').value = '';
+      currentRatingPickerVal = 5;
+      setupModalStarPicker();
+
+      const activeResto = restos.find(r => r.id == targetRestoId);
+      document.getElementById('modalFormTitle').textContent = `Beri Ulasan ${activeResto ? activeResto.name : 'Restoran'}`;
+
+      openModal('writeReviewModal');
+    }
+
+    function onModalRestoChange(restoId) {
+      const menus = getMenus().filter(m => m.restoId == restoId);
+      const datalist = document.getElementById('modalMenuList');
+      const input = document.getElementById('reviewMenuInput');
+
+      if (datalist) {
+        datalist.innerHTML = menus.map(m => `<option value="${m.name}">`).join('');
+      }
+      if (input && menus.length > 0) {
+        input.placeholder = `contoh: ${menus[0].name}`;
+      }
+    }
+
+    function setupModalStarPicker() {
+      const picker = document.getElementById('modalStarPicker');
+      const valInput = document.getElementById('modalRatingValue');
+      const desc = document.getElementById('modalStarDesc');
+      if (!picker) return;
+
+      const stars = picker.querySelectorAll('.star-item');
+      const labels = {
+        1: 'Kecewa & Kurang Pas (1 Bintang)',
+        2: 'Kurang Puas (2 Bintang)',
+        3: 'Cukup Baik & Standar (3 Bintang)',
+        4: 'Puas & Enak (4 Bintang)',
+        5: 'Sangat Puas & Lezat (5 Bintang)'
+      };
+
+      const updateStars = (val) => {
+        stars.forEach(s => {
+          const r = parseInt(s.getAttribute('data-rating'));
+          if (r <= val) s.classList.add('active');
+          else s.classList.remove('active');
+        });
+        if (desc) desc.textContent = labels[val] || `${val} Bintang`;
+        if (valInput) valInput.value = val;
+      };
+
+      stars.forEach(s => {
+        s.onclick = () => {
+          currentRatingPickerVal = parseInt(s.getAttribute('data-rating'));
+          updateStars(currentRatingPickerVal);
+        };
+
+        s.onmouseenter = () => {
+          const hoverVal = parseInt(s.getAttribute('data-rating'));
+          stars.forEach(st => {
+            const r = parseInt(st.getAttribute('data-rating'));
+            if (r <= hoverVal) st.classList.add('hovered');
+            else st.classList.remove('hovered');
+          });
+        };
+
+        s.onmouseleave = () => {
+          stars.forEach(st => st.classList.remove('hovered'));
+        };
+      });
+
+      updateStars(currentRatingPickerVal);
+    }
+
+    function handleReviewSubmit(e) {
+      e.preventDefault();
+      const name = document.getElementById('reviewAuthorName').value.trim();
+      const restoSelect = document.getElementById('reviewRestoSelect');
+      const restoId = parseInt(restoSelect.value);
+      const restoName = restoSelect.options[restoSelect.selectedIndex].text;
+      const item = document.getElementById('reviewMenuInput').value.trim();
+      const rating = parseInt(document.getElementById('modalRatingValue').value) || 5;
+      const comment = document.getElementById('reviewCommentArea').value.trim();
+
+      if (!name || !item || !comment) {
+        showToast('Harap lengkapi semua kolom ulasan!', 'warning');
+        return;
+      }
+
+      const currentUser = getCurrentUser();
+      const avatar = (currentUser && currentUser.avatar) ? currentUser.avatar : 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100';
+
+      const newReview = {
+        id: Date.now(),
+        name: name,
+        rating: rating,
+        date: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }),
+        comment: comment,
+        avatar: avatar,
+        item: item,
+        restoId: restoId,
+        restoName: restoName,
+        helpfulCount: 1
+      };
+
+      const reviews = getReviews();
+      reviews.unshift(newReview);
+      saveReviews(reviews);
+
+      // Update restaurant rating and count in LocalStorage
+      const restos = getRestaurants();
+      const resto = restos.find(r => r.id === restoId);
+      if (resto) {
+        const count = resto.reviewsCount || 10;
+        const curRate = resto.rating || 4.8;
+        resto.reviewsCount = count + 1;
+        resto.rating = Math.round(((curRate * count + rating) / (count + 1)) * 10) / 10;
+        saveRestaurants(restos);
+      }
+
+      closeModal('writeReviewModal');
+      showToast(`Ulasan Anda untuk "${restoName}" berhasil dikirim!`, 'success', 3500);
+
+      // Select this resto to display the newly submitted review immediately
+      selectResto(restoId);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daftar Akun Baru - SajiCepat</title>
+  <meta name="description" content="Daftarkan akun pelanggan atau mitra restoran baru di SajiCepat.">
+
+    <!-- Favicon / App Icon -->
+  <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg?v=2">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png?v=2">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png?v=2">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png?v=2">
+  <link rel="shortcut icon" href="favicon.ico?v=2">
+  <!-- Google Fonts & Font Awesome CDN -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Main & Auth Stylesheet -->
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/auth.css">
+</head>
+<body>
+
+  <div class="auth-wrapper">
+    <div class="auth-card-container auth-register-mode">
+      
+      <!-- Left Sidebar Brand Info -->
+      <div class="auth-sidebar">
+        <div>
+          <a href="index.html" class="auth-sidebar-brand">
+            <img src="assets/images/logo.svg" alt="SajiCepat" style="filter: brightness(0) invert(1); height: 38px;">
+          </a>
+          <div class="auth-sidebar-content">
+            <h3 id="sidebarTitle">Bergabung Bersama SajiCepat</h3>
+            <p id="sidebarDesc">Daftarkan akun Anda dalam hitungan detik dan rasakan kemudahan memesan makanan lezat langsung dari perangkat Anda.</p>
+
+            <ul class="auth-features-list" id="sidebarList">
+              <li><i class="fa-solid fa-gift"></i> Voucher diskon 20% langsung di pesanan pertama</li>
+              <li><i class="fa-solid fa-history"></i> Pelacakan riwayat pesanan otomatis di LocalStorage</li>
+              <li><i class="fa-solid fa-store"></i> Atau daftarkan gerai kulinermu sebagai Mitra Restoran</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Form Section -->
+      <div class="auth-form-section">
+        
+        <!-- Role Selection Tabs -->
+        <div style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem; background: #FFF7ED; padding: 0.35rem; border-radius: var(--radius-md); border: 1px solid var(--border-color);">
+          <button type="button" id="tabRoleCustomer" class="btn btn-sm btn-block active" onclick="switchRegisterRole('pelanggan')" style="background: var(--primary); color: #FFFFFF; font-weight: 700; border-radius: var(--radius-sm); border: none; cursor: pointer; padding: 0.5rem;">
+            <i class="fa-solid fa-user"></i> Akun Pelanggan
+          </button>
+          <button type="button" id="tabRoleResto" class="btn btn-sm btn-block" onclick="switchRegisterRole('restoran')" style="background: transparent; color: var(--text-muted); font-weight: 700; border-radius: var(--radius-sm); border: none; cursor: pointer; padding: 0.5rem;">
+            <i class="fa-solid fa-store"></i> Mitra Restoran
+          </button>
+        </div>
+
+        <div class="auth-form-header">
+          <h1 class="auth-form-title" id="formHeaderTitle">Buat Akun Pelanggan</h1>
+          <p class="auth-form-subtitle" id="formHeaderSubtitle">Lengkapi formulir di bawah ini untuk mulai memesan makanan.</p>
+        </div>
+
+        <!-- Hidden input for current role -->
+        <input type="hidden" id="selectedRole" value="pelanggan">
+
+        <!-- Register Form -->
+        <form id="registerForm">
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="regName" class="form-label" id="labelRegName">Nama Lengkap</label>
+              <div class="input-with-icon">
+                <i class="fa-solid fa-user input-icon" id="iconRegName"></i>
+                <input type="text" id="regName" class="form-input" placeholder="contoh: Rendy Pratama" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="regEmail" class="form-label">Alamat Email Login</label>
+              <div class="input-with-icon">
+                <i class="fa-solid fa-envelope input-icon"></i>
+                <input type="email" id="regEmail" class="form-input" placeholder="nama@email.com" required>
+              </div>
+            </div>
+          </div>
+
+          <!-- Restaurant Specific Fields (shown when role is restoran) -->
+          <div id="restoSpecificFields" style="display: none;">
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="regCategory" class="form-label">Kategori Utama Gerai</label>
+                <div class="input-with-icon">
+                  <i class="fa-solid fa-utensils input-icon"></i>
+                  <select id="regCategory" class="form-input" style="padding-left: 2.65rem;">
+                    <option value="Makanan berat">Makanan berat</option>
+                    <option value="Makanan ringan">Makanan ringan</option>
+                    <option value="Minuman">Minuman</option>
+                    <option value="Dessert">Dessert</option>
+                    <option value="Fast food">Fast food</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="regHours" class="form-label">Jam Operasional</label>
+                <div class="input-with-icon">
+                  <i class="fa-solid fa-clock input-icon"></i>
+                  <input type="text" id="regHours" class="form-input" placeholder="contoh: 09:00 - 21:00" value="09:00 - 21:00">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="regPhone" class="form-label" id="labelRegPhone">Nomor Telepon / WhatsApp</label>
+              <div class="input-with-icon">
+                <i class="fa-solid fa-phone input-icon"></i>
+                <input type="tel" id="regPhone" class="form-input" placeholder="0812-xxxx-xxxx" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="regAddress" class="form-label" id="labelRegAddress">Alamat Lengkap Pengantaran</label>
+              <div class="input-with-icon">
+                <i class="fa-solid fa-location-dot input-icon"></i>
+                <input type="text" id="regAddress" class="form-input" placeholder="Jl. Melati No. 10, RT 01/RW 02" required>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="regPassword" class="form-label">Kata Sandi</label>
+              <div class="input-with-icon">
+                <i class="fa-solid fa-lock input-icon"></i>
+                <input type="password" id="regPassword" class="form-input" placeholder="Minimal 6 karakter" required>
+                <button type="button" class="password-toggle-btn" aria-label="Lihat kata sandi">
+                  <i class="fa-solid fa-eye"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="regConfirmPassword" class="form-label">Konfirmasi Kata Sandi</label>
+              <div class="input-with-icon">
+                <i class="fa-solid fa-shield-check input-icon"></i>
+                <input type="password" id="regConfirmPassword" class="form-input" placeholder="Ulangi kata sandi" required>
+                <button type="button" class="password-toggle-btn" aria-label="Lihat kata sandi">
+                  <i class="fa-solid fa-eye"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 1.5rem;">
+            <label class="remember-label" style="font-size: 0.82rem;">
+              <input type="checkbox" id="termsCheck" required checked>
+              <span>Saya menyetujui Ketentuan Penggunaan dan Kebijakan Privasi simulasi SajiCepat.</span>
+            </label>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block btn-lg" id="submitRegisterBtn">
+            <i class="fa-solid fa-user-plus"></i> <span id="btnSubmitText">Buat Akun Pelanggan</span>
+          </button>
+        </form>
+
+        <div class="auth-footer-prompt">
+          Sudah memiliki akun? <a href="login.html">Masuk di sini</a>
+        </div>
+        <div style="text-align: center; margin-top: 1rem;">
+          <a href="index.html" class="text-xs text-muted hover:text-gray-900">
+            <i class="fa-solid fa-arrow-left"></i> Kembali ke Beranda
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/auth.js"></script>
+
+  <script>
+    function switchRegisterRole(role) {
+      const tabCustomer = document.getElementById('tabRoleCustomer');
+      const tabResto = document.getElementById('tabRoleResto');
+      const selectedRole = document.getElementById('selectedRole');
+      const headerTitle = document.getElementById('formHeaderTitle');
+      const headerSubtitle = document.getElementById('formHeaderSubtitle');
+      const restoFields = document.getElementById('restoSpecificFields');
+      const labelName = document.getElementById('labelRegName');
+      const inputName = document.getElementById('regName');
+      const iconName = document.getElementById('iconRegName');
+      const labelAddress = document.getElementById('labelRegAddress');
+      const inputAddress = document.getElementById('regAddress');
+      const btnText = document.getElementById('btnSubmitText');
+      const sidebarTitle = document.getElementById('sidebarTitle');
+      const sidebarDesc = document.getElementById('sidebarDesc');
+
+      selectedRole.value = role;
+
+      if (role === 'restoran') {
+        tabResto.style.background = 'var(--primary)';
+        tabResto.style.color = '#FFFFFF';
+        tabCustomer.style.background = 'transparent';
+        tabCustomer.style.color = 'var(--text-muted)';
+
+        headerTitle.textContent = 'Daftar Mitra Restoran Baru';
+        headerSubtitle.textContent = 'Buka gerai online Anda dan jangkau ribuan pelanggan SajiCepat.';
+        restoFields.style.display = 'block';
+
+        labelName.textContent = 'Nama Gerai Restoran';
+        inputName.placeholder = 'contoh: Dapur Nasi Goreng Top';
+        iconName.className = 'fa-solid fa-store input-icon';
+
+        labelAddress.textContent = 'Alamat Lengkap Gerai Restoran';
+        inputAddress.placeholder = 'Jl. Raya No. XX, Kota...';
+
+        btnText.textContent = 'Daftarkan Restoran Saya';
+        sidebarTitle.textContent = 'Kembangkan Usaha Kulinermu';
+        sidebarDesc.textContent = 'Dapatkan akses ke dashboard restoran, kelola menu sendiri, dan terima pesanan online langsung.';
+      } else {
+        tabCustomer.style.background = 'var(--primary)';
+        tabCustomer.style.color = '#FFFFFF';
+        tabResto.style.background = 'transparent';
+        tabResto.style.color = 'var(--text-muted)';
+
+        headerTitle.textContent = 'Buat Akun Pelanggan';
+        headerSubtitle.textContent = 'Lengkapi formulir di bawah ini untuk mulai memesan makanan.';
+        restoFields.style.display = 'none';
+
+        labelName.textContent = 'Nama Lengkap';
+        inputName.placeholder = 'contoh: Rendy Pratama';
+        iconName.className = 'fa-solid fa-user input-icon';
+
+        labelAddress.textContent = 'Alamat Lengkap Pengantaran';
+        inputAddress.placeholder = 'Jl. Melati No. 10, RT 01/RW 02';
+
+        btnText.textContent = 'Buat Akun Pelanggan';
+        sidebarTitle.textContent = 'Bergabung Bersama SajiCepat';
+        sidebarDesc.textContent = 'Daftarkan akun Anda dalam hitungan detik dan rasakan kemudahan memesan makanan lezat langsung dari perangkat Anda.';
+      }
+    }
+  </script>
+</body>
+</html>
